@@ -1,0 +1,1230 @@
+<?php
+/**
+ * ========================================
+ * SITUNEO DIGITAL - Contact Page
+ * Complete Contact Information & Form
+ * NIB: 20250-9261-4570-4515-5453
+ * ========================================
+ */
+
+session_start();
+date_default_timezone_set('Asia/Jakarta');
+
+$lang = $_GET['lang'] ?? $_SESSION['lang'] ?? 'id';
+$_SESSION['lang'] = $lang;
+
+// Multi-language translations
+$text = [
+    'id' => [
+        'page_title' => 'Kontak Kami',
+        'hero_title' => 'Hubungi Kami',
+        'hero_subtitle' => 'Siap Membantu Kesuksesan Digital Anda',
+        'hero_desc' => 'Tim kami siap membantu Anda 24/7. Konsultasi gratis tanpa komitmen!',
+        'nav_home' => 'Beranda',
+        'nav_about' => 'Tentang',
+        'nav_services' => 'Layanan',
+        'nav_portfolio' => 'Portfolio',
+        'nav_pricing' => 'Harga',
+        'nav_contact' => 'Kontak',
+        'nav_login' => 'Masuk',
+        'nav_register' => 'Daftar',
+        'section_form' => 'Kirim Pesan',
+        'section_info' => 'Informasi Kontak',
+        'section_location' => 'Lokasi Kami',
+        'section_faq' => 'Pertanyaan Umum',
+        'form_name' => 'Nama Lengkap',
+        'form_email' => 'Email',
+        'form_phone' => 'No. WhatsApp',
+        'form_subject' => 'Subjek',
+        'form_message' => 'Pesan',
+        'form_send' => 'Kirim Pesan',
+        'form_sending' => 'Mengirim...',
+        'label_office' => 'Kantor Kami',
+        'label_email' => 'Email',
+        'label_phone' => 'Telepon',
+        'label_whatsapp' => 'WhatsApp',
+        'label_hours' => 'Jam Operasional',
+        'hours_weekday' => 'Senin - Jumat: 09:00 - 18:00',
+        'hours_weekend' => 'Sabtu - Minggu: 10:00 - 16:00',
+        'response_time' => 'Respon dalam 1-2 jam',
+        'or_contact' => 'Atau hubungi kami langsung via:',
+        'success_title' => 'Pesan Terkirim!',
+        'success_message' => 'Terima kasih telah menghubungi kami. Tim kami akan segera merespons pesan Anda.',
+        'error_title' => 'Gagal Mengirim',
+        'error_message' => 'Maaf, terjadi kesalahan. Silakan coba lagi atau hubungi kami via WhatsApp.',
+    ],
+    'en' => [
+        'page_title' => 'Contact Us',
+        'hero_title' => 'Get In Touch',
+        'hero_subtitle' => 'Ready to Help Your Digital Success',
+        'hero_desc' => 'Our team is ready to help you 24/7. Free consultation with no commitment!',
+        'nav_home' => 'Home',
+        'nav_about' => 'About',
+        'nav_services' => 'Services',
+        'nav_portfolio' => 'Portfolio',
+        'nav_pricing' => 'Pricing',
+        'nav_contact' => 'Contact',
+        'nav_login' => 'Login',
+        'nav_register' => 'Register',
+        'section_form' => 'Send Message',
+        'section_info' => 'Contact Information',
+        'section_location' => 'Our Location',
+        'section_faq' => 'Common Questions',
+        'form_name' => 'Full Name',
+        'form_email' => 'Email',
+        'form_phone' => 'WhatsApp Number',
+        'form_subject' => 'Subject',
+        'form_message' => 'Message',
+        'form_send' => 'Send Message',
+        'form_sending' => 'Sending...',
+        'label_office' => 'Our Office',
+        'label_email' => 'Email',
+        'label_phone' => 'Phone',
+        'label_whatsapp' => 'WhatsApp',
+        'label_hours' => 'Operating Hours',
+        'hours_weekday' => 'Monday - Friday: 09:00 - 18:00',
+        'hours_weekend' => 'Saturday - Sunday: 10:00 - 16:00',
+        'response_time' => 'Response within 1-2 hours',
+        'or_contact' => 'Or contact us directly via:',
+        'success_title' => 'Message Sent!',
+        'success_message' => 'Thank you for contacting us. Our team will respond to your message soon.',
+        'error_title' => 'Failed to Send',
+        'error_message' => 'Sorry, an error occurred. Please try again or contact us via WhatsApp.',
+    ]
+];
+
+$t = $text[$lang];
+
+// WhatsApp & Contact Info
+$wa_number = '628170404594';
+$wa_link = "https://wa.me/{$wa_number}";
+$email = 'info@situneo.my.id';
+$phone = '+62 817-040-4594';
+$address = 'Jakarta, Indonesia';
+$maps_embed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d253840.65785923315!2d106.68942995!3d-6.229386500000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e945e34b9d%3A0x5371bf0fdad786a2!2sJakarta!5e0!3m2!1sen!2sid!4v1234567890123!5m2!1sen!2sid';
+
+// Handle form submission
+$success = false;
+$error = false;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = htmlspecialchars($_POST['name'] ?? '');
+    $email_from = htmlspecialchars($_POST['email'] ?? '');
+    $phone_from = htmlspecialchars($_POST['phone'] ?? '');
+    $subject = htmlspecialchars($_POST['subject'] ?? '');
+    $message = htmlspecialchars($_POST['message'] ?? '');
+    
+    // Simple validation
+    if (!empty($name) && !empty($email_from) && !empty($message)) {
+        // In production, send email here
+        // For now, we'll just set success
+        $success = true;
+        
+        // Optional: Send to WhatsApp
+        $wa_message = "*PESAN BARU dari Website*\n\n";
+        $wa_message .= "*Nama:* {$name}\n";
+        $wa_message .= "*Email:* {$email_from}\n";
+        $wa_message .= "*Phone:* {$phone_from}\n";
+        $wa_message .= "*Subjek:* {$subject}\n\n";
+        $wa_message .= "*Pesan:*\n{$message}";
+    } else {
+        $error = true;
+    }
+}
+
+// FAQ Data
+$faqs = [
+    [
+        'q' => 'Berapa lama waktu respon tim support?',
+        'a' => 'Kami merespons dalam 1-2 jam di jam kerja (Senin-Jumat 09:00-18:00). Untuk di luar jam kerja, kami akan merespons maksimal 24 jam.'
+    ],
+    [
+        'q' => 'Apakah konsultasi pertama gratis?',
+        'a' => 'Ya! Konsultasi pertama 100% gratis tanpa komitmen. Kami akan diskusi kebutuhan Anda dan berikan rekomendasi terbaik.'
+    ],
+    [
+        'q' => 'Bisa meeting offline/online?',
+        'a' => 'Bisa keduanya! Untuk meeting online via Zoom/Google Meet, atau offline di kantor kami di Jakarta (by appointment).'
+    ],
+    [
+        'q' => 'Apakah melayani klien dari luar Jakarta?',
+        'a' => 'Tentu! Kami melayani klien dari seluruh Indonesia bahkan luar negeri. Semua bisa dilakukan secara online.'
+    ],
+    [
+        'q' => 'Bagaimana cara order layanan?',
+        'a' => 'Mudah! Hubungi kami via WhatsApp/email/form ini, konsultasi gratis, dapat penawaran, deal, dan kami mulai kerjakan project Anda.'
+    ],
+];
+
+?>
+<!DOCTYPE html>
+<html lang="<?= $lang ?>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= $t['page_title'] ?> - Situneo Digital</title>
+    <meta name="description" content="Hubungi Situneo Digital untuk konsultasi gratis. Tim kami siap membantu 24/7. WhatsApp, Email, atau Form.">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-blue: #1E5C99;
+            --dark-blue: #0F3057;
+            --gold: #FFB400;
+            --light-bg: #F8F9FA;
+            --text-light: #E0E0E0;
+            --gradient-primary: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%);
+            --gradient-gold: linear-gradient(135deg, #FFB400 0%, #FF8C00 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+            background: var(--dark-blue);
+            color: #FFFFFF;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: rgba(15, 48, 87, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(15, 48, 87, 0.98) !important;
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--gold) !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-link {
+            color: var(--text-light) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--gold) !important;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 80%;
+        }
+        
+        .btn-login {
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-login:hover {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            transform: translateY(-2px);
+        }
+        
+        .btn-register {
+            background: var(--gradient-gold);
+            border: none;
+            color: var(--dark-blue);
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255,180,0,0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,180,0,0.5);
+            color: var(--dark-blue);
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            background: var(--gradient-primary);
+            padding: 120px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,180,0,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #FFFFFF 0%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #FFFFFF 0%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Contact Form */
+        .contact-form {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.2) 0%, rgba(15, 48, 87, 0.3) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,180,0,0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+        }
+        
+        .form-label {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control,
+        .form-select {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,180,0,0.3);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus,
+        .form-select:focus {
+            background: rgba(0,0,0,0.4);
+            border-color: var(--gold);
+            color: white;
+            box-shadow: 0 0 0 0.2rem rgba(255,180,0,0.25);
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* Contact Info Card */
+        .contact-card {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.2) 0%, rgba(15, 48, 87, 0.3) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,180,0,0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            height: 100%;
+            transition: all 0.3s;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(255,180,0,0.3);
+        }
+        
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-gold);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--dark-blue);
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .contact-detail {
+            color: var(--text-light);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .contact-detail i {
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+        
+        .contact-detail a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .contact-detail a:hover {
+            color: var(--gold);
+        }
+        
+        /* Quick Contact Buttons */
+        .quick-contact {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .quick-btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px 25px;
+            border-radius: 15px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .quick-btn-whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+        }
+        
+        .quick-btn-whatsapp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(37,211,102,0.5);
+            color: white;
+        }
+        
+        .quick-btn-email {
+            background: linear-gradient(135deg, #EA4335 0%, #C5221F 100%);
+            color: white;
+            border: none;
+        }
+        
+        .quick-btn-email:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(234,67,53,0.5);
+            color: white;
+        }
+        
+        .quick-btn-phone {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            border: none;
+        }
+        
+        .quick-btn-phone:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255,180,0,0.5);
+            color: var(--dark-blue);
+        }
+        
+        /* Map Container */
+        .map-container {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.2) 0%, rgba(15, 48, 87, 0.3) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,180,0,0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .map-container iframe {
+            width: 100%;
+            height: 400px;
+            border-radius: 15px;
+            border: none;
+        }
+        
+        /* Buttons */
+        .btn-gold {
+            background: var(--gradient-gold);
+            border: none;
+            color: var(--dark-blue);
+            padding: 12px 30px;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(255,180,0,0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255,180,0,0.5);
+            color: var(--dark-blue);
+        }
+        
+        .btn-gold:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Alert Notifications */
+        .alert-custom {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.3) 0%, rgba(15, 48, 87, 0.4) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            animation: slideDown 0.5s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .alert-success {
+            border-color: #4CAF50;
+            color: #4CAF50;
+        }
+        
+        .alert-error {
+            border-color: #FF0000;
+            color: #FF0000;
+        }
+        
+        /* FAQ */
+        .accordion-item {
+            background: rgba(30, 92, 153, 0.1);
+            border: 1px solid rgba(255,180,0,0.2);
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .accordion-button {
+            background: transparent;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 1.5rem;
+            border: none;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background: rgba(255,180,0,0.1);
+            color: var(--gold);
+            box-shadow: none;
+        }
+        
+        .accordion-button::after {
+            filter: brightness(0) invert(1);
+        }
+        
+        .accordion-button:not(.collapsed)::after {
+            filter: brightness(0) saturate(100%) invert(72%) sepia(77%) saturate(484%) hue-rotate(358deg);
+        }
+        
+        .accordion-body {
+            background: rgba(0,0,0,0.2);
+            color: var(--text-light);
+            padding: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #0F3057 0%, #000000 100%);
+            border-top: 2px solid var(--gold);
+            padding: 3rem 0 1rem;
+        }
+        
+        footer h5 {
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        footer a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        footer a:hover {
+            color: var(--gold);
+            padding-left: 5px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            width: 45px;
+            height: 45px;
+            background: rgba(255,180,0,0.15);
+            border: 1px solid var(--gold);
+            border-radius: 12px;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            transform: translateY(-3px);
+        }
+        
+        /* Floating WhatsApp */
+        .float-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 5px 20px rgba(37,211,102,0.5);
+            z-index: 1000;
+            transition: all 0.3s;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .float-whatsapp:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(37,211,102,0.7);
+            color: white;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .contact-form {
+                padding: 1.5rem;
+            }
+            
+            .quick-contact {
+                flex-direction: column;
+            }
+            
+            .quick-btn {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">
+                <img src="https://situneo.my.id/logo" alt="Situneo" width="50" height="50" style="border-radius: 12px;">
+                <span>SITUNEO</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.php"><?= $t['nav_home'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#about"><?= $t['nav_about'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.php"><?= $t['nav_services'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="portfolio.php"><?= $t['nav_portfolio'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="pricing.php"><?= $t['nav_pricing'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="contact.php"><?= $t['nav_contact'] ?></a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="?lang=<?= $lang === 'id' ? 'en' : 'id' ?>">
+                            <i class="bi bi-translate"></i> <?= $lang === 'id' ? 'EN' : 'ID' ?>
+                        </a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a href="auth/login.php" class="btn-login"><?= $t['nav_login'] ?></a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a href="auth/register.php" class="btn-register"><?= $t['nav_register'] ?></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content text-center">
+                <div data-aos="fade-up">
+                    <h1 class="hero-title"><?= $t['hero_title'] ?></h1>
+                    <p class="hero-subtitle"><?= $t['hero_subtitle'] ?></p>
+                    <p class="lead" style="color: var(--text-light); max-width: 700px; margin: 0 auto;">
+                        <?= $t['hero_desc'] ?>
+                    </p>
+                </div>
+                
+                <div class="quick-contact justify-content-center" data-aos="fade-up" data-aos-delay="100">
+                    <a href="<?= $wa_link ?>?text=Halo, saya mau konsultasi" class="quick-btn quick-btn-whatsapp">
+                        <i class="bi bi-whatsapp"></i>
+                        <span>WhatsApp</span>
+                    </a>
+                    <a href="mailto:<?= $email ?>" class="quick-btn quick-btn-email">
+                        <i class="bi bi-envelope"></i>
+                        <span>Email</span>
+                    </a>
+                    <a href="tel:<?= $phone ?>" class="quick-btn quick-btn-phone">
+                        <i class="bi bi-telephone"></i>
+                        <span>Phone</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <!-- Success/Error Alerts -->
+            <?php if ($success): ?>
+            <div class="alert-custom alert-success" data-aos="fade-down">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-check-circle-fill" style="font-size: 2rem; margin-right: 1rem;"></i>
+                    <div>
+                        <strong><?= $t['success_title'] ?></strong><br>
+                        <span><?= $t['success_message'] ?></span>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+            
+            <?php if ($error): ?>
+            <div class="alert-custom alert-error" data-aos="fade-down">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-x-circle-fill" style="font-size: 2rem; margin-right: 1rem;"></i>
+                    <div>
+                        <strong><?= $t['error_title'] ?></strong><br>
+                        <span><?= $t['error_message'] ?></span>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+            
+            <div class="row g-4">
+                <!-- Contact Form -->
+                <div class="col-lg-7">
+                    <div class="contact-form" data-aos="fade-up">
+                        <h2 class="section-title"><?= $t['section_form'] ?></h2>
+                        <p style="color: var(--text-light); margin-bottom: 2rem;">
+                            Isi form di bawah ini dan kami akan merespons dalam 1-2 jam
+                        </p>
+                        
+                        <form method="POST" id="contactForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">
+                                        <i class="bi bi-person"></i> <?= $t['form_name'] ?> *
+                                    </label>
+                                    <input type="text" class="form-control" name="name" 
+                                           placeholder="John Doe" required>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label">
+                                        <i class="bi bi-envelope"></i> <?= $t['form_email'] ?> *
+                                    </label>
+                                    <input type="email" class="form-control" name="email" 
+                                           placeholder="john@example.com" required>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label">
+                                        <i class="bi bi-whatsapp"></i> <?= $t['form_phone'] ?>
+                                    </label>
+                                    <input type="tel" class="form-control" name="phone" 
+                                           placeholder="+62 812-xxxx-xxxx">
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label">
+                                        <i class="bi bi-tag"></i> <?= $t['form_subject'] ?>
+                                    </label>
+                                    <select class="form-select" name="subject">
+                                        <option value="Konsultasi Umum">Konsultasi Umum</option>
+                                        <option value="Penawaran Harga">Penawaran Harga</option>
+                                        <option value="Pertanyaan Layanan">Pertanyaan Layanan</option>
+                                        <option value="Support Teknis">Support Teknis</option>
+                                        <option value="Partnership">Partnership</option>
+                                        <option value="Lainnya">Lainnya</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label class="form-label">
+                                        <i class="bi bi-chat-text"></i> <?= $t['form_message'] ?> *
+                                    </label>
+                                    <textarea class="form-control" name="message" 
+                                              placeholder="Tulis pesan Anda di sini..." required></textarea>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <button type="submit" class="btn-gold w-100" id="submitBtn">
+                                        <i class="bi bi-send"></i> <?= $t['form_send'] ?>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <div class="text-center mt-4">
+                            <p style="color: var(--text-light);">
+                                <?= $t['or_contact'] ?>
+                            </p>
+                            <div class="social-links d-flex justify-content-center">
+                                <a href="<?= $wa_link ?>" target="_blank" title="WhatsApp">
+                                    <i class="bi bi-whatsapp"></i>
+                                </a>
+                                <a href="#" target="_blank" title="Instagram">
+                                    <i class="bi bi-instagram"></i>
+                                </a>
+                                <a href="#" target="_blank" title="Facebook">
+                                    <i class="bi bi-facebook"></i>
+                                </a>
+                                <a href="#" target="_blank" title="LinkedIn">
+                                    <i class="bi bi-linkedin"></i>
+                                </a>
+                                <a href="#" target="_blank" title="TikTok">
+                                    <i class="bi bi-tiktok"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="col-lg-5">
+                    <div data-aos="fade-up" data-aos-delay="100">
+                        <h2 class="section-title"><?= $t['section_info'] ?></h2>
+                        
+                        <!-- Office Info -->
+                        <div class="contact-card mb-4">
+                            <div class="contact-icon">
+                                <i class="bi bi-building"></i>
+                            </div>
+                            <h3 class="contact-title"><?= $t['label_office'] ?></h3>
+                            <div class="contact-detail">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <span><?= $address ?></span>
+                            </div>
+                            <div class="contact-detail">
+                                <i class="bi bi-clock-fill"></i>
+                                <div>
+                                    <div><?= $t['hours_weekday'] ?></div>
+                                    <div><?= $t['hours_weekend'] ?></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Contact Methods -->
+                        <div class="contact-card mb-4">
+                            <div class="contact-icon">
+                                <i class="bi bi-telephone"></i>
+                            </div>
+                            <h3 class="contact-title">Hubungi Kami</h3>
+                            <div class="contact-detail">
+                                <i class="bi bi-envelope-fill"></i>
+                                <a href="mailto:<?= $email ?>"><?= $email ?></a>
+                            </div>
+                            <div class="contact-detail">
+                                <i class="bi bi-whatsapp"></i>
+                                <a href="<?= $wa_link ?>"><?= $phone ?></a>
+                            </div>
+                            <div class="contact-detail">
+                                <i class="bi bi-telephone-fill"></i>
+                                <a href="tel:<?= $phone ?>"><?= $phone ?></a>
+                            </div>
+                            <div class="mt-3 p-3" style="background: rgba(255,180,0,0.1); border-radius: 10px; border: 1px solid var(--gold);">
+                                <i class="bi bi-lightning-charge" style="color: var(--gold);"></i>
+                                <strong style="color: var(--gold);"><?= $t['response_time'] ?></strong>
+                            </div>
+                        </div>
+                        
+                        <!-- NIB Info -->
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <i class="bi bi-shield-check"></i>
+                            </div>
+                            <h3 class="contact-title">Informasi Legal</h3>
+                            <div class="contact-detail">
+                                <i class="bi bi-file-text-fill"></i>
+                                <div>
+                                    <strong>NIB Resmi:</strong><br>
+                                    20250-9261-4570-4515-5453
+                                </div>
+                            </div>
+                            <div class="contact-detail">
+                                <i class="bi bi-calendar-check"></i>
+                                <span>Terdaftar sejak 2020</span>
+                            </div>
+                            <div class="contact-detail">
+                                <i class="bi bi-award"></i>
+                                <span>500+ Happy Clients</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Map Section -->
+            <div class="mt-5" data-aos="fade-up">
+                <h2 class="section-title text-center mb-4"><?= $t['section_location'] ?></h2>
+                <div class="map-container">
+                    <iframe src="<?= $maps_embed ?>" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+            
+            <!-- FAQ Section -->
+            <div class="mt-5" data-aos="fade-up">
+                <h2 class="section-title text-center mb-4"><?= $t['section_faq'] ?></h2>
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="accordion" id="faqAccordion">
+                            <?php foreach($faqs as $index => $faq): ?>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button <?= $index > 0 ? 'collapsed' : '' ?>" 
+                                            type="button" 
+                                            data-bs-toggle="collapse" 
+                                            data-bs-target="#faq<?= $index ?>">
+                                        <i class="bi bi-question-circle me-3" style="color: var(--gold);"></i>
+                                        <?= $faq['q'] ?>
+                                    </button>
+                                </h2>
+                                <div id="faq<?= $index ?>" 
+                                     class="accordion-collapse collapse <?= $index === 0 ? 'show' : '' ?>" 
+                                     data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        <?= $faq['a'] ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row g-4">
+                <!-- Brand Info -->
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://situneo.my.id/logo" 
+                             alt="Situneo" width="60" height="60" 
+                             style="border-radius: 15px; margin-right: 15px;">
+                        <div>
+                            <h4 style="color: var(--gold); margin: 0; font-weight: 800;">SITUNEO DIGITAL</h4>
+                            <small style="color: var(--text-light);">Digital Harmony</small>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-light); line-height: 1.8; margin-bottom: 1rem;">
+                        Partner digital terpercaya sejak 2020. Udah bantu 500+ bisnis sukses online dengan harga paling terjangkau!
+                    </p>
+                    <div class="mb-3">
+                        <div style="display: inline-block; padding: 8px 15px; background: rgba(255,180,0,0.15); border: 1px solid var(--gold); border-radius: 8px;">
+                            <small style="color: var(--text-light);">NIB:</small>
+                            <strong style="color: var(--gold); margin-left: 5px;">20250-9261-4570-4515-5453</strong>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="<?= $wa_link ?>" target="_blank" title="WhatsApp">
+                            <i class="bi bi-whatsapp"></i>
+                        </a>
+                        <a href="#" target="_blank" title="Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" target="_blank" title="Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" target="_blank" title="LinkedIn">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                        <a href="#" target="_blank" title="TikTok">
+                            <i class="bi bi-tiktok"></i>
+                        </a>
+                        <a href="#" target="_blank" title="YouTube">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-4">
+                    <h5>Menu Cepat</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.php"><i class="bi bi-chevron-right"></i> Beranda</a></li>
+                        <li><a href="about.php"><i class="bi bi-chevron-right"></i> Tentang Kami</a></li>
+                        <li><a href="services.php"><i class="bi bi-chevron-right"></i> Layanan</a></li>
+                        <li><a href="portfolio.php"><i class="bi bi-chevron-right"></i> Demo Website</a></li>
+                        <li><a href="pricing.php"><i class="bi bi-chevron-right"></i> Harga Paket</a></li>
+                        <li><a href="calculator.php"><i class="bi bi-chevron-right"></i> Kalkulator Harga</a></li>
+                        <li><a href="contact.php"><i class="bi bi-chevron-right"></i> Kontak</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Popular Services -->
+                <div class="col-lg-3 col-md-4">
+                    <h5>Layanan Populer</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="services.php#service-1"><i class="bi bi-check-circle"></i> Pembuatan Website</a></li>
+                        <li><a href="services.php#service-3"><i class="bi bi-check-circle"></i> E-Commerce</a></li>
+                        <li><a href="services.php#service-7"><i class="bi bi-check-circle"></i> SEO Premium</a></li>
+                        <li><a href="services.php#service-10"><i class="bi bi-check-circle"></i> Google Ads</a></li>
+                        <li><a href="services.php#service-15"><i class="bi bi-check-circle"></i> Chatbot AI</a></li>
+                        <li><a href="services.php#service-17"><i class="bi bi-check-circle"></i> Dashboard Custom</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="col-lg-3 col-md-4">
+                    <h5>Hubungi Kami</h5>
+                    <ul class="list-unstyled">
+                        <li style="margin-bottom: 1rem;">
+                            <i class="bi bi-envelope" style="color: var(--gold); margin-right: 10px;"></i>
+                            <a href="mailto:<?= $email ?>" style="color: var(--text-light);"><?= $email ?></a>
+                        </li>
+                        <li style="margin-bottom: 1rem;">
+                            <i class="bi bi-whatsapp" style="color: var(--gold); margin-right: 10px;"></i>
+                            <a href="<?= $wa_link ?>" style="color: var(--text-light);"><?= $phone ?></a>
+                        </li>
+                        <li style="margin-bottom: 1rem;">
+                            <i class="bi bi-geo-alt" style="color: var(--gold); margin-right: 10px;"></i>
+                            <span style="color: var(--text-light);"><?= $address ?></span>
+                        </li>
+                        <li>
+                            <i class="bi bi-clock" style="color: var(--gold); margin-right: 10px;"></i>
+                            <span style="color: var(--text-light);">24/7 Online</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr style="border-color: rgba(255,180,0,0.2); margin: 2rem 0;">
+            
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p style="color: var(--text-light); margin: 0; font-size: 0.95rem;">
+                        &copy; 2025 <strong style="color: var(--gold);">Situneo Digital</strong>. All Rights Reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p style="color: var(--text-light); margin: 0; font-size: 0.95rem;">
+                        Made with <i class="bi bi-heart-fill" style="color: #FF0000;"></i> in Jakarta, Indonesia
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Floating WhatsApp Button -->
+    <a href="<?= $wa_link ?>?text=Halo, saya mau konsultasi" 
+       class="float-whatsapp" 
+       target="_blank"
+       title="Chat WhatsApp">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Form submission handling
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        contactForm.addEventListener('submit', function(e) {
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> <?= $t['form_sending'] ?>';
+            
+            // Form will submit normally to PHP
+            // The disabled state and loading text provide user feedback
+        });
+        
+        // Auto-hide alerts after 5 seconds
+        const alerts = document.querySelectorAll('.alert-custom');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                alert.style.opacity = '0';
+                alert.style.transform = 'translateY(-20px)';
+                setTimeout(() => alert.remove(), 500);
+            }, 5000);
+        });
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Form validation enhancement
+        const formInputs = contactForm.querySelectorAll('input, textarea, select');
+        formInputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.hasAttribute('required') && !this.value.trim()) {
+                    this.style.borderColor = '#FF0000';
+                } else {
+                    this.style.borderColor = 'rgba(255,180,0,0.3)';
+                }
+            });
+            
+            input.addEventListener('focus', function() {
+                this.style.borderColor = 'var(--gold)';
+            });
+        });
+        
+        // Log page view
+        console.log('Contact page loaded successfully');
+        console.log('Ready to receive messages');
+    </script>
+</body>
+</html>
