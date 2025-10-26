@@ -1,0 +1,86 @@
+# ========================================
+# SITUNEO DIGITAL - robots.txt
+# SEO Configuration for Search Engines
+# ========================================
+
+# Allow all search engines
+User-agent: *
+Allow: /
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /client/
+Disallow: /freelance/
+Disallow: /auth/
+
+# Disallow sensitive files
+Disallow: /config.php
+Disallow: /*.sql$
+Disallow: /*.log$
+
+# Disallow system folders
+Disallow: /includes/
+Disallow: /emails/
+Disallow: /api/
+
+# Disallow upload directories (optional)
+Disallow: /assets/uploads/
+
+# Allow important pages
+Allow: /index.php
+Allow: /about.php
+Allow: /services.php
+Allow: /portfolio.php
+Allow: /pricing.php
+Allow: /contact.php
+Allow: /calculator.php
+
+# Allow CSS, JS, and images
+Allow: /assets/css/
+Allow: /assets/js/
+Allow: /assets/images/
+
+# Crawl-delay for polite crawling
+Crawl-delay: 10
+
+# Sitemap location
+Sitemap: https://situneo.my.id/sitemap.xml
+
+# ========================================
+# Specific rules for Google Bot
+# ========================================
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /client/
+Disallow: /freelance/
+Disallow: /auth/
+
+# ========================================
+# Specific rules for Bing Bot
+# ========================================
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /client/
+Disallow: /freelance/
+Disallow: /auth/
+
+# ========================================
+# Block bad bots
+# ========================================
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# ========================================
+# END OF robots.txt
+# ========================================
