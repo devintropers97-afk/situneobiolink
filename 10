@@ -1,0 +1,1791 @@
+<?php
+/**
+ * ========================================
+ * SITUNEO DIGITAL - Services Page
+ * 26 Layanan Digital Lengkap
+ * NIB: 20250-9261-4570-4515-5453
+ * ========================================
+ */
+
+session_start();
+date_default_timezone_set('Asia/Jakarta');
+
+$lang = $_GET['lang'] ?? $_SESSION['lang'] ?? 'id';
+$_SESSION['lang'] = $lang;
+
+// Multi-language content
+$text = [
+    'id' => [
+        'page_title' => '26 Layanan Digital Profesional',
+        'page_subtitle' => 'Solusi lengkap untuk semua kebutuhan digital bisnis kamu',
+        'filter_all' => 'Semua Layanan',
+        'filter_website' => 'Website',
+        'filter_seo' => 'SEO & Marketing',
+        'filter_ads' => 'Iklan Digital',
+        'filter_automation' => 'Automation & AI',
+        'filter_design' => 'Design',
+        'filter_dashboard' => 'Dashboard & System',
+        'filter_hosting' => 'Hosting & Domain',
+        'filter_legal' => 'Legal & Bisnis',
+        'btn_order' => 'PESAN SEKARANG',
+        'btn_calculate' => 'HITUNG HARGA',
+        'btn_demo' => 'LIHAT DEMO',
+        'price_from' => 'Mulai dari',
+    ],
+    'en' => [
+        'page_title' => '26 Professional Digital Services',
+        'page_subtitle' => 'Complete solutions for all your business digital needs',
+        'filter_all' => 'All Services',
+        'filter_website' => 'Website',
+        'filter_seo' => 'SEO & Marketing',
+        'filter_ads' => 'Digital Ads',
+        'filter_automation' => 'Automation & AI',
+        'filter_design' => 'Design',
+        'filter_dashboard' => 'Dashboard & System',
+        'filter_hosting' => 'Hosting & Domain',
+        'filter_legal' => 'Legal & Business',
+        'btn_order' => 'ORDER NOW',
+        'btn_calculate' => 'CALCULATE PRICE',
+        'btn_demo' => 'VIEW DEMO',
+        'price_from' => 'Starting from',
+    ]
+];
+$t = $text[$lang];
+
+// 26 LAYANAN LENGKAP
+$services = [
+    // WEBSITE & DEVELOPMENT (5)
+    [
+        'id' => 1,
+        'name' => 'Bikin Website Profesional',
+        'category' => 'Website',
+        'icon' => 'globe',
+        'price_start' => 350000,
+        'price_unit' => 'per halaman',
+        'image' => 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=500&fit=crop&q=80',
+        'description' => 'Website profesional yang bisa dibuka di HP, tablet, komputer. Loading cepat dan gampang ditemukan di Google!',
+        'features' => [
+            'Responsive (bisa dibuka di HP)',
+            'Loading super cepat',
+            'SEO Friendly biar muncul di Google',
+            'Design custom sesuai keinginan',
+            'Konsultasi gratis sebelum mulai',
+            'Gratis revisi sampai puas',
+            'Maintenance support',
+            'SSL Certificate (website aman)',
+            'Mobile first design',
+            'Admin panel mudah dipakai'
+        ],
+        'perfect_for' => 'Company profile, landing page, portfolio, bisnis apapun yang butuh website profesional',
+        'delivery_time' => '3-7 hari kerja'
+    ],
+    [
+        'id' => 2,
+        'name' => 'Toko Online Lengkap (E-Commerce)',
+        'category' => 'Website',
+        'icon' => 'cart',
+        'price_start' => 2000000,
+        'price_unit' => 'paket',
+        'image' => 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop&q=80',
+        'description' => 'Toko online kayak Tokopedia! Ada keranjang belanja, sistem pembayaran otomatis, dan bisa lacak pengiriman.',
+        'features' => [
+            'Katalog produk unlimited',
+            'Keranjang belanja',
+            'Checkout & bayar online',
+            'Ongkir otomatis (JNE, TIKI, JNT)',
+            'Admin dashboard kelola produk',
+            'Customer bisa lacak pesanan',
+            'Sistem promo & diskon',
+            'Review produk dari customer',
+            'Wishlist (simpan produk favorit)',
+            'Payment gateway terintegrasi',
+            'Invoice otomatis',
+            'Notifikasi email & WhatsApp'
+        ],
+        'perfect_for' => 'Toko baju, elektronik, makanan, semua bisnis yang mau jualan online',
+        'delivery_time' => '7-10 hari kerja'
+    ],
+    [
+        'id' => 3,
+        'name' => 'Custom Web Application',
+        'category' => 'Website',
+        'icon' => 'code-square',
+        'price_start' => 350000,
+        'price_unit' => 'per halaman',
+        'image' => 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=500&fit=crop&q=80',
+        'description' => 'Aplikasi web khusus sesuai kebutuhan bisnis unik kamu. Bisa request fitur apapun yang kamu mau!',
+        'features' => [
+            'Custom features sesuai kebutuhan',
+            'Request fitur unlimited',
+            'Automation proses bisnis',
+            'Sistem scalable (bisa dikembangin)',
+            'Full documentation',
+            'Training cara pakai',
+            'Long term support',
+            'Security tingkat tinggi',
+            'Database optimization',
+            'API integration'
+        ],
+        'perfect_for' => 'Bisnis dengan proses unik, sistem internal perusahaan, aplikasi khusus industri',
+        'delivery_time' => '2-4 minggu'
+    ],
+    [
+        'id' => 4,
+        'name' => 'Optimasi Kecepatan Website',
+        'category' => 'Website',
+        'icon' => 'lightning-charge',
+        'price_start' => 350000,
+        'price_unit' => 'paket',
+        'image' => 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop&q=80',
+        'description' => 'Website kamu lemot? Kami bikin 2x lebih cepat! Loading cepat = customer betah = penjualan naik.',
+        'features' => [
+            'Loading 2x lebih cepat',
+            'Compress gambar otomatis',
+            'Minify CSS & JavaScript',
+            'Enable caching',
+            'CDN setup',
+            'Database optimization',
+            'Lazy loading images',
+            'GTmetrix & PageSpeed report',
+            'Mobile speed optimization',
+            'Before/after speed test'
+        ],
+        'perfect_for' => 'Website yang lambat loading, bounce rate tinggi, mau improve user experience',
+        'delivery_time' => '2-3 hari kerja'
+    ],
+    [
+        'id' => 5,
+        'name' => 'SSL & Security Setup',
+        'category' => 'Website',
+        'icon' => 'shield-check',
+        'price_start' => 200000,
+        'price_unit' => 'paket',
+        'image' => 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&h=500&fit=crop&q=80',
+        'description' => 'Pasang gembok hijau di website (HTTPS). Website jadi aman, customer lebih percaya, Google juga suka!',
+        'features' => [
+            'SSL Certificate installation',
+            'HTTPS activation',
+            'Firewall setup',
+            'Malware protection',
+            'DDoS protection',
+            'Regular security scan',
+            'Backup otomatis',
+            'Security headers',
+            'SQL injection protection',
+            'XSS protection'
+        ],
+        'perfect_for' => 'Semua website, terutama toko online yang terima pembayaran',
+        'delivery_time' => '1 hari kerja'
+    ],
+    
+    // SEO & CONTENT (5)
+    [
+        'id' => 6,
+        'name' => 'SEO Friendly (Basic)',
+        'category' => 'SEO & Marketing',
+        'icon' => 'search',
+        'price_start' => 500000,
+        'price_unit' => 'paket',
+        'image' => 'https://images.unsplash.com/photo-1571721795195-a2ca2d3370a9?w=800&h=500&fit=crop&q=80',
+        'description' => 'Optimasi dasar biar website gampang ditemukan di Google. Setting awal yang penting banget!',
+        'features' => [
+            'On-page SEO optimization',
+            'Meta tags setup (title, description)',
+            'Sitemap XML creation',
+            'Google indexing',
+            'Robots.txt setup',
+            'Basic SEO report',
+            'Keyword research dasar',
+            'Image alt text optimization',
+            'Internal linking structure',
+            'Google Search Console setup'
+        ],
+        'perfect_for' => 'Website baru, bisnis yang baru mulai online, budget terbatas',
+        'delivery_time' => '3-5 hari kerja'
+    ],
+    [
+        'id' => 7,
+        'name' => 'SEO Specialist (Premium)',
+        'category' => 'SEO & Marketing',
+        'icon' => 'trophy',
+        'price_start' => 1000000,
+        'price_unit' => 'per bulan',
+        'image' => 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop&q=80',
+        'description' => 'Layanan SEO lengkap biar ranking tinggi di Google. Traffic organik naik, penjualan juga ikut naik!',
+        'features' => [
+            'Keyword research mendalam',
+            'Backlink building berkualitas',
+            'Content strategy & planning',
+            'Monthly progress report',
+            'Competitor analysis',
+            'Ranking monitoring',
+            'Technical SEO audit',
+            'Local SEO optimization',
+            'Link building campaign',
+            'Content optimization',
+            'Google Analytics setup',
+            'Consultation call bulanan'
+        ],
+        'perfect_for' => 'Bisnis yang serius mau dominasi Google, butuh traffic organik tinggi',
+        'delivery_time' => 'Ongoing bulanan'
+    ],
+    [
+        'id' => 8,
+        'name' => 'Bikin Artikel SEO',
+        'category' => 'SEO & Marketing',
+        'icon' => 'file-text',
+        'price_start' => 300000,
+        'price_unit' => 'per artikel',
+        'image' => 'https://images.unsplash.com/photo-1542435503-956c469947f6?w=800&h=500&fit=crop&q=80',
+        'description' => 'Artikel berkualitas yang mudah ditemukan di Google. Konten original, bukan copy-paste!',
+        'features' => [
+            'Keyword research',
+            'Original content (bukan copy-paste)',
+            '500-1000 kata per artikel',
+            'SEO optimized',
+            '2x revisi gratis',
+            'Plagiarism free (100% asli)',
+            'Gambar berkualitas',
+            'Meta description',
+            'Internal & external links',
+            'Readable & engaging'
+        ],
+        'perfect_for' => 'Blog, website company, toko online yang butuh konten berkualitas',
+        'delivery_time' => '2-3 hari per artikel'
+    ],
+    [
+        'id' => 9,
+        'name' => 'Google My Business (Titik Maps)',
+        'category' => 'SEO & Marketing',
+        'icon' => 'geo-alt',
+        'price_start' => 350000,
+        'price_unit' => 'paket',
+        'image' => 'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&h=500&fit=crop&q=80',
+        'description' => 'Bikin pin merah bisnis kamu di Google Maps. Biar customer gampang nemuin lokasi kamu!',
+        'features' => [
+            'Bikin pin merah di Google Maps',
+            'Isi data lengkap bisnis',
+            'Upload 10-20 foto berkualitas',
+            'Optimasi supaya muncul saat dicari',
+            'Verifikasi Google My Business',
+            'Setup review & rating',
+            'Jam buka otomatis',
+            'Kategori bisnis yang tepat',
+            'Post updates feature',
+            'Q&A management'
+        ],
+        'perfect_for' => 'Restoran, kafe, toko, klinik, salon, semua bisnis dengan lokasi fisik',
+        'delivery_time' => '3-5 hari kerja'
+    ],
+    [
+        'id' => 10,
+        'name' => 'Copywriting Landing Page',
+        'category' => 'SEO & Marketing',
+        'icon' => 'file-earmark-text',
+        'price_start' => 300000,
+        'price_unit' => 'per halaman',
+        'image' => 'https://images.unsplash.com/photo-1455849318743-b2233052fcff?w=800&h=500&fit=crop&q=80',
+        'description' => 'Tulisan yang bikin customer langsung tertarik beli! Copywriting yang converting & persuasive.',
+        'features' => [
+            'Headline yang menarik perhatian',
+            'Copywriting yang persuasif',
+            'Call-to-action yang kuat',
+            'Customer-focused writing',
+            'Benefits-oriented',
+            'Social proof integration',
+            'Urgency & scarcity elements',
+            'SEO friendly',
+            '2x revisi',
+            'A/B testing suggestion'
+        ],
+        'perfect_for' => 'Landing page, sales page, product description, email marketing',
+        'delivery_time' => '3-4 hari kerja'
+    ],
+    
+    // DIGITAL ADVERTISING (4)
+    [
+        'id' => 11,
+        'name' => 'Google Ads Management',
+        'category' => 'Iklan Digital',
+        'icon' => 'bullseye',
+        'price_start' => 350000,
+        'price_unit' => 'setup',
+        'image' => 'https://images.unsplash.com/photo-1611926653458-09294b3142bf?w=800&h=500&fit=crop&q=80',
+        'description' => 'Iklan di Google biar muncul paling atas. Customer datang terus! Akun Google Ads disediakan.',
+        'features' => [
+            'Campaign setup profesional',
+            'Keyword targeting yang tepat',
+            'Ad copywriting menarik',
+            'Performance tracking',
+            'Akun Google Ads disediakan',
+            'Budget optimization',
+            'A/B testing ads',
+            'Conversion tracking',
+            'Monthly report lengkap',
+            'Optimization terus-menerus'
+        ],
+        'perfect_for' => 'Bisnis yang mau traffic cepat, punya budget iklan, butuh hasil instant',
+        'delivery_time' => '2-3 hari kerja'
+    ],
+    [
+        'id' => 12,
+        'name' => 'Meta Ads (Facebook & Instagram)',
+        'category' => 'Iklan Digital',
+        'icon' => 'facebook',
+        'price_start' => 250000,
+        'price_unit' => 'setup',
+        'image' => 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=500&fit=crop&q=80',
+        'description' => 'Iklan di Facebook & Instagram dengan jangkauan jutaan orang. Target customer yang tepat! Akun disediakan.',
+        'features' => [
+            'Audience targeting presisi',
+            'Creative design iklan',
+            'A/B testing campaign',
+            'Analytics report',
+            'Akun FB Ads disediakan',
+            'Pixel installation',
+            'Lookalike audience',
+            'Retargeting campaign',
+            'Daily monitoring',
+            'Budget management'
+        ],
+        'perfect_for' => 'Toko online, brand awareness, engagement, lead generation',
+        'delivery_time' => '2-3 hari kerja'
+    ],
+    [
+        'id' => 13,
+        'name' => 'TikTok Ads Management',
+        'category' => 'Iklan Digital',
+        'icon' => 'tiktok',
+        'price_start' => 250000,
+        'price_unit' => 'setup',
+        'image' => 'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&h=500&fit=crop&q=80',
+        'description' => 'Iklan di TikTok yang lagi booming! Cocok buat targeting anak muda. Viral potential tinggi!',
+        'features' => [
+            'TikTok Ads account setup',
+            'Video ads optimization',
+            'Hashtag challenge',
+            'In-feed ads',
+            'Brand takeover',
+            'Spark ads (boost organic)',
+            'Targeting Gen Z & Millennials',
+            'Analytics dashboard',
+            'Creative consultation',
+            'Viral campaign strategy'
+        ],
+        'perfect_for' => 'Brand yang target anak muda, produk viral, fashion, F&B',
+        'delivery_time' => '2-3 hari kerja'
+    ],
+    [
+        'id' => 14,
+        'name' => 'Monthly Marketing Report',
+        'category' => 'Iklan Digital',
+        'icon' => 'graph-up',
+        'price_start' => 300000,
+        'price_unit' => 'per bulan',
+        'image' => 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop&q=80',
+        'description' => 'Laporan lengkap hasil iklan & website tiap bulan. Dashboard cantik buat laporan ke bos!',
+        'features' => [
+            'Comprehensive monthly report',
+            'Traffic analysis',
+            'Conversion tracking',
+            'ROI calculation',
+            'Google Ads performance',
+            'Meta Ads performance',
+            'TikTok Ads performance',
+            'SEO ranking report',
+            'Dashboard online interaktif',
+            'PDF report profesional',
+            'Recommendations untuk bulan depan',
+            'Consultation call'
+        ],
+        'perfect_for' => 'Bisnis yang running multiple campaigns, perlu laporan untuk stakeholders',
+        'delivery_time' => 'Setiap awal bulan'
+    ],
+    
+    // AUTOMATION & AI (3)
+    [
+        'id' => 15,
+        'name' => 'Robot Chat Pintar (Chatbot AI)',
+        'category' => 'Automation & AI',
+        'icon' => 'robot',
+        'price_start' => 200000,
+        'price_unit' => 'setup',
+        'image' => 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&h=500&fit=crop&q=80',
+        'description' => 'Robot pintar yang bales chat otomatis 24 jam nonstop di WhatsApp. Customer happy, kamu santai!',
+        'features' => [
+            'Auto reply 24/7',
+            'WhatsApp integration',
+            'Custom keyword responses (20-50 kata kunci)',
+            'Auto send price list',
+            'Auto send katalog',
+            'Auto send lokasi',
+            'Form order otomatis',
+            'Database customer tersimpan',
+            'Analytics chat',
+            'Easy to update sendiri'
+        ],
+        'perfect_for' => 'Toko online, customer service, bisnis dengan banyak pertanyaan berulang',
+        'delivery_time' => '2-3 hari kerja'
+    ],
+    [
+        'id' => 16,
+        'name' => 'WhatsApp Blast (Kirim Massal)',
+        'category' => 'Automation & AI',
+        'icon' => 'whatsapp',
+        'price_start' => 250,
+        'price_unit' => 'per nomor',
+        'image' => 'https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=800&h=500&fit=crop&q=80',
+        'description' => 'Kirim pesan WhatsApp ke ribuan nomor sekaligus untuk promosi. Pakai akun WhatsApp kamu sendiri.',
+        'features' => [
+            'Bulk messaging (kirim banyak sekaligus)',
+            'Schedule sending (atur waktu kirim)',
+            'Personalized message (nama customer otomatis)',
+            'Media support (gambar, video, PDF)',
+            'Report analytics (delivered, read, reply)',
+            'Contact management',
+            'CSV import contacts',
+            'Blacklist management',
+            'Retry failed messages',
+            'Campaign history'
+        ],
+        'perfect_for' => 'Promo produk, broadcast info, reminder payment, event invitation',
+        'delivery_time' => 'Instant setelah setup'
+    ],
+    [
+        'id' => 17,
+        'name' => 'CRM System (Kelola Customer)',
+        'category' => 'Automation & AI',
+        'icon' => 'people',
+        'price_start' => 750000,
+        'price_unit' => 'paket',
+        'image' => 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop&q=80',
+        'description' => 'Sistem kelola database customer. Simpan semua data customer otomatis, tracking follow up, reminder otomatis!',
+        'features' => [
+            'Customer database lengkap',
+            'Auto save customer data',
+            'Follow up tracker',
+            'Reminder otomatis',
+            'Laporan customer loyal',
+            'Laporan customer paling banyak belanja',
+            'WhatsApp blast integration',
+            'Sales pipeline tracking',
+            'Activity logs',
+            'Customer segmentation',
+            'Email automation',
+            'Birthday reminders'
+        ],
+        'perfect_for' => 'Bisnis dengan banyak customer, sales team, butuh follow up teratur',
+        'delivery_time' => '5-7 hari kerja'
+    ],
+    
+    // DESIGN & BRANDING (2)
+    [
+        'id' => 18,
+        'name' => 'Design Logo Profesional',
+        'category' => 'Design',
+        'icon' => 'palette',
+        'price_start' => 250000,
+        'price_unit' => 'paket',
+        'image' => 'https://images.unsplash.com/photo-1626785774625-ddcddc3445e9?w=800&h=500&fit=crop&q=80',
+        'description' => 'Logo profesional untuk brand bisnis kamu. 3 konsep design, revisi unlimited sampai puas!',
+        'features' => [
+            '3 konsep design berbeda',
+            'Unlimited revision (sampai puas)',
+            'File vector (AI, EPS, SVG)',
+            'High resolution (PNG, JPG)',
+            'Brand guidelines (cara pakai logo)',
+            'Commercial license',
+            'Multiple color variations',
+            'Black & white version',
+            'Favicon untuk website',
+            'Social media kit'
+        ],
+        'perfect_for' => 'Bisnis baru, rebranding, butuh identitas brand yang kuat',
+        'delivery_time' => '3-5 hari kerja'
+    ],
+    [
+        'id' => 19,
+        'name' => 'Design Brosur & Flyer',
+        'category' => 'Design',
+        'icon' => 'file-earmark-image',
+        'price_start' => 150000,
+        'price_unit' => 'per design',
+        'image' => 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=500&fit=crop&q=80',
+        'description' => 'Design brosur menarik siap cetak untuk promosi bisnis. Ada versi digital juga!',
+        'features' => [
+            'Professional design',
+            'Print ready (CMYK, 300 DPI)',
+            'Digital version (RGB)',
+            '2x revision',
+            'Multiple sizes (A4, A5, dll)',
+            'Fast delivery',
+            'PDF high quality',
+            'Editable source file',
+            'Print consultation',
+            'Free mockup preview'
+        ],
+        'perfect_for' => 'Event, promosi produk, company profile, menu restoran',
+        'delivery_time' => '2-3 hari kerja'
+    ],
+    
+    // ANALYTICS & TRACKING (2)
+    [
+        'id' => 20,
+        'name' => 'Google Analytics 4 Setup',
+        'category' => 'Analytics',
+        'icon' => 'graph-up-arrow',
+        'price_start' => 300000,
+        'price_unit' => 'paket',
+        'image' => 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop&q=80',
+        'description' => 'Pasang Google Analytics 4 untuk tracking lengkap visitor website. Tau dari mana customer datang!',
+        'features' => [
+            'GA4 account setup',
+            'Tracking code installation',
+            'Event tracking setup',
+            'Conversion tracking',
+            'E-commerce tracking',
+            'Custom dashboard',
+            'Real-time monitoring',
+            'Audience insights',
+            'Traffic source analysis',
+            'Behavior flow tracking',
+            'Training cara baca data',
+            'Monthly report template'
+        ],
+        'perfect_for' => 'Semua website yang mau tau performa & behavior visitor',
+        'delivery_time' => '1-2 hari kerja'
+    ],
+    [
+        'id' => 21,
+        'name' => 'Conversion Tracking Setup',
+        'category' => 'Analytics',
+        'icon' => 'bullseye',
+        'price_start' => 300000,
+        'price_unit' => 'paket',
+        'image' => 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop&q=80',
+        'description' => 'Setup pixel Facebook, Google Tag Manager, tracking conversion. Tau ROI iklan dengan akurat!',
+        'features' => [
+            'Facebook Pixel installation',
+            'Google Tag Manager setup',
+            'Conversion event tracking',
+            'Custom event setup',
+            'Remarketing pixel',
+            'E-commerce tracking',
+            'Form submission tracking',
+            'Button click tracking',
+            'Phone call tracking',
+            'Download tracking',
+            'Testing & verification',
+            'Documentation lengkap'
+        ],
+        'perfect_for' => 'Bisnis yang running ads, perlu tau ROI akurat',
+        'delivery_time' => '2-3 hari kerja'
+    ],
+    
+    // HOSTING & MAINTENANCE (2)
+    [
+        'id' => 22,
+        'name' => 'Domain + Hosting Management',
+        'category' => 'Hosting',
+        'icon' => 'server',
+        'price_start' => 300000,
+        'price_unit' => 'per tahun',
+        'image' => 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=500&fit=crop&q=80',
+        'description' => 'Maintenance domain & hosting setahun penuh. Gak usah ribet urus teknis, biar kami yang handle!',
+        'features' => [
+            'Domain renewal reminder',
+            'Hosting monitoring',
+            'Uptime monitoring 24/7',
+            'Backup reguler',
+            'Security updates',
+            'Technical support',
+            'DNS management',
+            'Email setup & management',
+            'FTP access management',
+            'Database optimization',
+            'Server resource monitoring',
+            'Migration assistance'
+        ],
+        'perfect_for' => 'Bisnis yang gak mau ribet urus teknis, fokus ke bisnis aja',
+        'delivery_time' => 'Ongoing setahun'
+    ],
+    
+    // DASHBOARD & SYSTEM (3)
+    [
+        'id' => 27,
+        'name' => 'Dashboard Client/Admin/Sales',
+        'category' => 'Dashboard',
+        'icon' => 'speedometer2',
+        'price_start' => 1500000,
+        'price_unit' => 'paket',
+        'image' => 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop&q=80',
+        'description' => 'Dashboard canggih sesuai role (Client, Admin, Sales). Real-time data, grafik keren, mudah dipakai!',
+        'features' => [
+            'Custom dashboard sesuai role',
+            'Real-time analytics & reporting',
+            'User management system',
+            'Activity logs & history',
+            'Data visualization (charts, graphs)',
+            'Export report (PDF, Excel)',
+            'Responsive mobile dashboard',
+            'Role-based access control',
+            'Notification system',
+            'Filter & search advanced',
+            'Custom widgets',
+            'API integration ready'
+        ],
+        'perfect_for' => 'Perusahaan, marketplace, sistem internal, SaaS platform',
+        'delivery_time' => '1-2 minggu'
+    ],
+    [
+        'id' => 28,
+        'name' => 'Payment Gateway Integration',
+        'category' => 'Dashboard',
+        'icon' => 'credit-card',
+        'price_start' => 500000,
+        'price_unit' => 'paket',
+        'image' => 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&h=500&fit=crop&q=80','description' => 'Integrasi payment gateway biar customer bisa bayar online pakai transfer, e-wallet, QRIS. Otomatis masuk!',
+        'features' => [
+            'Midtrans integration',
+            'Xendit integration',
+            'Duitku integration',
+            'Bank transfer otomatis',
+            'E-wallet (OVO, GoPay, DANA, ShopeePay)',
+            'QRIS payment',
+            'Credit card payment',
+            'Virtual account otomatis',
+            'Payment notification real-time',
+            'Invoice otomatis',
+            'Refund system',
+            'Transaction history'
+        ],
+        'perfect_for' => 'Toko online, membership site, payment system apapun',
+        'delivery_time' => '3-5 hari kerja'
+    ],
+    [
+        'id' => 29,
+        'name' => 'Booking/Appointment System',
+        'category' => 'Dashboard',
+        'icon' => 'calendar-check',
+        'price_start' => 750000,
+        'price_unit' => 'paket',
+        'image' => 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=800&h=500&fit=crop&q=80',
+        'description' => 'Sistem booking online untuk appointment. Customer booking sendiri, jadwal teratur, reminder otomatis!',
+        'features' => [
+            'Online booking 24/7',
+            'Calendar management',
+            'Time slot configuration',
+            'Email confirmation otomatis',
+            'WhatsApp reminder',
+            'Reschedule & cancel system',
+            'Multiple services/staff',
+            'Payment integration ready',
+            'Customer database',
+            'Admin dashboard',
+            'Conflict prevention',
+            'Recurring appointments'
+        ],
+        'perfect_for' => 'Klinik, salon, barber, konsultan, gym, spa, service apapun yang perlu appointment',
+        'delivery_time' => '5-7 hari kerja'
+    ],
+    
+    // LEGAL & BUSINESS (2)
+    [
+        'id' => 23,
+        'name' => 'Privacy Policy & Terms Generator',
+        'category' => 'Legal',
+        'icon' => 'file-text',
+        'price_start' => 250000,
+        'price_unit' => 'paket',
+        'image' => 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=500&fit=crop&q=80',
+        'description' => 'Bikin Privacy Policy & Terms of Service sesuai hukum Indonesia. Website jadi legal & profesional!',
+        'features' => [
+            'Privacy Policy lengkap',
+            'Terms of Service/Use',
+            'Cookie Policy',
+            'Disclaimer',
+            'Refund Policy (kalau perlu)',
+            'Sesuai regulasi Indonesia',
+            'GDPR compliant (kalau perlu)',
+            'Custom sesuai bisnis',
+            'Editable format',
+            'Installation di website'
+        ],
+        'perfect_for' => 'Semua website, terutama yang kumpulin data customer',
+        'delivery_time' => '2-3 hari kerja'
+    ],
+    [
+        'id' => 24,
+        'name' => 'NIB & Legalitas Bisnis Online',
+        'category' => 'Legal',
+        'icon' => 'shield-check',
+        'price_start' => 500000,
+        'price_unit' => 'paket',
+        'image' => 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=500&fit=crop&q=80',
+        'description' => 'Bantu urus NIB (Nomor Induk Berusaha) & legalitas bisnis online. Bisnis jadi resmi & terpercaya!',
+        'features' => [
+            'Konsultasi legalitas bisnis',
+            'Urus NIB (Nomor Induk Berusaha)',
+            'NPWP perusahaan (kalau perlu)',
+            'Surat izin usaha',
+            'Dokumen lengkap',
+            'Follow up ke instansi',
+            'Fast track processing',
+            'Certified digital copy',
+            'Support sampai selesai',
+            'Consultation unlimited'
+        ],
+        'perfect_for' => 'Bisnis online yang mau resmi, marketplace seller, e-commerce',
+        'delivery_time' => '7-14 hari kerja'
+    ],
+    
+    // SOCIAL MEDIA (2)
+    [
+        'id' => 25,
+        'name' => 'Social Media Management',
+        'category' => 'Social Media',
+        'icon' => 'instagram',
+        'price_start' => 1000000,
+        'price_unit' => 'per bulan',
+        'image' => 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=500&fit=crop&q=80',
+        'description' => 'Kelola Instagram, Facebook, TikTok kamu. Post rutin, design menarik, engagement tinggi!',
+        'features' => [
+            'Content planning & calendar',
+            '12-20 post per bulan',
+            'Creative design per post',
+            'Caption copywriting',
+            'Hashtag research',
+            'Daily engagement (reply comment/DM)',
+            'Instagram Stories',
+            'Reels/TikTok video',
+            'Analytics monthly report',
+            'Growth strategy',
+            'Trend monitoring',
+            'Community management'
+        ],
+        'perfect_for' => 'Brand, UMKM, influencer, bisnis yang fokus ke social media',
+        'delivery_time' => 'Ongoing bulanan'
+    ],
+    [
+        'id' => 26,
+        'name' => 'Content Creator Package',
+        'category' => 'Social Media',
+        'icon' => 'camera-video',
+        'price_start' => 500000,
+        'price_unit' => 'per hari',
+        'image' => 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&h=500&fit=crop&q=80',
+        'description' => 'Jasa foto & video produk profesional. Hasil keren buat Instagram, TikTok, katalog!',
+        'features' => [
+            'Professional photography',
+            'Product videography',
+            'Reels & TikTok video',
+            'Behind the scenes content',
+            '20-50 edited photos',
+            '3-5 video short form',
+            'Color grading',
+            'Basic editing',
+            'High resolution files',
+            'Commercial license',
+            'Props & setup basic',
+            'Same day delivery (express)'
+        ],
+        'perfect_for' => 'Toko online, F&B, fashion, produk yang butuh konten visual keren',
+        'delivery_time' => '1-2 hari setelah shoot'
+    ],
+];
+
+// Category list for filter
+$categories = [
+    'all' => $t['filter_all'],
+    'Website' => $t['filter_website'],
+    'SEO & Marketing' => $t['filter_seo'],
+    'Iklan Digital' => $t['filter_ads'],
+    'Automation & AI' => $t['filter_automation'],
+    'Design' => $t['filter_design'],
+    'Dashboard' => $t['filter_dashboard'],
+    'Hosting' => $t['filter_hosting'],
+    'Legal' => $t['filter_legal'],
+    'Analytics' => 'Analytics & Tracking',
+    'Social Media' => 'Social Media'
+];
+?>
+<!DOCTYPE html>
+<html lang="<?= $lang ?>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= $t['page_title'] ?> - SITUNEO DIGITAL</title>
+    <meta name="description" content="26 layanan digital profesional mulai Rp 200rb. Website, SEO, Ads, Chatbot AI, Design, dan masih banyak lagi. Solusi lengkap untuk bisnis online.">
+    <meta name="keywords" content="jasa website, seo, google ads, facebook ads, chatbot, design logo, toko online, digital marketing">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://situneo.my.id/logo">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    
+    <style>
+        :root {
+            --primary-blue: #1E5C99;
+            --dark-blue: #0F3057;
+            --gold: #FFB400;
+            --bright-gold: #FFD700;
+            --white: #ffffff;
+            --text-light: #e9ecef;
+            --gradient-primary: linear-gradient(135deg, #1E5C99 0%, #0F3057 100%);
+            --gradient-gold: linear-gradient(135deg, #FFD700 0%, #FFB400 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-blue);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* Network Background */
+        .network-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -2;
+            overflow: hidden;
+            opacity: 0.3;
+        }
+        
+        .network-bg canvas {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Circuit Pattern */
+        .circuit-pattern {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.05;
+            background-image: 
+                linear-gradient(90deg, var(--gold) 1px, transparent 1px),
+                linear-gradient(180deg, var(--gold) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: circuit-move 60s linear infinite;
+        }
+        
+        @keyframes circuit-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        /* Navbar */
+        .navbar-premium {
+            background: rgba(15, 48, 87, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 998;
+            border-bottom: 1px solid rgba(255, 180, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-premium.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(15, 48, 87, 0.98);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .nav-link {
+            color: var(--white) !important;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            color: var(--gold) !important;
+            transform: translateY(-2px);
+        }
+
+        /* Language Switcher */
+        .lang-switcher {
+            display: flex;
+            gap: 5px;
+        }
+
+        .lang-btn {
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: rgba(255,180,0,0.1);
+            border: 1px solid rgba(255,180,0,0.3);
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            border-color: var(--gold);
+            font-weight: 700;
+        }
+
+        /* Hero Section */
+        .hero-services {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 150px 20px 80px;
+            position: relative;
+            background: radial-gradient(ellipse at top, rgba(255, 180, 0, 0.1) 0%, transparent 50%);
+        }
+
+        .section-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Filter Buttons */
+        .filter-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .filter-btn {
+            padding: 10px 25px;
+            border-radius: 50px;
+            background: rgba(255,180,0,0.1);
+            border: 2px solid rgba(255,180,0,0.3);
+            color: var(--text-light);
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            border-color: var(--gold);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255,180,0,0.4);
+        }
+
+        /* Service Card */
+        .service-card-full {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.1) 0%, rgba(15, 48, 87, 0.2) 100%);
+            border: 1px solid rgba(255, 180, 0, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            height: 100%;
+            transition: all 0.4s;
+            backdrop-filter: blur(10px);
+        }
+
+        .service-card-full:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255,180,0,0.3);
+            border-color: var(--gold);
+        }
+
+        .service-image-full {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .service-image-full img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .service-card-full:hover .service-image-full img {
+            transform: scale(1.1);
+        }
+
+        .service-icon-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-gold);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .price-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,0,0,0.9);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+        }
+
+        .service-content {
+            padding: 1.5rem;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: rgba(255,180,0,0.2);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .btn-gold {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            border: none;
+            padding: 12px 30px;
+            font-weight: 700;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(255, 180, 0, 0.3);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 180, 0, 0.6);
+            color: var(--dark-blue);
+        }
+
+        /* Floating WhatsApp */
+        .floating-wa {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 8px 20px rgba(37,211,102,0.4);
+            animation: pulse-wa 2s infinite;
+            text-decoration: none;
+        }
+
+        @keyframes pulse-wa {
+            0%, 100% { 
+                transform: scale(1); 
+                box-shadow: 0 8px 20px rgba(37,211,102,0.4);
+            }
+            50% { 
+                transform: scale(1.1); 
+                box-shadow: 0 12px 30px rgba(37,211,102,0.6);
+            }
+        }
+
+        /* Back to Top */
+        #backToTop {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            z-index: 998;
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            box-shadow: 0 5px 15px rgba(255,180,0,0.4);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        #backToTop:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255,180,0,0.6);
+        }
+
+        /* Feature List */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: start;
+        }
+
+        .feature-list li i {
+            color: var(--gold);
+            margin-right: 10px;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .filter-btn {
+                padding: 8px 15px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Network Background -->
+    <div class="network-bg" id="networkBg"></div>
+    
+    <!-- Circuit Pattern -->
+    <div class="circuit-pattern"></div>
+    
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-premium">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.php" style="text-decoration: none;">
+                <img src="https://situneo.my.id/logo" 
+                     alt="Situneo" width="50" height="50" 
+                     style="margin-right: 15px; border-radius: 10px; box-shadow: 0 5px 15px rgba(255,180,0,0.4);">
+                <div>
+                    <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--gold);">SITUNEO</span>
+                    <small style="display: block; font-size: 0.7rem; color: var(--text-light); margin-top: -5px;">Digital Harmony</small>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    style="border-color: var(--gold);">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.php">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.php">Tentang Kami</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="services.php">Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="portfolio.php">Demo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="pricing.php">Harga Paket</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.php">Hubungi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="calculator.php">Hitung Harga</a></li>
+                    <li class="nav-item ms-3">
+                        <a href="auth/login.php" class="btn btn-outline-warning btn-sm" style="border-radius: 50px; padding: 8px 20px;">
+                            <i class="bi bi-box-arrow-in-right"></i> Masuk
+                        </a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <div class="lang-switcher">
+                            <a href="?lang=id" class="lang-btn <?= $lang == 'id' ? 'active' : '' ?>">🇮🇩 ID</a>
+                            <a href="?lang=en" class="lang-btn <?= $lang == 'en' ? 'active' : '' ?>">🇺🇸 EN</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero-services">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h1 class="section-title"><?= $t['page_title'] ?></h1>
+                <p class="lead" style="color: var(--text-light); max-width: 800px; margin: 0 auto 2rem; font-size: 1.3rem;">
+                    <?= $t['page_subtitle'] ?>
+                </p>
+                <div style="display: inline-block; background: linear-gradient(135deg, #FF0000 0%, #FF6B00 100%); border: 2px solid #FFD700; padding: 12px 25px; border-radius: 50px; animation: pulse 2s infinite; box-shadow: 0 10px 30px rgba(255,0,0,0.5); margin-bottom: 3rem;">
+                    <i class="bi bi-fire" style="color: #FFD700; font-size: 1.3rem;"></i>
+                    <span style="color: white; font-weight: 800; margin-left: 8px; font-size: 1.1rem;">Mulai dari Rp 200rb aja!</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="py-3" style="background: rgba(30,92,153,0.1);">
+        <div class="container">
+            <div class="filter-container" data-aos="fade-up">
+                <button class="filter-btn active" onclick="filterServices('all')"><?= $t['filter_all'] ?> (26)</button>
+                <?php 
+                $category_count = [];
+                foreach($services as $service) {
+                    $cat = $service['category'];
+                    if (!isset($category_count[$cat])) $category_count[$cat] = 0;
+                    $category_count[$cat]++;
+                }
+                foreach($categories as $key => $cat_name): 
+                    if ($key === 'all') continue;
+                    $count = $category_count[$key] ?? 0;
+                    if ($count > 0):
+                ?>
+                <button class="filter-btn" onclick="filterServices('<?= $key ?>')"><?= $cat_name ?> (<?= $count ?>)</button>
+                <?php 
+                    endif;
+                endforeach; 
+                ?>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4" id="servicesGrid">
+                <?php foreach($services as $index => $service): ?>
+                <div class="col-lg-4 col-md-6 service-item" data-category="<?= $service['category'] ?>" data-aos="zoom-in" data-aos-delay="<?= ($index % 3) * 100 ?>">
+                    <div class="service-card-full" id="service-<?= $service['id'] ?>">
+                        <!-- Image -->
+                        <div class="service-image-full">
+                            <img src="<?= htmlspecialchars($service['image']) ?>" 
+                                 alt="<?= htmlspecialchars($service['name']) ?>"
+                                 loading="lazy">
+                            <div class="service-icon-badge">
+                                <i class="bi bi-<?= htmlspecialchars($service['icon']) ?>" style="font-size: 2rem; color: var(--dark-blue);"></i>
+                            </div>
+                            <div class="price-badge">
+                                Rp <?= number_format($service['price_start'], 0, ',', '.') ?>
+                            </div>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="service-content">
+                            <span class="category-badge"><?= htmlspecialchars($service['category']) ?></span>
+                            
+                            <h4 style="color: var(--gold); font-weight: 700; margin-bottom: 1rem;">
+                                <?= htmlspecialchars($service['name']) ?>
+                            </h4>
+                            
+                            <div class="mb-3">
+                                <span style="color: var(--gold); font-weight: 700; font-size: 1.3rem;">
+                                    <?= $t['price_from'] ?> Rp <?= number_format($service['price_start'], 0, ',', '.') ?>
+                                </span>
+                                <small style="color: var(--text-light); display: block; font-size: 0.85rem;">
+                                    <?= htmlspecialchars($service['price_unit']) ?>
+                                </small>
+                            </div>
+                            
+                            <p style="color: var(--text-light); line-height: 1.7; margin-bottom: 1rem;">
+                                <?= htmlspecialchars($service['description']) ?>
+                            </p>
+                            
+                            <!-- Features (show first 5) -->
+                            <ul class="feature-list">
+                                <?php 
+                                $feature_count = 0;
+                                foreach($service['features'] as $feature): 
+                                    if (++$feature_count > 5) break;
+                                ?>
+                                <li>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <span><?= htmlspecialchars($feature) ?></span>
+                                </li>
+                                <?php endforeach; ?>
+                                <?php if (count($service['features']) > 5): ?>
+                                <li style="color: var(--gold); font-weight: 600;">
+                                    <i class="bi bi-plus-circle-fill"></i>
+                                    <span>Dan <?= count($service['features']) - 5 ?> fitur lainnya...</span>
+                                </li>
+                                <?php endif; ?>
+                            </ul>
+                            
+                            <div style="border-top: 1px solid rgba(255,180,0,0.2); padding-top: 1rem; margin-top: 1rem;">
+                                <div style="display: flex; gap: 5px; margin-bottom: 0.5rem;">
+                                    <i class="bi bi-clock" style="color: var(--gold);"></i>
+                                    <small style="color: var(--text-light);">Selesai: <?= htmlspecialchars($service['delivery_time']) ?></small>
+                                </div>
+                                <div style="display: flex; gap: 5px;">
+                                    <i class="bi bi-star-fill" style="color: var(--gold);"></i>
+                                    <small style="color: var(--text-light);">Perfect for: <?= htmlspecialchars($service['perfect_for']) ?></small>
+                                </div>
+                            </div>
+                            
+                            <!-- CTA Buttons -->
+                            <div class="d-grid gap-2 mt-3">
+                                <a href="https://wa.me/6283173868915?text=Halo, saya mau pesan layanan <?= urlencode($service['name']) ?>" 
+                                   class="btn-gold" target="_blank">
+                                    <i class="bi bi-whatsapp"></i> <?= $t['btn_order'] ?>
+                                </a>
+                                <a href="calculator.php?service=<?= $service['id'] ?>" 
+                                   class="btn btn-outline-warning" 
+                                   style="border-radius: 50px; padding: 12px; font-weight: 700; border-width: 2px;">
+                                    <i class="bi bi-calculator"></i> <?= $t['btn_calculate'] ?>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+            
+            <!-- No Results Message -->
+            <div id="noResults" style="display: none; text-align: center; padding: 3rem;">
+                <i class="bi bi-search" style="font-size: 4rem; color: var(--gold); opacity: 0.5;"></i>
+                <h3 style="color: var(--gold); margin-top: 1rem;">Gak ada layanan di kategori ini</h3>
+                <p style="color: var(--text-light);">Coba pilih kategori lain atau lihat semua layanan</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5" style="background: var(--gradient-primary);">
+        <div class="container">
+            <div class="row align-items-center" data-aos="fade-up">
+                <div class="col-lg-8">
+                    <h2 style="color: var(--gold); font-weight: 800; margin-bottom: 1rem; font-size: 2rem;">
+                        Gak Nemu Layanan yang Kamu Cari?
+                    </h2>
+                    <p style="color: var(--text-light); font-size: 1.1rem; margin: 0;">
+                        Chat aja langsung! Kami bisa custom layanan sesuai kebutuhan bisnis kamu. <strong style="color: var(--gold);">FREE Konsultasi!</strong>
+                    </p>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                    <a href="https://wa.me/6283173868915?text=Halo, saya mau konsultasi tentang layanan custom" 
+                       class="btn-gold btn-lg" target="_blank" style="font-size: 1.1rem;">
+                        <i class="bi bi-whatsapp"></i> CHAT SEKARANG
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Kenapa Harus Pilih Kami?</h2>
+                <p class="lead" style="color: var(--text-light); max-width: 800px; margin: 0 auto;">
+                    Bukan cuma murah, tapi kualitas terjamin & support terbaik!
+                </p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="text-center" style="background: linear-gradient(135deg, rgba(30, 92, 153, 0.1) 0%, rgba(15, 48, 87, 0.2) 100%); border: 1px solid rgba(255, 180, 0, 0.2); border-radius: 20px; padding: 2rem;">
+                        <div style="width: 80px; height: 80px; background: var(--gradient-gold); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                            <i class="bi bi-cash-coin" style="font-size: 2.5rem; color: var(--dark-blue);"></i>
+                        </div>
+                        <h5 style="color: var(--gold); font-weight: 700;">Harga Murah</h5>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">Mulai Rp 200rb aja!</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="text-center" style="background: linear-gradient(135deg, rgba(30, 92, 153, 0.1) 0%, rgba(15, 48, 87, 0.2) 100%); border: 1px solid rgba(255, 180, 0, 0.2); border-radius: 20px; padding: 2rem;">
+                        <div style="width: 80px; height: 80px; background: var(--gradient-gold); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                            <i class="bi bi-lightning-charge" style="font-size: 2.5rem; color: var(--dark-blue);"></i>
+                        </div>
+                        <h5 style="color: var(--gold); font-weight: 700;">Fast Response</h5>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">Support 24/7</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="text-center" style="background: linear-gradient(135deg, rgba(30, 92, 153, 0.1) 0%, rgba(15, 48, 87, 0.2) 100%); border: 1px solid rgba(255, 180, 0, 0.2); border-radius: 20px; padding: 2rem;">
+                        <div style="width: 80px; height: 80px; background: var(--gradient-gold); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                            <i class="bi bi-shield-check" style="font-size: 2.5rem; color: var(--dark-blue);"></i>
+                        </div>
+                        <h5 style="color: var(--gold); font-weight: 700;">Terpercaya</h5>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">NIB Resmi</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="text-center" style="background: linear-gradient(135deg, rgba(30, 92, 153, 0.1) 0%, rgba(15, 48, 87, 0.2) 100%); border: 1px solid rgba(255, 180, 0, 0.2); border-radius: 20px; padding: 2rem;">
+                        <div style="width: 80px; height: 80px; background: var(--gradient-gold); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                            <i class="bi bi-people" style="font-size: 2.5rem; color: var(--dark-blue);"></i>
+                        </div>
+                        <h5 style="color: var(--gold); font-weight: 700;">500+ Client</h5>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">Happy Customer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-5" style="background: linear-gradient(135deg, #0F3057 0%, #000000 100%); border-top: 2px solid var(--gold);">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Brand Info -->
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://situneo.my.id/logo" 
+                             alt="Situneo" width="60" height="60" 
+                             style="border-radius: 15px; margin-right: 15px;">
+                        <div>
+                            <h4 style="color: var(--gold); margin: 0; font-weight: 800;">SITUNEO DIGITAL</h4>
+                            <small style="color: var(--text-light);">Digital Harmony</small>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-light); line-height: 1.8; margin-bottom: 1rem;">
+                        Partner digital terpercaya sejak 2020. Udah bantu 500+ bisnis sukses online dengan harga paling terjangkau!
+                    </p>
+                    <div class="trust-badges">
+                        <div style="background: rgba(255,180,0,0.1); border: 1px solid var(--gold); 
+                             padding: 10px 20px; border-radius: 10px; display: inline-block; margin-bottom: 1rem;">
+                            <strong style="color: var(--gold);">NIB:</strong>
+                            <span style="color: var(--text-light); font-size: 0.9rem;"> 20250-9261-4570-4515-5453</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-4">
+                    <h5 style="color: var(--gold); font-weight: 700; margin-bottom: 1.5rem;">Menu Cepat</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a href="index.php" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-chevron-right" style="font-size: 0.8rem;"></i> Beranda
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="about.php" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-chevron-right" style="font-size: 0.8rem;"></i> Tentang Kami
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="services.php" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-chevron-right" style="font-size: 0.8rem;"></i> Layanan
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="portfolio.php" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-chevron-right" style="font-size: 0.8rem;"></i> Demo Website
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="pricing.php" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-chevron-right" style="font-size: 0.8rem;"></i> Harga Paket
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="contact.php" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-chevron-right" style="font-size: 0.8rem;"></i> Hubungi
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Popular Services -->
+                <div class="col-lg-3 col-md-4">
+                    <h5 style="color: var(--gold); font-weight: 700; margin-bottom: 1.5rem;">Layanan Populer</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a href="services.php#service-1" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-check-circle" style="font-size: 0.9rem;"></i> Bikin Website
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="services.php#service-2" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-check-circle" style="font-size: 0.9rem;"></i> Toko Online
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="services.php#service-7" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-check-circle" style="font-size: 0.9rem;"></i> SEO Specialist
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="services.php#service-11" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-check-circle" style="font-size: 0.9rem;"></i> Google Ads
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="services.php#service-15" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-check-circle" style="font-size: 0.9rem;"></i> Chatbot AI
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div class="col-lg-3 col-md-4">
+                    <h5 style="color: var(--gold); font-weight: 700; margin-bottom: 1.5rem;">Hubungi Kami</h5>
+                    <div class="mb-3">
+                        <i class="bi bi-whatsapp" style="color: var(--gold);"></i>
+                        <a href="https://wa.me/6283173868915" target="_blank" style="color: var(--text-light); text-decoration: none; margin-left: 8px;">
+                            +62 831-7386-8915
+                        </a>
+                    </div>
+                    <div class="mb-3">
+                        <i class="bi bi-envelope" style="color: var(--gold);"></i>
+                        <a href="mailto:support@situneo.my.id" style="color: var(--text-light); text-decoration: none; margin-left: 8px;">
+                            support@situneo.my.id
+                        </a>
+                    </div>
+                    <div class="mb-3">
+                        <i class="bi bi-geo-alt" style="color: var(--gold);"></i>
+                        <span style="color: var(--text-light); margin-left: 8px; font-size: 0.9rem;">
+                            Jakarta Timur, Indonesia
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <hr style="border-color: rgba(255,180,0,0.2); margin: 2rem 0;">
+            
+            <!-- Copyright -->
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <p style="color: var(--text-light); margin: 0; font-size: 0.95rem;">
+                        &copy; <?= date('Y') ?> <strong style="color: var(--gold);">SITUNEO DIGITAL</strong>. All Rights Reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p style="color: var(--text-light); margin: 0; font-size: 0.95rem;">
+                        Made with <i class="bi bi-heart-fill" style="color: #FF0000;"></i> in Jakarta, Indonesia
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <style>
+        footer a:hover {
+            color: var(--gold) !important;
+            padding-left: 5px;
+        }
+    </style>
+    
+    <!-- Back to Top Button -->
+    <button id="backToTop">
+        <i class="bi bi-arrow-up" style="font-size: 1.5rem;"></i>
+    </button>
+    
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/6283173868915?text=Halo%20Situneo,%20saya%20mau%20tanya%20tentang%20layanan" 
+       class="floating-wa" 
+       target="_blank">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+    
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+        
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar-premium');
+            const backToTop = document.getElementById('backToTop');
+            
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+                backToTop.style.display = 'block';
+            } else {
+                navbar.classList.remove('scrolled');
+                backToTop.style.display = 'none';
+            }
+        });
+        
+        // Back to Top
+        document.getElementById('backToTop').addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Filter Services Function
+        function filterServices(category) {
+            const items = document.querySelectorAll('.service-item');
+            const noResults = document.getElementById('noResults');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            let visibleCount = 0;
+            
+            // Update active button
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter items
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Show/hide no results message
+            if (visibleCount === 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+            
+            // Re-initialize AOS for filtered items
+            AOS.refresh();
+        }
+        
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const offset = 100;
+                        const targetPosition = target.offsetTop - offset;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // Network Background Animation
+        const canvas = document.createElement('canvas');
+        const networkBg = document.getElementById('networkBg');
+        networkBg.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const particles = [];
+        const particleCount = 80;
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2 + 1;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 180, 0, 0.5)';
+                ctx.fill();
+            }
+        }
+        
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+        
+        function connectParticles() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255, 180, 0, ${0.2 * (1 - distance / 150)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            connectParticles();
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
