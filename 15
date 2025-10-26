@@ -1,0 +1,49 @@
+<?php
+/**
+ * ========================================
+ * SITUNEO DIGITAL - Authentication Config
+ * NIB: 20250-9261-4570-4515-5453
+ * ========================================
+ */
+
+// Start session
+session_start();
+
+// Database configuration
+define('DB_HOST', 'localhost');
+define('DB_USER', 'nrrskfvk_user_situneo_digital');
+define('DB_PASS', 'Devin1922$');
+define('DB_NAME', 'nrrskfvk_situneo_digital');
+
+// Create connection
+ $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Set charset to utf8mb4 for full Unicode support
+mysqli_set_charset($conn, "utf8mb4");
+
+// App settings
+define('APP_NAME', 'SITUNEO DIGITAL');
+define('APP_URL', 'https://situneo.my.id');
+define('FROM_EMAIL', 'noreply@situneo.my.id');
+define('FROM_NAME', 'SITUNEO DIGITAL');
+
+// Session settings
+define('SESSION_LIFETIME', 86400); // 24 hours in seconds
+define('REMEMBER_LIFETIME', 2592000); // 30 days in seconds
+
+// Password settings
+define('MIN_PASSWORD_LENGTH', 8);
+
+// Role definitions (sesuaikan dengan struktur tabel Anda)
+define('ROLE_USER', 1);
+define('ROLE_ADMIN', 2);
+define('ROLE_SUPER_ADMIN', 3);
+
+// Include functions
+require_once 'functions.php';
+?>
