@@ -1,0 +1,232 @@
+<?php
+/**
+ * ========================================
+ * SITUNEO DIGITAL - SEO Meta Tags
+ * DENGAN GOOGLE ANALYTICS AKTIF
+ * ========================================
+ * 
+ * Usage di <head> section:
+ * $seo = [
+ *     'title' => 'Your Page Title',
+ *     'description' => 'Your page description',
+ *     'keywords' => 'keyword1, keyword2',
+ *     'image' => 'https://situneo.my.id/og-image.jpg',
+ *     'url' => 'https://situneo.my.id/page'
+ * ];
+ * include 'seo-meta.php';
+ */
+
+// Default values
+$default_seo = [
+    'title' => 'SITUNEO DIGITAL - Jasa Pembuatan Website & Aplikasi Profesional',
+    'description' => 'Jasa pembuatan website mulai Rp 350rb/halaman. Gratis demo 24 jam! Spesialis website company profile, toko online, landing page, dan aplikasi mobile. FREE domain, hosting & SSL.',
+    'keywords' => 'jasa pembuatan website, jasa website murah, website profesional, toko online, company profile, landing page, aplikasi mobile, web developer Jakarta',
+    'image' => (defined('SITE_URL') ? SITE_URL : 'https://situneo.my.id') . '/assets/images/og-image.jpg',
+    'url' => (defined('SITE_URL') ? SITE_URL : 'https://situneo.my.id') . $_SERVER['REQUEST_URI'],
+    'type' => 'website',
+    'site_name' => 'SITUNEO DIGITAL',
+    'locale' => 'id_ID',
+    'twitter_card' => 'summary_large_image',
+    'twitter_site' => '@situneo_digital'
+];
+
+// Merge with provided SEO data
+$seo = isset($seo) ? array_merge($default_seo, $seo) : $default_seo;
+
+// Get SITE_URL
+$site_url = defined('SITE_URL') ? SITE_URL : 'https://situneo.my.id';
+?>
+
+<!-- Primary Meta Tags -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title><?= htmlspecialchars($seo['title']) ?></title>
+<meta name="title" content="<?= htmlspecialchars($seo['title']) ?>">
+<meta name="description" content="<?= htmlspecialchars($seo['description']) ?>">
+<meta name="keywords" content="<?= htmlspecialchars($seo['keywords']) ?>">
+<meta name="author" content="SITUNEO DIGITAL">
+<meta name="robots" content="index, follow">
+<meta name="language" content="Indonesian">
+<meta name="revisit-after" content="7 days">
+<link rel="canonical" href="<?= htmlspecialchars($seo['url']) ?>">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="<?= htmlspecialchars($seo['type']) ?>">
+<meta property="og:url" content="<?= htmlspecialchars($seo['url']) ?>">
+<meta property="og:title" content="<?= htmlspecialchars($seo['title']) ?>">
+<meta property="og:description" content="<?= htmlspecialchars($seo['description']) ?>">
+<meta property="og:image" content="<?= htmlspecialchars($seo['image']) ?>">
+<meta property="og:site_name" content="<?= htmlspecialchars($seo['site_name']) ?>">
+<meta property="og:locale" content="<?= htmlspecialchars($seo['locale']) ?>">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="<?= htmlspecialchars($seo['twitter_card']) ?>">
+<meta property="twitter:url" content="<?= htmlspecialchars($seo['url']) ?>">
+<meta property="twitter:title" content="<?= htmlspecialchars($seo['title']) ?>">
+<meta property="twitter:description" content="<?= htmlspecialchars($seo['description']) ?>">
+<meta property="twitter:image" content="<?= htmlspecialchars($seo['image']) ?>">
+<meta property="twitter:site" content="<?= htmlspecialchars($seo['twitter_site']) ?>">
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="<?= $site_url ?>/favicon.ico">
+<link rel="apple-touch-icon" href="<?= $site_url ?>/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="<?= $site_url ?>/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="<?= $site_url ?>/favicon-16x16.png">
+
+<!-- Additional SEO -->
+<meta name="theme-color" content="#1E5C99">
+<meta name="msapplication-TileColor" content="#1E5C99">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Geo Tags -->
+<meta name="geo.region" content="ID-JK">
+<meta name="geo.placename" content="Jakarta Timur">
+<meta name="geo.position" content="-6.2416,106.8456">
+<meta name="ICBM" content="-6.2416, 106.8456">
+
+<!-- Business Schema.org -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "SITUNEO DIGITAL",
+  "image": "<?= $site_url ?>/assets/images/logo.png",
+  "description": "<?= htmlspecialchars($seo['description']) ?>",
+  "url": "<?= $site_url ?>",
+  "telephone": "+6283173868915",
+  "email": "support@situneo.my.id",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Jl. Bekasi Timur IX Dalam No. 27, Rawa Bunga",
+    "addressLocality": "Jatinegara",
+    "addressRegion": "Jakarta Timur",
+    "postalCode": "13330",
+    "addressCountry": "ID"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "-6.2416",
+    "longitude": "106.8456"
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "opens": "09:00",
+    "closes": "21:00"
+  },
+  "sameAs": [
+    "https://wa.me/6283173868915"
+  ],
+  "priceRange": "Rp 350,000 - Rp 50,000,000"
+}
+</script>
+
+<!-- ========================================
+     GOOGLE ANALYTICS 4 - AKTIF!
+     GA4 ID: G-RPW3MZ3RPY
+     ======================================== -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RPW3MZ3RPY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RPW3MZ3RPY', {
+    'send_page_view': true,
+    'anonymize_ip': true,
+    'cookie_flags': 'SameSite=None;Secure'
+  });
+</script>
+
+<!-- Facebook Pixel (Uncomment jika sudah punya Pixel ID) -->
+<!--
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', 'YOUR_PIXEL_ID');
+  fbq('track', 'PageView');
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"/>
+</noscript>
+-->
+
+<!-- ========================================
+     WHATSAPP FLOATING BUTTON
+     ======================================== -->
+<script>
+(function() {
+    // Only add if not already exists
+    if (document.querySelector('.whatsapp-float')) return;
+    
+    var whatsappBtn = document.createElement('a');
+    whatsappBtn.href = 'https://wa.me/6283173868915?text=Halo%20SITUNEO%20DIGITAL%2C%20saya%20ingin%20konsultasi%20tentang%20website';
+    whatsappBtn.target = '_blank';
+    whatsappBtn.rel = 'noopener noreferrer';
+    whatsappBtn.className = 'whatsapp-float';
+    whatsappBtn.setAttribute('aria-label', 'Chat WhatsApp');
+    whatsappBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>';
+    
+    var style = document.createElement('style');
+    style.innerHTML = `
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            animation: wa-pulse 2s infinite;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 2px 2px 15px rgba(37,211,102,0.5);
+        }
+        @keyframes wa-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37,211,102,0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37,211,102,0); }
+            100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
+        }
+        @media screen and (max-width: 768px) {
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+            .whatsapp-float svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    `;
+    
+    document.head.appendChild(style);
+    document.body.appendChild(whatsappBtn);
+})();
+</script>
