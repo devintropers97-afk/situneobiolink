@@ -1,0 +1,1388 @@
+<?php
+/**
+ * ========================================
+ * SITUNEO DIGITAL - Price Calculator
+ * Interactive Service Price Calculator
+ * NIB: 20250-9261-4570-4515-5453
+ * ========================================
+ */
+
+session_start();
+date_default_timezone_set('Asia/Jakarta');
+
+$lang = $_GET['lang'] ?? $_SESSION['lang'] ?? 'id';
+$_SESSION['lang'] = $lang;
+
+// Multi-language translations
+$text = [
+    'id' => [
+        'page_title' => 'Kalkulator Harga',
+        'hero_title' => 'Hitung Estimasi Budget Anda',
+        'hero_subtitle' => 'Kalkulator Harga Interaktif',
+        'hero_desc' => 'Pilih layanan yang Anda butuhkan, dan kami akan hitung estimasi harga untuk Anda. Gratis & tanpa komitmen!',
+        'nav_home' => 'Beranda',
+        'nav_about' => 'Tentang',
+        'nav_services' => 'Layanan',
+        'nav_portfolio' => 'Portfolio',
+        'nav_pricing' => 'Harga',
+        'nav_contact' => 'Kontak',
+        'nav_login' => 'Masuk',
+        'nav_register' => 'Daftar',
+        'section_select' => 'Pilih Layanan Anda',
+        'section_cart' => 'Keranjang Belanja',
+        'section_summary' => 'Ringkasan Harga',
+        'section_compare' => 'Bandingkan dengan Paket',
+        'btn_add' => 'Tambah',
+        'btn_remove' => 'Hapus',
+        'btn_clear' => 'Hapus Semua',
+        'btn_save' => 'Simpan Estimasi',
+        'btn_share' => 'Share ke WhatsApp',
+        'btn_consult' => 'Konsultasi Gratis',
+        'label_qty' => 'Jumlah',
+        'label_subtotal' => 'Subtotal',
+        'label_discount' => 'Diskon',
+        'label_total' => 'Total Harga',
+        'label_savings' => 'Hemat',
+        'empty_cart' => 'Keranjang masih kosong',
+        'empty_cart_desc' => 'Pilih layanan di atas untuk mulai menghitung harga',
+        'discount_info' => 'Diskon otomatis untuk pembelian multiple layanan',
+        'package_recommendation' => 'Rekomendasi Paket',
+        'package_better' => 'Paket lebih hemat!',
+        'choose_package' => 'Pilih Paket',
+        'continue_custom' => 'Lanjut Custom',
+    ],
+    'en' => [
+        'page_title' => 'Price Calculator',
+        'hero_title' => 'Calculate Your Budget Estimate',
+        'hero_subtitle' => 'Interactive Price Calculator',
+        'hero_desc' => 'Select the services you need, and we\'ll calculate the price estimate for you. Free & no commitment!',
+        'nav_home' => 'Home',
+        'nav_about' => 'About',
+        'nav_services' => 'Services',
+        'nav_portfolio' => 'Portfolio',
+        'nav_pricing' => 'Pricing',
+        'nav_contact' => 'Contact',
+        'nav_login' => 'Login',
+        'nav_register' => 'Register',
+        'section_select' => 'Select Your Services',
+        'section_cart' => 'Shopping Cart',
+        'section_summary' => 'Price Summary',
+        'section_compare' => 'Compare with Packages',
+        'btn_add' => 'Add',
+        'btn_remove' => 'Remove',
+        'btn_clear' => 'Clear All',
+        'btn_save' => 'Save Estimate',
+        'btn_share' => 'Share to WhatsApp',
+        'btn_consult' => 'Free Consultation',
+        'label_qty' => 'Quantity',
+        'label_subtotal' => 'Subtotal',
+        'label_discount' => 'Discount',
+        'label_total' => 'Total Price',
+        'label_savings' => 'Savings',
+        'empty_cart' => 'Cart is empty',
+        'empty_cart_desc' => 'Select services above to start calculating',
+        'discount_info' => 'Automatic discount for multiple service purchases',
+        'package_recommendation' => 'Package Recommendation',
+        'package_better' => 'Package saves more!',
+        'choose_package' => 'Choose Package',
+        'continue_custom' => 'Continue Custom',
+    ]
+];
+
+$t = $text[$lang];
+
+// WhatsApp Number
+$wa_number = '628170404594';
+$wa_link = "https://wa.me/{$wa_number}";
+
+// 29 Services Data (SAMA dengan services.php)
+$services = [
+    // Website Development
+    ['id' => 1, 'name' => 'Company Profile Website', 'price' => 800000, 'category' => 'Website', 'icon' => 'globe', 'unit' => 'project'],
+    ['id' => 2, 'name' => 'Landing Page', 'price' => 500000, 'category' => 'Website', 'icon' => 'file-earmark-text', 'unit' => 'page'],
+    ['id' => 3, 'name' => 'E-Commerce Website', 'price' => 1500000, 'category' => 'E-Commerce', 'icon' => 'cart', 'unit' => 'project'],
+    ['id' => 4, 'name' => 'Custom Web Application', 'price' => 3000000, 'category' => 'Website', 'icon' => 'laptop', 'unit' => 'project'],
+    ['id' => 5, 'name' => 'Website Redesign', 'price' => 1000000, 'category' => 'Website', 'icon' => 'arrow-repeat', 'unit' => 'project'],
+    
+    // SEO & Content
+    ['id' => 6, 'name' => 'SEO Basic', 'price' => 500000, 'category' => 'SEO', 'icon' => 'search', 'unit' => 'bulan'],
+    ['id' => 7, 'name' => 'SEO Premium', 'price' => 1000000, 'category' => 'SEO', 'icon' => 'graph-up-arrow', 'unit' => 'bulan'],
+    ['id' => 8, 'name' => 'Google My Business Setup', 'price' => 300000, 'category' => 'SEO', 'icon' => 'geo-alt', 'unit' => 'project'],
+    ['id' => 9, 'name' => 'Content Writing', 'price' => 150000, 'category' => 'Content', 'icon' => 'pencil', 'unit' => 'artikel'],
+    ['id' => 10, 'name' => 'SEO Monthly Report', 'price' => 200000, 'category' => 'SEO', 'icon' => 'file-bar-graph', 'unit' => 'bulan'],
+    ['id' => 11, 'name' => 'Website Speed Optimization', 'price' => 400000, 'category' => 'SEO', 'icon' => 'speedometer', 'unit' => 'project'],
+    
+    // Advertising
+    ['id' => 12, 'name' => 'Google Ads Management', 'price' => 800000, 'category' => 'Ads', 'icon' => 'google', 'unit' => 'bulan'],
+    ['id' => 13, 'name' => 'Meta Ads (FB & IG)', 'price' => 750000, 'category' => 'Ads', 'icon' => 'facebook', 'unit' => 'bulan'],
+    ['id' => 14, 'name' => 'TikTok Ads Management', 'price' => 700000, 'category' => 'Ads', 'icon' => 'tiktok', 'unit' => 'bulan'],
+    ['id' => 15, 'name' => 'LinkedIn Ads Management', 'price' => 900000, 'category' => 'Ads', 'icon' => 'linkedin', 'unit' => 'bulan'],
+    
+    // Dashboard & System
+    ['id' => 16, 'name' => 'Dashboard Client', 'price' => 1500000, 'category' => 'Dashboard', 'icon' => 'speedometer2', 'unit' => 'project'],
+    ['id' => 17, 'name' => 'Dashboard Admin', 'price' => 1500000, 'category' => 'Dashboard', 'icon' => 'gear', 'unit' => 'project'],
+    ['id' => 18, 'name' => 'Dashboard Sales', 'price' => 1500000, 'category' => 'Dashboard', 'icon' => 'graph-up', 'unit' => 'project'],
+    ['id' => 19, 'name' => 'Payment Gateway Integration', 'price' => 500000, 'category' => 'System', 'icon' => 'credit-card', 'unit' => 'channel'],
+    ['id' => 20, 'name' => 'CRM System', 'price' => 2500000, 'category' => 'System', 'icon' => 'people', 'unit' => 'project'],
+    
+    // Automation & AI
+    ['id' => 21, 'name' => 'Chatbot AI WhatsApp', 'price' => 1000000, 'category' => 'AI', 'icon' => 'robot', 'unit' => 'project'],
+    ['id' => 22, 'name' => 'WhatsApp Blast', 'price' => 500000, 'category' => 'Automation', 'icon' => 'whatsapp', 'unit' => '1000 kontak'],
+    
+    // Design
+    ['id' => 23, 'name' => 'Logo Design', 'price' => 300000, 'category' => 'Design', 'icon' => 'palette', 'unit' => 'project'],
+    ['id' => 24, 'name' => 'Brosur Digital', 'price' => 150000, 'category' => 'Design', 'icon' => 'file-image', 'unit' => 'design'],
+    
+    // Analytics
+    ['id' => 25, 'name' => 'Google Analytics 4 Setup', 'price' => 300000, 'category' => 'Analytics', 'icon' => 'bar-chart', 'unit' => 'project'],
+    ['id' => 26, 'name' => 'Conversion Tracking Setup', 'price' => 400000, 'category' => 'Analytics', 'icon' => 'bullseye', 'unit' => 'project'],
+    
+    // Hosting & Domain
+    ['id' => 27, 'name' => 'Domain + Hosting (1 tahun)', 'price' => 400000, 'category' => 'Hosting', 'icon' => 'server', 'unit' => 'tahun'],
+    
+    // Legal
+    ['id' => 28, 'name' => 'PT Perorangan Setup', 'price' => 2500000, 'category' => 'Legal', 'icon' => 'building', 'unit' => 'project'],
+    ['id' => 29, 'name' => 'NPWP & NIB', 'price' => 500000, 'category' => 'Legal', 'icon' => 'file-text', 'unit' => 'project'],
+];
+
+// Package Recommendations (untuk comparison)
+$packages = [
+    ['name' => 'STARTER', 'price' => 2500000, 'save' => 1000000, 'services' => 8, 'color' => '#4CAF50'],
+    ['name' => 'BUSINESS', 'price' => 4000000, 'save' => 2000000, 'services' => 12, 'color' => '#FF9800'],
+    ['name' => 'PREMIUM', 'price' => 6500000, 'save' => 3500000, 'services' => 15, 'color' => '#9C27B0'],
+];
+
+?>
+<!DOCTYPE html>
+<html lang="<?= $lang ?>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= $t['page_title'] ?> - Situneo Digital</title>
+    <meta name="description" content="Hitung estimasi biaya website dan digital marketing Anda secara real-time. Kalkulator harga interaktif gratis!">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-blue: #1E5C99;
+            --dark-blue: #0F3057;
+            --gold: #FFB400;
+            --light-bg: #F8F9FA;
+            --text-light: #E0E0E0;
+            --gradient-primary: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%);
+            --gradient-gold: linear-gradient(135deg, #FFB400 0%, #FF8C00 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+            background: var(--dark-blue);
+            color: #FFFFFF;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: rgba(15, 48, 87, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(15, 48, 87, 0.98) !important;
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--gold) !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-link {
+            color: var(--text-light) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--gold) !important;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 80%;
+        }
+        
+        .btn-login {
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-login:hover {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            transform: translateY(-2px);
+        }
+        
+        .btn-register {
+            background: var(--gradient-gold);
+            border: none;
+            color: var(--dark-blue);
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255,180,0,0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,180,0,0.5);
+            color: var(--dark-blue);
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            background: var(--gradient-primary);
+            padding: 120px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,180,0,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #FFFFFF 0%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Calculator Section */
+        .calculator-section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #FFFFFF 0%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Service Card */
+        .service-card {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.2) 0%, rgba(15, 48, 87, 0.3) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,180,0,0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .service-card:hover {
+            transform: translateX(5px);
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(255,180,0,0.3);
+        }
+        
+        .service-card.added {
+            border-color: var(--gold);
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.3) 0%, rgba(15, 48, 87, 0.4) 100%);
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        
+        .service-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        
+        .service-price {
+            font-size: 1.5rem;
+            color: var(--gold);
+            font-weight: 800;
+        }
+        
+        .service-unit {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            opacity: 0.8;
+        }
+        
+        /* Cart Section */
+        .cart-sticky {
+            position: sticky;
+            top: 100px;
+        }
+        
+        .cart-container {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.2) 0%, rgba(15, 48, 87, 0.3) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,180,0,0.3);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+        
+        .cart-item {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,180,0,0.2);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .cart-item-name {
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        
+        .cart-item-price {
+            color: var(--gold);
+            font-weight: 700;
+        }
+        
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 0.5rem;
+        }
+        
+        .qty-btn {
+            background: rgba(255,180,0,0.2);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .qty-btn:hover {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            transform: scale(1.1);
+        }
+        
+        .qty-input {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,180,0,0.3);
+            color: white;
+            width: 60px;
+            text-align: center;
+            border-radius: 8px;
+            padding: 5px;
+        }
+        
+        .btn-remove {
+            background: rgba(255,0,0,0.2);
+            border: 1px solid #FF0000;
+            color: #FF0000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-remove:hover {
+            background: #FF0000;
+            color: white;
+        }
+        
+        /* Summary */
+        .summary-box {
+            background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.2) 100%);
+            border: 2px solid var(--gold);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,180,0,0.2);
+        }
+        
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-label {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        
+        .summary-value {
+            color: white;
+            font-weight: 700;
+        }
+        
+        .summary-total {
+            font-size: 2rem;
+            color: var(--gold);
+            font-weight: 900;
+            text-shadow: 0 2px 10px rgba(255,180,0,0.5);
+        }
+        
+        .summary-discount {
+            color: #4CAF50;
+        }
+        
+        /* Buttons */
+        .btn-gold {
+            background: var(--gradient-gold);
+            border: none;
+            color: var(--dark-blue);
+            padding: 12px 30px;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(255,180,0,0.3);
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255,180,0,0.5);
+            color: var(--dark-blue);
+        }
+        
+        .btn-outline-gold {
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            padding: 12px 30px;
+            font-weight: 700;
+            border-radius: 50px;
+            background: transparent;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .btn-outline-gold:hover {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            transform: translateY(-3px);
+        }
+        
+        /* Package Comparison */
+        .package-card {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.2) 0%, rgba(15, 48, 87, 0.3) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,180,0,0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(255,180,0,0.3);
+        }
+        
+        .package-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .package-price {
+            font-size: 2rem;
+            color: white;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+        
+        .package-save {
+            background: rgba(76,175,80,0.2);
+            border: 1px solid #4CAF50;
+            color: #4CAF50;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+        
+        .empty-icon {
+            font-size: 5rem;
+            color: rgba(255,180,0,0.3);
+            margin-bottom: 1rem;
+        }
+        
+        .empty-text {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        /* Category Filter */
+        .category-filter {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .category-btn {
+            background: rgba(255,180,0,0.1);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 8px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .category-btn:hover,
+        .category-btn.active {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #0F3057 0%, #000000 100%);
+            border-top: 2px solid var(--gold);
+            padding: 3rem 0 1rem;
+        }
+        
+        footer h5 {
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        footer a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        footer a:hover {
+            color: var(--gold);
+            padding-left: 5px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            width: 45px;
+            height: 45px;
+            background: rgba(255,180,0,0.15);
+            border: 1px solid var(--gold);
+            border-radius: 12px;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            margin-right:10px;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            transform: translateY(-3px);
+        }
+        
+        /* Floating WhatsApp */
+        .float-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 5px 20px rgba(37,211,102,0.5);
+            z-index: 1000;
+            transition: all 0.3s;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .float-whatsapp:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(37,211,102,0.7);
+            color: white;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .cart-sticky {
+                position: static;
+            }
+            
+            .category-filter {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">
+                <img src="https://situneo.my.id/logo" alt="Situneo" width="50" height="50" style="border-radius: 12px;">
+                <span>SITUNEO</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.php"><?= $t['nav_home'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#about"><?= $t['nav_about'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.php"><?= $t['nav_services'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="portfolio.php"><?= $t['nav_portfolio'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="pricing.php"><?= $t['nav_pricing'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.php"><?= $t['nav_contact'] ?></a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="?lang=<?= $lang === 'id' ? 'en' : 'id' ?>">
+                            <i class="bi bi-translate"></i> <?= $lang === 'id' ? 'EN' : 'ID' ?>
+                        </a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a href="auth/login.php" class="btn-login"><?= $t['nav_login'] ?></a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a href="auth/register.php" class="btn-register"><?= $t['nav_register'] ?></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content text-center">
+                <div data-aos="fade-up">
+                    <h1 class="hero-title"><?= $t['hero_title'] ?></h1>
+                    <p class="hero-subtitle"><?= $t['hero_subtitle'] ?></p>
+                    <p class="lead" style="color: var(--text-light); max-width: 700px; margin: 0 auto;">
+                        <?= $t['hero_desc'] ?>
+                    </p>
+                </div>
+                
+                <div class="mt-4" data-aos="fade-up" data-aos-delay="100">
+                    <div style="display: inline-flex; gap: 2rem; flex-wrap: wrap; justify-content: center;">
+                        <div style="text-align: center;">
+                            <i class="bi bi-calculator" style="font-size: 2.5rem; color: var(--gold);"></i>
+                            <div style="color: var(--text-light); margin-top: 0.5rem;">Real-time Calculation</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <i class="bi bi-piggy-bank" style="font-size: 2.5rem; color: var(--gold);"></i>
+                            <div style="color: var(--text-light); margin-top: 0.5rem;">Auto Discount</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <i class="bi bi-share" style="font-size: 2.5rem; color: var(--gold);"></i>
+                            <div style="color: var(--text-light); margin-top: 0.5rem;">Share to WhatsApp</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Calculator Section -->
+    <section class="calculator-section">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Services Selection -->
+                <div class="col-lg-8">
+                    <div data-aos="fade-up">
+                        <h2 class="section-title"><?= $t['section_select'] ?></h2>
+                        
+                        <!-- Category Filter -->
+                        <div class="category-filter">
+                            <button class="category-btn active" data-category="all">
+                                <i class="bi bi-grid"></i> Semua
+                            </button>
+                            <button class="category-btn" data-category="Website">
+                                <i class="bi bi-globe"></i> Website
+                            </button>
+                            <button class="category-btn" data-category="SEO">
+                                <i class="bi bi-search"></i> SEO
+                            </button>
+                            <button class="category-btn" data-category="Ads">
+                                <i class="bi bi-megaphone"></i> Ads
+                            </button>
+                            <button class="category-btn" data-category="Dashboard">
+                                <i class="bi bi-speedometer"></i> Dashboard
+                            </button>
+                            <button class="category-btn" data-category="AI">
+                                <i class="bi bi-robot"></i> AI
+                            </button>
+                            <button class="category-btn" data-category="Design">
+                                <i class="bi bi-palette"></i> Design
+                            </button>
+                        </div>
+                        
+                        <!-- Services List -->
+                        <div id="servicesList">
+                            <?php foreach($services as $service): ?>
+                            <div class="service-card" 
+                                 data-id="<?= $service['id'] ?>"
+                                 data-category="<?= $service['category'] ?>"
+                                 data-name="<?= $service['name'] ?>"
+                                 data-price="<?= $service['price'] ?>"
+                                 data-unit="<?= $service['unit'] ?>">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <i class="bi bi-<?= $service['icon'] ?> service-icon"></i>
+                                    </div>
+                                    <div class="col">
+                                        <div class="service-name"><?= $service['name'] ?></div>
+                                        <div class="service-unit">per <?= $service['unit'] ?></div>
+                                    </div>
+                                    <div class="col-auto text-end">
+                                        <div class="service-price">
+                                            Rp <?= number_format($service['price'], 0, ',', '.') ?>
+                                        </div>
+                                        <button class="btn btn-sm btn-gold mt-2" onclick="addToCart(<?= $service['id'] ?>)">
+                                            <i class="bi bi-plus-circle"></i> <?= $t['btn_add'] ?>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cart & Summary -->
+                <div class="col-lg-4">
+                    <div class="cart-sticky" data-aos="fade-up">
+                        <div class="cart-container">
+                            <h3 class="section-title text-center">
+                                <i class="bi bi-cart3"></i> <?= $t['section_cart'] ?>
+                            </h3>
+                            
+                            <!-- Cart Items -->
+                            <div id="cartItems">
+                                <div class="empty-state">
+                                    <i class="bi bi-cart-x empty-icon"></i>
+                                    <div class="empty-text">
+                                        <strong><?= $t['empty_cart'] ?></strong><br>
+                                        <small><?= $t['empty_cart_desc'] ?></small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Summary -->
+                            <div id="summary" style="display: none;">
+                                <div class="summary-box">
+                                    <div class="summary-row">
+                                        <span class="summary-label"><?= $t['label_subtotal'] ?>:</span>
+                                        <span class="summary-value" id="subtotal">Rp 0</span>
+                                    </div>
+                                    <div class="summary-row" id="discountRow" style="display: none;">
+                                        <span class="summary-label"><?= $t['label_discount'] ?>:</span>
+                                        <span class="summary-value summary-discount" id="discount">- Rp 0</span>
+                                    </div>
+                                    <div class="summary-row">
+                                        <span class="summary-label" style="font-size: 1.3rem; font-weight: 700;"><?= $t['label_total'] ?>:</span>
+                                        <span class="summary-total" id="total">Rp 0</span>
+                                    </div>
+                                </div>
+                                
+                                <small class="d-block text-center mt-2" style="color: var(--text-light);">
+                                    <i class="bi bi-info-circle"></i> <?= $t['discount_info'] ?>
+                                </small>
+                                
+                                <!-- Action Buttons -->
+                                <div class="mt-3">
+                                    <button class="btn-gold mb-2" onclick="shareToWhatsApp()">
+                                        <i class="bi bi-whatsapp"></i> <?= $t['btn_share'] ?>
+                                    </button>
+                                    <button class="btn-outline-gold mb-2" onclick="clearCart()">
+                                        <i class="bi bi-trash"></i> <?= $t['btn_clear'] ?>
+                                    </button>
+                                    <a href="<?= $wa_link ?>?text=Halo, saya mau konsultasi harga" class="btn-outline-gold">
+                                        <i class="bi bi-chat-dots"></i> <?= $t['btn_consult'] ?>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Package Comparison -->
+            <div class="mt-5" id="packageComparison" style="display: none;">
+                <div class="text-center mb-4" data-aos="fade-up">
+                    <h2 class="section-title"><?= $t['section_compare'] ?></h2>
+                    <p class="lead" style="color: var(--text-light);">
+                        Bandingkan total harga custom Anda dengan paket bundling kami
+                    </p>
+                </div>
+                
+                <div class="row g-4" data-aos="fade-up" data-aos-delay="100">
+                    <?php foreach($packages as $pkg): ?>
+                    <div class="col-lg-4">
+                        <div class="package-card" style="border-color: <?= $pkg['color'] ?>;">
+                            <div class="package-name" style="color: <?= $pkg['color'] ?>;">
+                                <?= $pkg['name'] ?>
+                            </div>
+                            <div class="package-price">
+                                Rp <?= number_format($pkg['price'], 0, ',', '.') ?>
+                            </div>
+                            <div class="package-save mt-2 mb-3">
+                                <?= $t['label_savings'] ?> Rp <?= number_format($pkg['save']/1000000, 1) ?>jt
+                            </div>
+                            <p style="color: var(--text-light); margin-bottom: 1.5rem;">
+                                <?= $pkg['services'] ?>+ layanan termasuk
+                            </p>
+                            <a href="pricing.php#<?= strtolower($pkg['name']) ?>" class="btn-gold">
+                                <i class="bi bi-box-arrow-up-right"></i> <?= $t['choose_package'] ?>
+                            </a>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                
+                <div class="text-center mt-4" data-aos="fade-up">
+                    <p style="color: var(--text-light); font-size: 1.1rem;">
+                        <i class="bi bi-lightbulb" style="color: var(--gold);"></i>
+                        Paket bundling bisa hemat hingga <strong style="color: var(--gold);">40-60%</strong> dari harga custom!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row g-4">
+                <!-- Brand Info -->
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://situneo.my.id/logo" 
+                             alt="Situneo" width="60" height="60" 
+                             style="border-radius: 15px; margin-right: 15px;">
+                        <div>
+                            <h4 style="color: var(--gold); margin: 0; font-weight: 800;">SITUNEO DIGITAL</h4>
+                            <small style="color: var(--text-light);">Digital Harmony</small>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-light); line-height: 1.8; margin-bottom: 1rem;">
+                        Partner digital terpercaya sejak 2020. Udah bantu 500+ bisnis sukses online dengan harga paling terjangkau!
+                    </p>
+                    <div class="mb-3">
+                        <div style="display: inline-block; padding: 8px 15px; background: rgba(255,180,0,0.15); border: 1px solid var(--gold); border-radius: 8px;">
+                            <small style="color: var(--text-light);">NIB:</small>
+                            <strong style="color: var(--gold); margin-left: 5px;">20250-9261-4570-4515-5453</strong>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="<?= $wa_link ?>" target="_blank" title="WhatsApp">
+                            <i class="bi bi-whatsapp"></i>
+                        </a>
+                        <a href="#" target="_blank" title="Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" target="_blank" title="Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" target="_blank" title="LinkedIn">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                        <a href="#" target="_blank" title="TikTok">
+                            <i class="bi bi-tiktok"></i>
+                        </a>
+                        <a href="#" target="_blank" title="YouTube">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-4">
+                    <h5>Menu Cepat</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.php"><i class="bi bi-chevron-right"></i> Beranda</a></li>
+                        <li><a href="about.php"><i class="bi bi-chevron-right"></i> Tentang Kami</a></li>
+                        <li><a href="services.php"><i class="bi bi-chevron-right"></i> Layanan</a></li>
+                        <li><a href="portfolio.php"><i class="bi bi-chevron-right"></i> Demo Website</a></li>
+                        <li><a href="pricing.php"><i class="bi bi-chevron-right"></i> Harga Paket</a></li>
+                        <li><a href="calculator.php"><i class="bi bi-chevron-right"></i> Kalkulator Harga</a></li>
+                        <li><a href="contact.php"><i class="bi bi-chevron-right"></i> Kontak</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Popular Services -->
+                <div class="col-lg-3 col-md-4">
+                    <h5>Layanan Populer</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="services.php#service-1"><i class="bi bi-check-circle"></i> Pembuatan Website</a></li>
+                        <li><a href="services.php#service-3"><i class="bi bi-check-circle"></i> E-Commerce</a></li>
+                        <li><a href="services.php#service-7"><i class="bi bi-check-circle"></i> SEO Premium</a></li>
+                        <li><a href="services.php#service-10"><i class="bi bi-check-circle"></i> Google Ads</a></li>
+                        <li><a href="services.php#service-15"><i class="bi bi-check-circle"></i> Chatbot AI</a></li>
+                        <li><a href="services.php#service-17"><i class="bi bi-check-circle"></i> Dashboard Custom</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="col-lg-3 col-md-4">
+                    <h5>Hubungi Kami</h5>
+                    <ul class="list-unstyled">
+                        <li style="margin-bottom: 1rem;">
+                            <i class="bi bi-envelope" style="color: var(--gold); margin-right: 10px;"></i>
+                            <a href="mailto:info@situneo.my.id" style="color: var(--text-light);">info@situneo.my.id</a>
+                        </li>
+                        <li style="margin-bottom: 1rem;">
+                            <i class="bi bi-whatsapp" style="color: var(--gold); margin-right: 10px;"></i>
+                            <a href="<?= $wa_link ?>" style="color: var(--text-light);">+62 817-040-4594</a>
+                        </li>
+                        <li style="margin-bottom: 1rem;">
+                            <i class="bi bi-geo-alt" style="color: var(--gold); margin-right: 10px;"></i>
+                            <span style="color: var(--text-light);">Jakarta, Indonesia</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-clock" style="color: var(--gold); margin-right: 10px;"></i>
+                            <span style="color: var(--text-light);">24/7 Online</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr style="border-color: rgba(255,180,0,0.2); margin: 2rem 0;">
+            
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p style="color: var(--text-light); margin: 0; font-size: 0.95rem;">
+                        &copy; 2025 <strong style="color: var(--gold);">Situneo Digital</strong>. All Rights Reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p style="color: var(--text-light); margin: 0; font-size: 0.95rem;">
+                        Made with <i class="bi bi-heart-fill" style="color: #FF0000;"></i> in Jakarta, Indonesia
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Floating WhatsApp Button -->
+    <a href="<?= $wa_link ?>?text=Halo, saya mau tanya tentang kalkulator harga" 
+       class="float-whatsapp" 
+       target="_blank"
+       title="Chat WhatsApp">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Services data
+        const servicesData = <?= json_encode($services) ?>;
+        
+        // Cart data
+        let cart = [];
+        
+        // Category filter
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active from all
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                // Add active to clicked
+                this.classList.add('active');
+                
+                const category = this.getAttribute('data-category');
+                filterServices(category);
+            });
+        });
+        
+        function filterServices(category) {
+            const cards = document.querySelectorAll('.service-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        // Add to cart
+        function addToCart(serviceId) {
+            const service = servicesData.find(s => s.id === serviceId);
+            const existingItem = cart.find(item => item.id === serviceId);
+            
+            if (existingItem) {
+                existingItem.qty++;
+            } else {
+                cart.push({
+                    id: service.id,
+                    name: service.name,
+                    price: service.price,
+                    unit: service.unit,
+                    qty: 1
+                });
+            }
+            
+            updateCart();
+            
+            // Visual feedback
+            const card = document.querySelector(`.service-card[data-id="${serviceId}"]`);
+            card.classList.add('added');
+            setTimeout(() => card.classList.remove('added'), 300);
+        }
+        
+        // Remove from cart
+        function removeFromCart(serviceId) {
+            cart = cart.filter(item => item.id !== serviceId);
+            updateCart();
+        }
+        
+        // Update quantity
+        function updateQty(serviceId, qty) {
+            const item = cart.find(item => item.id === serviceId);
+            if (item) {
+                item.qty = Math.max(1, parseInt(qty));
+                updateCart();
+            }
+        }
+        
+        // Clear cart
+        function clearCart() {
+            if (confirm('Hapus semua item dari keranjang?')) {
+                cart = [];
+                updateCart();
+            }
+        }
+        
+        // Update cart display
+        function updateCart() {
+            const cartItems = document.getElementById('cartItems');
+            const summary = document.getElementById('summary');
+            const comparison = document.getElementById('packageComparison');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="empty-state">
+                        <i class="bi bi-cart-x empty-icon"></i>
+                        <div class="empty-text">
+                            <strong><?= $t['empty_cart'] ?></strong><br>
+                            <small><?= $t['empty_cart_desc'] ?></small>
+                        </div>
+                    </div>
+                `;
+                summary.style.display = 'none';
+                comparison.style.display = 'none';
+                return;
+            }
+            
+            // Show cart items
+            cartItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div class="cart-item-name">${item.name}</div>
+                        <button class="btn-remove" onclick="removeFromCart(${item.id})">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="qty-control">
+                            <div class="qty-btn" onclick="updateQty(${item.id}, ${item.qty - 1})">
+                                <i class="bi bi-dash"></i>
+                            </div>
+                            <input type="number" class="qty-input" value="${item.qty}" 
+                                   onchange="updateQty(${item.id}, this.value)" min="1">
+                            <div class="qty-btn" onclick="updateQty(${item.id}, ${item.qty + 1})">
+                                <i class="bi bi-plus"></i>
+                            </div>
+                        </div>
+                        <div class="cart-item-price">
+                            Rp ${formatNumber(item.price * item.qty)}
+                        </div>
+                    </div>
+                    <small style="color: var(--text-light); opacity: 0.8;">per ${item.unit}</small>
+                </div>
+            `).join('');
+            
+            // Calculate totals
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            let discount = 0;
+            
+            // Apply discount based on number of services
+            const numServices = cart.length;
+            if (numServices >= 5) {
+                discount = subtotal * 0.15; // 15% discount for 5+ services
+            } else if (numServices >= 3) {
+                discount = subtotal * 0.10; // 10% discount for 3-4 services
+            }
+            
+            const total = subtotal - discount;
+            
+            // Update summary
+            document.getElementById('subtotal').textContent = 'Rp ' + formatNumber(subtotal);
+            document.getElementById('discount').textContent = '- Rp ' + formatNumber(discount);
+            document.getElementById('total').textContent = 'Rp ' + formatNumber(total);
+            
+            if (discount > 0) {
+                document.getElementById('discountRow').style.display = 'flex';
+            } else {
+                document.getElementById('discountRow').style.display = 'none';
+            }
+            
+            summary.style.display = 'block';
+            comparison.style.display = 'block';
+            
+            // Save to localStorage
+            localStorage.setItem('calculatorCart', JSON.stringify(cart));
+        }
+        
+        // Format number
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+        
+        // Share to WhatsApp
+        function shareToWhatsApp() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const numServices = cart.length;
+            let discount = 0;
+            
+            if (numServices >= 5) {
+                discount = subtotal * 0.15;
+            } else if (numServices >= 3) {
+                discount = subtotal * 0.10;
+            }
+            
+            const total = subtotal - discount;
+            
+            let message = '*ESTIMASI HARGA SITUNEO DIGITAL*\n\n';
+            message += '*Layanan yang dipilih:*\n';
+            cart.forEach((item, index) => {
+                message += `${index + 1}. ${item.name}\n`;
+                message += `   ${item.qty} ${item.unit} x Rp ${formatNumber(item.price)}\n`;
+                message += `   Subtotal: Rp ${formatNumber(item.price * item.qty)}\n\n`;
+            });
+            
+            message += `*Subtotal:* Rp ${formatNumber(subtotal)}\n`;
+            if (discount > 0) {
+                message += `*Diskon:* - Rp ${formatNumber(discount)}\n`;
+            }
+            message += `*TOTAL:* Rp ${formatNumber(total)}\n\n`;
+            message += 'Saya tertarik untuk konsultasi lebih lanjut. Terima kasih!';
+            
+            const waUrl = '<?= $wa_link ?>?text=' + encodeURIComponent(message);
+            window.open(waUrl, '_blank');
+        }
+        
+       // Load cart from localStorage
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedCart = localStorage.getItem('calculatorCart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                updateCart();
+            }
+        });
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Service card click to add
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Don't trigger if clicking the add button
+                if (!e.target.closest('button')) {
+                    const serviceId = parseInt(this.getAttribute('data-id'));
+                    addToCart(serviceId);
+                }
+            });
+        });
+        
+        // Save estimate
+        function saveEstimate() {
+            const estimateData = {
+                cart: cart,
+                date: new Date().toISOString(),
+                subtotal: cart.reduce((sum, item) => sum + (item.price * item.qty), 0)
+            };
+            
+            // Save to localStorage
+            const estimates = JSON.parse(localStorage.getItem('savedEstimates') || '[]');
+            estimates.push(estimateData);
+            localStorage.setItem('savedEstimates', JSON.stringify(estimates));
+            
+            alert('Estimasi berhasil disimpan!');
+        }
+        
+        // Log page view
+        console.log('Calculator page loaded successfully');
+        console.log('Total services available: <?= count($services) ?>');
+    </script>
+</body>
+</html>
