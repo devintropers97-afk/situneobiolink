@@ -1,0 +1,1921 @@
+<?php
+/**
+ * ========================================
+ * SITUNEO DIGITAL - Pricing Page
+ * 6 Paket Bundling Lengkap + Comparison
+ * NIB: 20250-9261-4570-4515-5453
+ * ========================================
+ */
+
+session_start();
+date_default_timezone_set('Asia/Jakarta');
+
+$lang = $_GET['lang'] ?? $_SESSION['lang'] ?? 'id';
+$_SESSION['lang'] = $lang;
+
+// Multi-language translations
+$text = [
+    'id' => [
+        'page_title' => 'Harga Paket',
+        'hero_title' => 'Paket Bundling Super Hemat',
+        'hero_subtitle' => 'Hemat Hingga Rp 10 Juta dengan Paket Lengkap',
+        'hero_desc' => 'Pilih paket yang sesuai dengan kebutuhan bisnis Anda. Semua paket include FREE konsultasi!',
+        'nav_home' => 'Beranda',
+        'nav_about' => 'Tentang',
+        'nav_services' => 'Layanan',
+        'nav_portfolio' => 'Portfolio',
+        'nav_pricing' => 'Harga',
+        'nav_contact' => 'Kontak',
+        'nav_login' => 'Masuk',
+        'nav_register' => 'Daftar',
+        'btn_choose' => 'Pilih Paket',
+        'btn_consult' => 'Konsultasi Gratis',
+        'btn_whatsapp' => 'Chat WhatsApp',
+        'section_packages' => 'Pilih Paket Anda',
+        'section_comparison' => 'Perbandingan Fitur Paket',
+        'section_why' => 'Kenapa Pilih Paket Bundling?',
+        'section_faq' => 'Pertanyaan Seputar Paket',
+        'section_cta' => 'Siap Mulai Project Anda?',
+        'popular_badge' => 'PALING LAKU',
+        'best_value' => 'BEST VALUE',
+        'most_complete' => 'TERLENGKAP',
+        'save_up_to' => 'HEMAT',
+    ],
+    'en' => [
+        'page_title' => 'Pricing',
+        'hero_title' => 'Super Saving Bundle Packages',
+        'hero_subtitle' => 'Save Up To Rp 10 Million with Complete Package',
+        'hero_desc' => 'Choose a package that suits your business needs. All packages include FREE consultation!',
+        'nav_home' => 'Home',
+        'nav_about' => 'About',
+        'nav_services' => 'Services',
+        'nav_portfolio' => 'Portfolio',
+        'nav_pricing' => 'Pricing',
+        'nav_contact' => 'Contact',
+        'nav_login' => 'Login',
+        'nav_register' => 'Register',
+        'btn_choose' => 'Choose Package',
+        'btn_consult' => 'Free Consultation',
+        'btn_whatsapp' => 'Chat WhatsApp',
+        'section_packages' => 'Choose Your Package',
+        'section_comparison' => 'Package Features Comparison',
+        'section_why' => 'Why Choose Bundle Package?',
+        'section_faq' => 'Package FAQs',
+        'section_cta' => 'Ready to Start Your Project?',
+        'popular_badge' => 'MOST POPULAR',
+        'best_value' => 'BEST VALUE',
+        'most_complete' => 'MOST COMPLETE',
+        'save_up_to' => 'SAVE',
+    ]
+];
+
+$t = $text[$lang];
+
+// WhatsApp Number (SAMA dengan file sebelumnya)
+$wa_number = '628170404594';
+$wa_link = "https://wa.me/{$wa_number}";
+
+// 6 Paket Bundling LENGKAP
+$packages = [
+    [
+        'id' => 'starter',
+        'name' => 'STARTER',
+        'tagline' => 'Cocok untuk pemula & UMKM',
+        'price_original' => 3500000,
+        'price_promo' => 2500000,
+        'save' => 1000000,
+        'popular' => false,
+        'badge' => '',
+        'icon' => 'rocket-takeoff',
+        'color' => '#4CAF50',
+        'features' => [
+            'Website 5 halaman',
+            'Domain .com 1 tahun',
+            'Hosting 1 tahun',
+            'SSL Certificate',
+            'Free Logo Design',
+            '5 Artikel SEO',
+            'Maintenance 1 bulan',
+            'Responsive Mobile',
+            'SEO Basic',
+            'Chatbot AI WhatsApp',
+            'Google Analytics 4',
+            'Speed Optimization',
+        ],
+        'features_detail' => [
+            'pages' => 5,
+            'domain' => '1 tahun (.com)',
+            'hosting' => '1 tahun',
+            'ssl' => true,
+            'logo' => 'Basic',
+            'seo' => 'Basic',
+            'articles' => 5,
+            'ecommerce' => false,
+            'payment_gateway' => false,
+            'dashboard' => false,
+            'crm' => false,
+            'ads' => false,
+            'chatbot' => 'Basic',
+            'analytics' => 'Basic',
+            'reports' => false,
+            'maintenance' => '1 bulan',
+            'support' => 'Email',
+            'revisions' => '3x',
+        ]
+    ],
+    [
+        'id' => 'business',
+        'name' => 'BUSINESS',
+        'tagline' => 'Untuk bisnis yang mau scale',
+        'price_original' => 6000000,
+        'price_promo' => 4000000,
+        'save' => 2000000,
+        'popular' => true,
+        'badge' => 'PALING LAKU',
+        'icon' => 'briefcase',
+        'color' => '#FF9800',
+        'features' => [
+            'Website 8 halaman',
+            'SEO Advanced',
+            'E-Commerce Ready',
+            'Payment Gateway',
+            'Domain .com 2 tahun',
+            'Hosting 2 tahun',
+            'Free Logo + Brosur',
+            '10 Artikel SEO',
+            'Maintenance 3 bulan',
+            'Admin Dashboard',
+            'Live Chat Integration',
+            'Google Analytics 4',
+            'Conversion Tracking',
+            'Chatbot AI Advanced',
+            'Email Marketing Setup',
+            'Social Media Integration',
+        ],
+        'features_detail' => [
+            'pages' => 8,
+            'domain' => '2 tahun (.com)',
+            'hosting' => '2 tahun',
+            'ssl' => true,
+            'logo' => 'Premium + Brosur',
+            'seo' => 'Advanced',
+            'articles' => 10,
+            'ecommerce' => true,
+            'payment_gateway' => 'Single',
+            'dashboard' => 'Basic',
+            'crm' => false,
+            'ads' => false,
+            'chatbot' => 'Advanced',
+            'analytics' => 'Advanced',
+            'reports' => false,
+            'maintenance' => '3 bulan',
+            'support' => 'WhatsApp',
+            'revisions' => '5x',
+        ]
+    ],
+    [
+        'id' => 'premium',
+        'name' => 'PREMIUM',
+        'tagline' => 'Untuk dominasi pasar lokal',
+        'price_original' => 10000000,
+        'price_promo' => 6500000,
+        'save' => 3500000,
+        'popular' => false,
+        'badge' => 'BEST VALUE',
+        'icon' => 'trophy',
+        'color' => '#9C27B0',
+        'features' => [
+            'Website 10 halaman',
+            'Full SEO Optimization',
+            'Multi-Language Support',
+            'Admin Dashboard Advanced',
+            'Domain .com 3 tahun',
+            'Hosting 3 tahun',
+            'Free All Design (Logo, Brosur, Banner)',
+            '20 Artikel SEO',
+            'Maintenance 6 bulan',
+            'Google Ads Setup',
+            'Meta Ads Setup',
+            'TikTok Ads Setup',
+            'WhatsApp Business API',
+            'Email Marketing',
+            'CRM Basic',
+            'Google My Business',
+            'Monthly Report (3 bulan)',
+            'Priority Support',
+        ],
+        'features_detail' => [
+            'pages' => 10,
+            'domain' => '3 tahun (.com)',
+            'hosting' => '3 tahun',
+            'ssl' => true,
+            'logo' => 'Full Branding',
+            'seo' => 'Full',
+            'articles' => 20,
+            'ecommerce' => true,
+            'payment_gateway' => 'Multi-channel',
+            'dashboard' => 'Advanced',
+            'crm' => 'Basic',
+            'ads' => '3 Platform Setup',
+            'chatbot' => 'Advanced + WhatsApp',
+            'analytics' => 'Full',
+            'reports' => '3 bulan',
+            'maintenance' => '6 bulan',
+            'support' => 'Priority',
+            'revisions' => 'Unlimited',
+        ]
+    ],
+    [
+        'id' => 'professional',
+        'name' => 'PROFESSIONAL',
+        'tagline' => 'Untuk bisnis yang serius scale',
+        'price_original' => 15000000,
+        'price_promo' => 9500000,
+        'save' => 5500000,
+        'popular' => false,
+        'badge' => '',
+        'icon' => 'gem',
+        'color' => '#2196F3',
+        'features' => [
+            'Semua Fitur PREMIUM',
+            'Website Portfolio (15 halaman)',
+            'E-Commerce Full Featured',
+            'Payment Gateway Multi-Channel',
+            'Admin Dashboard Pro',
+            'CRM System Integration',
+            'Social Media Integration',
+            'SEO Premium (3 bulan)',
+            'All Ads Management (6 bulan)',
+            'Monthly Report (6 bulan)',
+            'Google Analytics 4 + Conversion Tracking',
+            'WhatsApp Blast 1000 nomor',
+            'Dedicated Account Manager',
+            'Training & Documentation',
+            'Priority Support 24/7',
+        ],
+        'features_detail' => [
+            'pages' => 15,
+            'domain' => '3 tahun (.com)',
+            'hosting' => '3 tahun Premium',
+            'ssl' => true,
+            'logo' => 'Full Branding Package',
+            'seo' => 'Premium',
+            'articles' => 30,
+            'ecommerce' => 'Full',
+            'payment_gateway' => 'Multi-channel',
+            'dashboard' => 'Pro',
+            'crm' => 'Advanced',
+            'ads' => 'All Platform',
+            'chatbot' => 'Advanced Multi-platform',
+            'analytics' => 'Full + Conversion',
+            'reports' => '6 bulan',
+            'maintenance' => '6 bulan',
+            'support' => '24/7 Priority',
+            'revisions' => 'Unlimited',
+        ]
+    ],
+    [
+        'id' => 'enterprise',
+        'name' => 'ENTERPRISE',
+        'tagline' => 'Untuk perusahaan besar',
+        'price_original' => 25000000,
+        'price_promo' => 17000000,
+        'save' => 8000000,
+        'popular' => false,
+        'badge' => '',
+        'icon' => 'building',
+        'color' => '#FF5722',
+        'features' => [
+            'Semua Fitur PROFESSIONAL',
+            'Custom Web Application (30 halaman)',
+            'Mobile App (Android + iOS)',
+            'Multi-Language Support',
+            'Advanced Analytics & Reporting',
+            'API Integration Unlimited',
+            'Dedicated Server VPS',
+            'SEO Premium (12 bulan)',
+            'All Ads Management (12 bulan)',
+            'Monthly Report (12 bulan)',
+            'CRM Advanced',
+            'Website Speed Optimization',
+            'SSL & Security Suite',
+            'Full Legal (PT + NPWP + Trademark)',
+            'WhatsApp Blast Unlimited',
+            'Support & Maintenance 12 bulan',
+            'Dedicated Project Manager',
+            'Priority Support 24/7',
+        ],
+        'features_detail' => [
+            'pages' => 30,
+            'domain' => '3 tahun (.com + .id)',
+            'hosting' => 'VPS Dedicated',
+            'ssl' => 'Enterprise',
+            'logo' => 'Complete Brand Identity',
+            'seo' => 'Premium',
+            'articles' => 50,
+            'ecommerce' => 'Full + Multi-vendor',
+            'payment_gateway' => 'All channels',
+            'dashboard' => 'Enterprise',
+            'crm' => 'Enterprise',
+            'ads' => 'All Platform',
+            'chatbot' => 'AI Advanced',
+            'analytics' => 'Enterprise Suite',
+            'reports' => '12 bulan',
+            'maintenance' => '12 bulan',
+            'support' => 'Dedicated 24/7',
+            'revisions' => 'Unlimited',
+        ]
+    ],
+    [
+        'id' => 'ultra',
+        'name' => 'ULTRA ENTERPRISE',
+        'tagline' => 'Solusi ultimate untuk korporat',
+        'price_original' => 35000000,
+        'price_promo' => 25000000,
+        'save' => 10000000,
+        'popular' => false,
+        'badge' => 'TERLENGKAP',
+        'icon' => 'stars',
+        'color' => '#FFD700',
+        'features' => [
+            'Semua Fitur ENTERPRISE',
+            'Custom ERP System',
+            'AI Chatbot Advanced',
+            'Blockchain Integration (optional)',
+            'Cloud Infrastructure Premium',
+            'Load Balancer & CDN',
+            'Security Suite Enterprise',
+            'Training Team (On-site/Online)',
+            'White Label Solution',
+            'SEO Premium (24 bulan)',
+            'All Ads Management (24 bulan)',
+            'Monthly Report (24 bulan)',
+            'Full Legal (PT + NPWP + Trademark)',
+            'Copywriting 20 Landing Page',
+            '50 Artikel SEO',
+            'Support & Maintenance 24 bulan',
+            '2 Dedicated Developers',
+            'Revenue Sharing Partnership',
+        ],
+        'features_detail' => [
+            'pages' => 'Unlimited',
+            'domain' => '5 tahun (Multi TLD)',
+            'hosting' => 'Cloud Premium',
+            'ssl' => 'Enterprise Premium',
+            'logo' => 'Complete Brand Identity + Guidelines',
+            'seo' => 'Premium',
+            'articles' => 100,
+            'ecommerce' => 'Custom Multi-vendor',
+            'payment_gateway' => 'All + International',
+            'dashboard' => 'Custom Enterprise',
+            'crm' => 'Custom Enterprise',
+            'ads' => 'All Platform',
+            'chatbot' => 'AI Advanced Multi-platform',
+            'analytics' => 'Custom Enterprise',
+            'reports' => '24 bulan',
+            'maintenance' => '24 bulan',
+            'support' => 'Dedicated Team 24/7',
+            'revisions' => 'Unlimited',
+        ]
+    ],
+];
+
+// FAQ Data
+$faqs = [
+    [
+        'q' => 'Apa bedanya paket bundling dengan beli layanan terpisah?',
+        'a' => 'Paket bundling jauh lebih hemat! Misalnya paket Business (Rp 4 juta) kalau beli terpisah bisa mencapai Rp 6 juta. Plus Anda dapat prioritas support dan proses lebih cepat karena semua dikerjakan dalam satu project.'
+    ],
+    [
+        'q' => 'Bisa custom paket sesuai kebutuhan?',
+        'a' => 'Tentu bisa! Kalau paket yang ada belum sesuai, Anda bisa konsultasi dengan tim kami untuk membuat paket custom. Atau gunakan kalkulator harga kami untuk estimasi paket custom Anda.'
+    ],
+    [
+        'q' => 'Apakah ada biaya tambahan setelah paket selesai?',
+        'a' => 'Tidak ada biaya tersembunyi! Semua yang tertera di paket sudah include. Setelah masa maintenance habis, Anda bisa perpanjang hosting/domain atau upgrade paket. Website tetap jadi milik Anda 100%.'
+    ],
+    [
+        'q' => 'Berapa lama pengerjaan tiap paket?',
+        'a' => 'Starter: 3-5 hari kerja, Business: 5-7 hari, Premium: 7-14 hari, Professional: 14-21 hari, Enterprise: 21-30 hari, Ultra: 30-60 hari. Durasi bisa lebih cepat tergantung kompleksitas dan kelengkapan materi dari klien.'
+    ],
+    [
+        'q' => 'Apakah bisa cicil pembayaran?',
+        'a' => 'Bisa! Untuk paket Premium ke atas kami menyediakan cicilan 2-3x. DP minimal 50%, sisanya bisa dicicil. Hubungi tim kami untuk detail skema cicilan.'
+    ],
+    [
+        'q' => 'Apa yang terjadi setelah masa maintenance habis?',
+        'a' => 'Website tetap online dan berfungsi normal. Anda bisa perpanjang maintenance dengan harga khusus member, atau kelola sendiri. Kami juga menyediakan paket maintenance bulanan mulai dari Rp 300rb/bulan.'
+    ],
+    [
+        'q' => 'Apakah domain dan hosting bisa dipindah ke tempat lain?',
+        'a' => 'Bisa! Domain dan hosting yang kami buatkan atas nama Anda, jadi Anda punya akses penuh. Anda bebas pindah hosting kapanpun. Kami akan bantu proses migrasi jika diperlukan (free untuk member).'
+    ],
+    [
+        'q' => 'Apa garansi yang diberikan?',
+        'a' => 'Kami berikan garansi kepuasan 100%. Jika hasil tidak sesuai brief, kami revisi sampai sesuai (unlimited revisi selama dalam scope project). Plus garansi bug free selama masa maintenance.'
+    ],
+];
+
+?>
+<!DOCTYPE html>
+<html lang="<?= $lang ?>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= $t['page_title'] ?> - Situneo Digital</title>
+    <meta name="description" content="Paket bundling website hemat hingga Rp 10 juta. Mulai dari Rp 2.5 juta untuk website profesional dengan domain, hosting, dan SEO.">
+    <meta name="keywords" content="harga website, paket website murah, jasa website, biaya website, harga pembuatan website">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="<?= $t['page_title'] ?> - Situneo Digital">
+    <meta property="og:description" content="Paket bundling website hemat hingga Rp 10 juta">
+    <meta property="og:image" content="https://situneo.my.id/logo">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-blue: #1E5C99;
+            --dark-blue: #0F3057;
+            --gold: #FFB400;
+            --light-bg: #F8F9FA;
+            --text-light: #E0E0E0;
+            --gradient-primary: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%);
+            --gradient-gold: linear-gradient(135deg, #FFB400 0%, #FF8C00 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+            background: var(--dark-blue);
+            color: #FFFFFF;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar - SAMA dengan file sebelumnya */
+        .navbar {
+            background: rgba(15, 48, 87, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(15, 48, 87, 0.98) !important;
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--gold) !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-link {
+            color: var(--text-light) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--gold) !important;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 80%;
+        }
+        
+        /* Buttons Login/Register - SAMA dengan file sebelumnya */
+        .btn-login {
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-login:hover {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            transform: translateY(-2px);
+        }
+        
+        .btn-register {
+            background: var(--gradient-gold);
+            border: none;
+            color: var(--dark-blue);
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255,180,0,0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,180,0,0.5);
+            color: var(--dark-blue);
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            background: var(--gradient-primary);
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,180,0,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #FFFFFF 0%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+        
+        .trust-badges {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: rgba(255,180,0,0.1);
+            border: 1px solid var(--gold);
+            border-radius: 50px;
+        }
+        
+        .trust-badge i {
+            font-size: 1.5rem;
+            color: var(--gold);
+        }
+        
+        /* Buttons */
+        .btn-gold {
+            background: var(--gradient-gold);
+            border: none;
+            color: var(--dark-blue);
+            padding: 15px 35px;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(255,180,0,0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255,180,0,0.5);
+            color: var(--dark-blue);
+        }
+        
+        .btn-outline-gold {
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            padding: 15px 35px;
+            font-weight: 700;
+            border-radius: 50px;
+            background: transparent;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-outline-gold:hover {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            transform: translateY(-3px);
+        }
+        
+        /* Section Title */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #FFFFFF 0%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Pricing Cards - LEBIH MENARIK */
+        .pricing-card {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.2) 0%, rgba(15, 48, 87, 0.3) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,180,0,0.3);
+            border-radius: 25px;
+            padding: 2.5rem;
+            height: 100%;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--gradient-gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .pricing-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255,180,0,0.1) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--gold);
+            box-shadow: 0 25px 70px rgba(255,180,0,0.4);
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.3) 0%, rgba(15, 48, 87, 0.4) 100%);
+        }
+        
+        .pricing-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .pricing-card:hover::after {
+            width: 500px;
+            height: 500px;
+        }
+        
+        .pricing-card.popular {
+            border: 3px solid var(--gold);
+            transform: scale(1.05);
+            box-shadow: 0 30px 60px rgba(255,180,0,0.5);
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.3) 0%, rgba(15, 48, 87, 0.4) 100%);
+        }
+        
+        .pricing-card.popular::before {
+            transform: scaleX(1);
+            height: 8px;
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #FF0000 0%, #FF6B00 100%);
+            color: white;
+            padding: 10px 30px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 5px 20px rgba(255,0,0,0.6);
+            animation: pulse 2s infinite;
+            z-index: 1;
+            letter-spacing: 1px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                transform: translateX(-50%) scale(1);
+                box-shadow: 0 5px 20px rgba(255,0,0,0.6);
+            }
+            50% { 
+                transform: translateX(-50%) scale(1.08);
+                box-shadow: 0 8px 30px rgba(255,0,0,0.8);
+            }
+        }
+        
+        .package-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            filter: drop-shadow(0 5px 15px rgba(255,180,0,0.3));
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .package-name {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(255,180,0,0.3);
+            letter-spacing: 1px;
+        }
+        
+        .package-tagline {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+        
+        .price-wrapper {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem 1.5rem;
+            background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.2) 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(255,180,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .price-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,180,0,0.1) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .price-original {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .price-promo {
+            color: var(--gold);
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1;
+            margin: 1rem 0;
+            text-shadow: 0 5px 20px rgba(255,180,0,0.5);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .price-save {
+            background: linear-gradient(135deg, #FF0000 0%, #FF6B00 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 5px 15px rgba(255,0,0,0.4);
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.5px;
+        }
+        
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+        
+        .features-list li {
+            padding: 0.85rem 0;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(255,180,0,0.15);
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            transition: all 0.3s;
+        }
+        
+        .features-list li:hover {
+            padding-left: 10px;
+            color: white;
+        }
+        
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .features-list i {
+            color: var(--gold);
+            font-size: 1.3rem;
+            margin-top: 2px;
+            flex-shrink: 0;
+            filter: drop-shadow(0 2px 5px rgba(255,180,0,0.5));
+        }
+        
+        /* Comparison Table */
+        .comparison-table {
+            background: rgba(30, 92, 153, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(255,180,0,0.2);
+        }
+        
+        .comparison-table table {
+            width: 100%;
+            margin: 0;
+        }
+        
+        .comparison-table th {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1.5rem 1rem;
+            font-weight: 700;
+            text-align: center;
+            border: none;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .comparison-table th.feature-col {
+            text-align: left;
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+        }
+        
+        .comparison-table td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,180,0,0.1);
+            color: var(--text-light);
+        }
+        
+        .comparison-table td.feature-name {
+            text-align: left;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .comparison-table tr:hover {
+            background: rgba(255,180,0,0.05);
+        }
+        
+        .check-icon {
+            color: #4CAF50;
+            font-size: 1.5rem;
+        }
+        
+        .cross-icon {
+            color: #999;
+            font-size: 1.2rem;
+        }
+        
+        /* Why Section */
+        .why-card {
+            background: rgba(30, 92, 153, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,180,0,0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            height: 100%;
+            transition: all 0.3s;
+        }
+        
+        .why-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(255,180,0,0.2);
+        }
+        
+        .why-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .why-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .why-desc {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+        
+        /* FAQ */
+        .accordion-item {
+            background: rgba(30, 92, 153, 0.1);
+            border: 1px solid rgba(255,180,0,0.2);
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .accordion-button {
+            background: transparent;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 1.5rem;
+            border: none;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background: rgba(255,180,0,0.1);
+            color: var(--gold);
+            box-shadow: none;
+        }
+        
+        .accordion-button::after {
+            filter: brightness(0) invert(1);
+        }
+        
+        .accordion-button:not(.collapsed)::after {
+            filter: brightness(0) saturate(100%) invert(72%) sepia(77%) saturate(484%) hue-rotate(358deg);
+        }
+        
+        .accordion-body {
+            background: rgba(0,0,0,0.2);
+            color: var(--text-light);
+            padding: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: var(--gradient-gold);
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-title {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--dark-blue);
+            margin-bottom: 1rem;
+        }
+        
+        .cta-subtitle {
+            font-size: 1.3rem;
+            color: var(--dark-blue);
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+        
+        /* Footer - SAMA dengan file sebelumnya */
+        footer {
+            background: linear-gradient(135deg, #0F3057 0%, #000000 100%);
+            border-top: 2px solid var(--gold);
+            padding: 3rem 0 1rem;
+        }
+        
+        footer h5 {
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        footer a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        footer a:hover {
+            color: var(--gold);
+            padding-left: 5px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            width: 45px;
+            height: 45px;
+            background: rgba(255,180,0,0.15);
+            border: 1px solid var(--gold);
+            border-radius: 12px;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            transform: translateY(-3px);
+        }
+        
+        /* Floating WhatsApp */
+        .float-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 5px 20px rgba(37,211,102,0.5);
+            z-index: 1000;
+            transition: all 0.3s;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .float-whatsapp:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(37,211,102,0.7);
+            color: white;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .pricing-card {
+                margin-bottom: 2rem;
+            }
+            
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+            
+            .comparison-table {
+                overflow-x: auto;
+            }
+            
+            .cta-title {
+                font-size: 2rem;
+            }
+            
+            .trust-badges {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar - SAMA dengan file sebelumnya -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">
+                <img src="https://situneo.my.id/logo" alt="Situneo" width="50" height="50" style="border-radius: 12px;">
+                <span>SITUNEO</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.php"><?= $t['nav_home'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#about"><?= $t['nav_about'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.php"><?= $t['nav_services'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="portfolio.php"><?= $t['nav_portfolio'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="pricing.php"><?= $t['nav_pricing'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.php"><?= $t['nav_contact'] ?></a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="?lang=<?= $lang === 'id' ? 'en' : 'id' ?>">
+                            <i class="bi bi-translate"></i> <?= $lang === 'id' ? 'EN' : 'ID' ?>
+                        </a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a href="auth/login.php" class="btn-login"><?= $t['nav_login'] ?></a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a href="auth/register.php" class="btn-register"><?= $t['nav_register'] ?></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content text-center">
+                <div data-aos="fade-up">
+                    <h1 class="hero-title"><?= $t['hero_title'] ?></h1>
+                    <p class="hero-subtitle"><?= $t['hero_subtitle'] ?></p>
+                    <p class="lead" style="color: var(--text-light); max-width: 800px; margin: 0 auto 2rem;">
+                        <?= $t['hero_desc'] ?>
+                    </p>
+                </div>
+                
+                <div class="trust-badges justify-content-center" data-aos="fade-up" data-aos-delay="100">
+                    <div class="trust-badge">
+                        <i class="bi bi-shield-check"></i>
+                        <span>NIB Resmi Terdaftar</span>
+                    </div>
+                    <div class="trust-badge">
+                        <i class="bi bi-clock-history"></i>
+                        <span>FREE Demo 24 Jam</span>
+                    </div>
+                    <div class="trust-badge">
+                        <i class="bi bi-award"></i>
+                        <span>Garansi Kepuasan 100%</span>
+                    </div>
+                </div>
+                
+                <div class="mt-4" data-aos="fade-up" data-aos-delay="200">
+                    <a href="#packages" class="btn-gold me-3">
+                        <i class="bi bi-eye"></i> Lihat Semua Paket
+                    </a>
+                    <a href="<?= $wa_link ?>?text=Halo, saya mau konsultasi paket website" class="btn-outline-gold">
+                        <i class="bi bi-whatsapp"></i> <?= $t['btn_consult'] ?>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Packages Section -->
+    <section id="packages" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title"><?= $t['section_packages'] ?></h2>
+                <p class="lead" style="color: var(--text-light); max-width: 800px; margin: 0 auto;">
+                    Pilih paket yang sesuai dengan budget dan kebutuhan bisnis Anda
+                </p>
+            </div>
+            
+            <div class="row g-4">
+                <?php foreach($packages as $index => $pkg): ?>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="<?= $index * 100 ?>">
+                    <div class="pricing-card <?= $pkg['popular'] ? 'popular' : '' ?>">
+                        <?php if (!empty($pkg['badge'])): ?>
+                        <div class="popular-badge">
+                            🔥 <?= $pkg['badge'] ?>
+                        </div>
+                        <?php endif; ?>
+                        
+                        <div class="text-center">
+                            <i class="bi bi-<?= $pkg['icon'] ?> package-icon" style="color: <?= $pkg['color'] ?>;"></i>
+                            <h3 class="package-name"><?= $pkg['name'] ?></h3>
+                            <p class="package-tagline"><?= $pkg['tagline'] ?></p>
+                        </div>
+                        
+                        <div class="price-wrapper">
+                            <div class="price-original">
+                                Rp <?= number_format($pkg['price_original'], 0, ',', '.') ?>
+                            </div>
+                            <div class="price-promo">
+                                Rp <?= number_format($pkg['price_promo'], 0, ',', '.') ?>
+                            </div>
+                            <div class="price-save">
+                                <?= $t['save_up_to'] ?> Rp <?= number_format($pkg['save']/1000000, 1) ?> JUTA
+                            </div>
+                        </div>
+                        
+                        <ul class="features-list">
+                            <?php foreach(array_slice($pkg['features'], 0, 8) as $feature): ?>
+                            <li>
+                                <i class="bi bi-check-circle-fill"></i>
+                                <span><?= $feature ?></span>
+                            </li>
+                            <?php endforeach; ?>
+                            <?php if (count($pkg['features']) > 8): ?>
+                            <li>
+                                <i class="bi bi-plus-circle-fill"></i>
+                                <span>Dan <?= count($pkg['features']) - 8 ?> fitur lainnya...</span>
+                            </li>
+                            <?php endif; ?>
+                        </ul>
+                        
+                        <div class="text-center mt-auto">
+                            <a href="<?= $wa_link ?>?text=Halo, saya mau pesan paket <?= $pkg['name'] ?>" 
+                               class="btn-gold w-100 mb-2">
+                                <i class="bi bi-cart-check"></i> <?= $t['btn_choose'] ?>
+                            </a>
+                            <a href="#comparison" class="btn-outline-gold w-100">
+                                <i class="bi bi-list-check"></i> Lihat Detail Lengkap
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Comparison Table -->
+    <section id="comparison" class="py-5" style="background: linear-gradient(180deg, rgba(30,92,153,0.1) 0%, transparent 100%);">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title"><?= $t['section_comparison'] ?></h2>
+                <p class="lead" style="color: var(--text-light); max-width: 800px; margin: 0 auto;">
+                    Bandingkan fitur lengkap dari setiap paket untuk menentukan pilihan terbaik
+                </p>
+            </div>
+            
+            <div class="comparison-table" data-aos="fade-up">
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="feature-col" style="min-width: 200px;">Fitur</th>
+                                <?php foreach($packages as $pkg): ?>
+                                <th style="min-width: 150px;">
+                                    <div><?= $pkg['name'] ?></div>
+                                    <small style="font-weight: 400; opacity: 0.8;">Rp <?= number_format($pkg['price_promo']/1000000, 1) ?>jt</small>
+                                </th>
+                                <?php endforeach; ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="feature-name">Jumlah Halaman</td>
+                                <?php foreach($packages as $pkg): ?>
+                                <td><strong><?= $pkg['features_detail']['pages'] ?></strong></td>
+                                <?php endforeach; ?>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Domain & Hosting</td>
+                                <?php foreach($packages as $pkg): ?>
+                                <td><?= $pkg['features_detail']['domain'] ?></td>
+                                <?php endforeach; ?>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">SSL Certificate</td>
+                                <?php foreach($packages as $pkg): ?>
+                                <td>
+                                    <?php if ($pkg['features_detail']['ssl']): ?>
+                                    <i class="bi bi-check-circle-fill check-icon"></i>
+                                    <?php else: ?>
+                                    <i class="bi bi-x-circle cross-icon"></i>
+                                    <?php endif; ?>
+                                </td>
+                                <?php endforeach; ?>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Logo Design</td>
+                                <?php foreach($packages as $pkg): ?>
+                                <td><?= $pkg['features_detail']['logo'] ?></td>
+                                <?php endforeach; ?>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">SEO</td>
+                                <?php foreach($packages as $pkg): ?>
+                                <td><?= $pkg['features_detail']['seo'] ?></td>
+                                <?php endforeach; ?>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Artikel SEO</td>
+                                <?php foreach($packages as $pkg): ?>
+                                <td><strong><?= $pkg['features_detail']['articles'] ?> artikel</strong></td>
+                                <?php endforeach; ?>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">E-Commerce</td>
+                                <?php foreach($packages as $pkg): ?>
+                                <td>
+                                    <?php if ($pkg['features_detail']['ecommerce']): ?>
+                                    <i class="bi bi-check-circle-fill check-icon"></i>
+                                    <?php else: ?>
+                                    <i class="bi bi-x-circle cross-icon"></i>
+                                    <?php endif; ?>
+                                </td>
+                                <?php endforeach; ?>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Payment Gateway</td>
+                                <?php foreach($packages as $pkg): ?>
+                                <td>
+                                    <?= $pkg['features_detail']['payment_gateway'] ?: '<i class="bi bi-x-circle cross-icon"></i>' ?>
+                                </td>
+                                <?php endforeach; ?>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Dashboard</td>
+                                <?php foreach($packages as $pkg): ?>
+                                <td>
+                                    <?= $pkg['features_detail']['dashboard'] ?: '<i class="bi bi-x-circle cross-icon"></i>' ?>
+                                </td>
+                                <?php endforeach; ?>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">CRM System</td>
+                                <?php foreach($packages as $pkg): ?>
+                                <td>
+                                    <?= $pkg['features_detail']['crm'] ?: '<i class="bi bi-x-circle cross-icon"></i>' ?>
+                                </td>
+                                <?php endforeach; ?>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Advertising</td>
+                                <?php foreach($packages as $pkg): ?>
+                                <td>
+                                    <?= $pkg['features_detail']['ads'] ?: '<i class="bi bi-x-circle cross-icon"></i>' ?>
+                                </td>
+                                <?php endforeach; ?>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Chatbot AI</td>
+                                <?php foreach($packages as $pkg): ?>
+                                <td><?= $pkg['features_detail']['chatbot'] ?></td>
+                                <?php endforeach; ?>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Analytics</td>
+                                <?php foreach($packages as $pkg): ?>
+                                <td><?= $pkg['features_detail']['analytics'] ?></td>
+                                <?php endforeach; ?>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Monthly Reports</td>
+                                <?php foreach($packages as $pkg): ?>
+                                <td>
+                                    <?= $pkg['features_detail']['reports'] ?: '<i class="bi bi-x-circle cross-icon"></i>' ?>
+                                </td>
+                                <?php endforeach; ?>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Maintenance</td>
+                                <?php foreach($packages as $pkg): ?>
+                                <td><?= $pkg['features_detail']['maintenance'] ?></td>
+                                <?php endforeach; ?>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Support</td>
+                                <?php foreach($packages as $pkg): ?>
+                                <td><?= $pkg['features_detail']['support'] ?></td>
+                                <?php endforeach; ?>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Revisi</td>
+                                <?php foreach($packages as $pkg): ?>
+                                <td><?= $pkg['features_detail']['revisions'] ?></td>
+                                <?php endforeach; ?>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5" data-aos="fade-up">
+                <p style="color: var(--text-light); font-size: 1.1rem; margin-bottom: 1.5rem;">
+                    <i class="bi bi-info-circle" style="color: var(--gold);"></i> 
+                    Masih bingung pilih paket mana? <strong style="color: var(--gold);">Konsultasi GRATIS</strong> dengan tim kami!
+                </p>
+                <a href="<?= $wa_link ?>?text=Halo, saya mau konsultasi paket website yang cocok" class="btn-gold">
+                    <i class="bi bi-whatsapp"></i> Chat Sekarang
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Why Bundle Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title"><?= $t['section_why'] ?></h2>
+                <p class="lead" style="color: var(--text-light); max-width: 800px; margin: 0 auto;">
+                    4 Alasan Kenapa Paket Bundling Lebih Menguntungkan
+                </p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="why-card text-center">
+                        <i class="bi bi-piggy-bank why-icon"></i>
+                        <h4 class="why-title">Hemat Biaya</h4>
+                        <p class="why-desc">
+                            Hemat hingga <strong>Rp 10 juta</strong> dibanding beli layanan terpisah. Lebih murah 40-60%!
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="why-card text-center">
+                        <i class="bi bi-clock-history why-icon"></i>
+                        <h4 class="why-title">Lebih Cepat</h4>
+                        <p class="why-desc">
+                            Semua dikerjakan dalam <strong>satu project</strong>, tidak perlu tunggu proses order berkali-kali.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="why-card text-center">
+                        <i class="bi bi-stars why-icon"></i>
+                        <h4 class="why-title">All-in-One</h4>
+                        <p class="why-desc">
+                            Dapat <strong>website + SEO + ads + maintenance</strong> sekaligus. Solusi lengkap 1 paket!
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="why-card text-center">
+                        <i class="bi bi-headset why-icon"></i>
+                        <h4 class="why-title">Priority Support</h4>
+                        <p class="why-desc">
+                            Member paket bundling dapat <strong>akses priority support</strong> dan fast response 24/7.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FAQ Section -->
+    <section class="py-5" style="background: linear-gradient(180deg, transparent 0%, rgba(30,92,153,0.1) 100%);">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title"><?= $t['section_faq'] ?></h2>
+                <p class="lead" style="color: var(--text-light); max-width: 800px; margin: 0 auto;">
+                    Pertanyaan yang sering ditanyakan seputar paket bundling kami
+                </p>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="accordion" id="faqAccordion">
+                        <?php foreach($faqs as $index => $faq): ?>
+                        <div class="accordion-item" data-aos="fade-up" data-aos-delay="<?= $index * 50 ?>">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button <?= $index > 0 ? 'collapsed' : '' ?>" 
+                                        type="button" 
+                                        data-bs-toggle="collapse" 
+                                        data-bs-target="#faq<?= $index ?>">
+                                    <i class="bi bi-question-circle me-3" style="color: var(--gold);"></i>
+                                    <?= $faq['q'] ?>
+                                </button>
+                            </h2>
+                            <div id="faq<?= $index ?>" 
+                                 class="accordion-collapse collapse <?= $index === 0 ? 'show' : '' ?>" 
+                                 data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <?= $faq['a'] ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                    
+                    <div class="text-center mt-4" data-aos="fade-up">
+                        <p style="color: var(--text-light);">
+                            Masih ada pertanyaan lain? 
+                            <a href="contact.php" style="color: var(--gold); font-weight: 600;">Hubungi kami</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content text-center">
+                <h2 class="cta-title" data-aos="zoom-in"><?= $t['section_cta'] ?></h2>
+                <p class="cta-subtitle" data-aos="zoom-in" data-aos-delay="100">
+                    Konsultasi GRATIS - Tim kami siap membantu 24/7
+                </p>
+                
+                <div class="mt-4" data-aos="zoom-in" data-aos-delay="200">
+                    <a href="<?= $wa_link ?>?text=Halo, saya mau konsultasi paket website" 
+                       class="btn btn-dark btn-lg me-3" 
+                       style="border-radius: 50px; padding: 15px 40px; font-weight: 700;">
+                        <i class="bi bi-whatsapp"></i> <?= $t['btn_whatsapp'] ?>
+                    </a>
+                    <a href="contact.php" 
+                       class="btn btn-outline-dark btn-lg" 
+                       style="border-radius: 50px; padding: 15px 40px; font-weight: 700; border-width: 2px;">
+                        <i class="bi bi-envelope"></i> Kirim Email
+                    </a>
+                </div>
+                
+                <div class="mt-5" data-aos="fade-up" data-aos-delay="300">
+                    <div class="row g-4 justify-content-center">
+                        <div class="col-md-3 col-6">
+                            <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 15px;">
+                                <h3 style="color: var(--dark-blue); font-weight: 800; font-size: 2.5rem; margin: 0;">500+</h3>
+                                <p style="color: var(--dark-blue); margin: 0; font-weight: 600;">Happy Clients</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 15px;">
+                                <h3 style="color: var(--dark-blue); font-weight: 800; font-size: 2.5rem; margin: 0;">1000+</h3>
+                                <p style="color: var(--dark-blue); margin: 0; font-weight: 600;">Projects Done</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 15px;">
+                                <h3 style="color: var(--dark-blue); font-weight: 800; font-size: 2.5rem; margin: 0;">98%</h3>
+                                <p style="color: var(--dark-blue); margin: 0; font-weight: 600;">Satisfaction</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 15px;">
+                                <h3 style="color: var(--dark-blue); font-weight: 800; font-size: 2.5rem; margin: 0;">24/7</h3>
+                                <p style="color: var(--dark-blue); margin: 0; font-weight: 600;">Support Ready</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row g-4">
+                <!-- Brand Info -->
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://situneo.my.id/logo" 
+                             alt="Situneo" width="60" height="60" 
+                             style="border-radius: 15px; margin-right: 15px;">
+                        <div>
+                            <h4 style="color: var(--gold); margin: 0; font-weight: 800;">SITUNEO DIGITAL</h4>
+                            <small style="color: var(--text-light);">Digital Harmony</small>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-light); line-height: 1.8; margin-bottom: 1rem;">
+                        Partner digital terpercaya sejak 2020. Udah bantu 500+ bisnis sukses online dengan harga paling terjangkau!
+                    </p>
+                    <div class="mb-3">
+                        <div style="display: inline-block; padding: 8px 15px; background: rgba(255,180,0,0.15); border: 1px solid var(--gold); border-radius: 8px;">
+                            <small style="color: var(--text-light);">NIB:</small>
+                            <strong style="color: var(--gold); margin-left: 5px;">20250-9261-4570-4515-5453</strong>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="<?= $wa_link ?>" target="_blank" title="WhatsApp">
+                            <i class="bi bi-whatsapp"></i>
+                        </a>
+                        <a href="#" target="_blank" title="Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" target="_blank" title="Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" target="_blank" title="LinkedIn">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                        <a href="#" target="_blank" title="TikTok">
+                            <i class="bi bi-tiktok"></i>
+                        </a>
+                        <a href="#" target="_blank" title="YouTube">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-4">
+                    <h5>Menu Cepat</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.php"><i class="bi bi-chevron-right"></i> Beranda</a></li>
+                        <li><a href="about.php"><i class="bi bi-chevron-right"></i> Tentang Kami</a></li>
+                        <li><a href="services.php"><i class="bi bi-chevron-right"></i> Layanan</a></li>
+                        <li><a href="portfolio.php"><i class="bi bi-chevron-right"></i> Demo Website</a></li>
+                        <li><a href="pricing.php"><i class="bi bi-chevron-right"></i> Harga Paket</a></li>
+                        <li><a href="calculator.php"><i class="bi bi-chevron-right"></i> Kalkulator Harga</a></li>
+                        <li><a href="contact.php"><i class="bi bi-chevron-right"></i> Kontak</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Popular Services -->
+                <div class="col-lg-3 col-md-4">
+                    <h5>Layanan Populer</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="services.php#service-1"><i class="bi bi-check-circle"></i> Pembuatan Website</a></li>
+                        <li><a href="services.php#service-3"><i class="bi bi-check-circle"></i> E-Commerce</a></li>
+                        <li><a href="services.php#service-7"><i class="bi bi-check-circle"></i> SEO Premium</a></li>
+                        <li><a href="services.php#service-10"><i class="bi bi-check-circle"></i> Google Ads</a></li>
+                        <li><a href="services.php#service-15"><i class="bi bi-check-circle"></i> Chatbot AI</a></li>
+                        <li><a href="services.php#service-17"><i class="bi bi-check-circle"></i> Dashboard Custom</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="col-lg-3 col-md-4">
+                    <h5>Hubungi Kami</h5>
+                    <ul class="list-unstyled">
+                        <li style="margin-bottom: 1rem;">
+                            <i class="bi bi-envelope" style="color: var(--gold); margin-right: 10px;"></i>
+                            <a href="mailto:info@situneo.my.id" style="color: var(--text-light);">info@situneo.my.id</a>
+                        </li>
+                        <li style="margin-bottom: 1rem;">
+                            <i class="bi bi-whatsapp" style="color: var(--gold); margin-right: 10px;"></i>
+                            <a href="<?= $wa_link ?>" style="color: var(--text-light);">+62 817-040-4594</a>
+                        </li>
+                        <li style="margin-bottom: 1rem;">
+                            <i class="bi bi-geo-alt" style="color: var(--gold); margin-right: 10px;"></i>
+                            <span style="color: var(--text-light);">Jakarta, Indonesia</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-clock" style="color: var(--gold); margin-right: 10px;"></i>
+                            <span style="color: var(--text-light);">24/7 Online</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr style="border-color: rgba(255,180,0,0.2); margin: 2rem 0;">
+            
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p style="color: var(--text-light); margin: 0; font-size: 0.95rem;">
+                        &copy; 2025 <strong style="color: var(--gold);">Situneo Digital</strong>. All Rights Reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p style="color: var(--text-light); margin: 0; font-size: 0.95rem;">
+                        Made with <i class="bi bi-heart-fill" style="color: #FF0000;"></i> in Jakarta, Indonesia
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Floating WhatsApp Button -->
+    <a href="<?= $wa_link ?>?text=Halo, saya mau tanya tentang paket website" 
+       class="float-whatsapp" 
+       target="_blank"
+       title="Chat WhatsApp">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add animation to pricing cards on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.pricing-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Add counter animation for stats in CTA section
+        function animateCounter(element, target, duration = 2000) {
+            let current = 0;
+            const increment = target / (duration / 16);
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + (element.dataset.suffix || '');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current) + (element.dataset.suffix || '');
+                }
+            }, 16);
+        }
+        
+        // Trigger counter animation when CTA section is visible
+        const ctaSection = document.querySelector('.cta-section');
+        if (ctaSection) {
+            const ctaObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counters = entry.target.querySelectorAll('h3');
+                        counters.forEach(counter => {
+                            const target = parseInt(counter.textContent);
+                            if (!isNaN(target)) {
+                                counter.dataset.suffix = counter.textContent.replace(/[0-9]/g, '');
+                                animateCounter(counter, target);
+                            }
+                        });
+                        ctaObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            ctaObserver.observe(ctaSection);
+        }
+        
+        // Add ripple effect to buttons
+        document.querySelectorAll('.btn-gold, .btn-outline-gold').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+        
+        // Log page view
+        console.log('Pricing page loaded successfully');
+        console.log('Total packages: <?= count($packages) ?>');
+        console.log('Current language: <?= $lang ?>');
+    </script>
+    
+    <style>
+        /* Ripple effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s ease-out;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        /* Custom scrollbar for comparison table */
+        .comparison-table::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .comparison-table::-webkit-scrollbar-track {
+            background: rgba(255,180,0,0.1);
+            border-radius: 10px;
+        }
+        
+        .comparison-table::-webkit-scrollbar-thumb {
+            background: var(--gradient-gold);
+            border-radius: 10px;
+        }
+        
+        .comparison-table::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
+        }
+    </style>
+</body>
+</html>
