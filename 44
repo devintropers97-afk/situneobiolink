@@ -1,0 +1,865 @@
+<?php
+/**
+ * ========================================
+ * SITUNEO DIGITAL - Services Page
+ * NIB: 20250-9261-4570-4515-5453
+ * ========================================
+ */
+
+require_once 'config.php';
+
+// Require login
+requireLogin();
+
+// Get current user
+ $user = getCurrentUser();
+
+// Get filter parameters
+ $category = $_GET['category'] ?? 'all';
+ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+ $limit = 12;
+ $offset = ($page - 1) * $limit;
+
+// Build query based on category filter
+ $whereClause = "WHERE status = 'active'";
+ $params = [];
+ $types = "";
+
+if ($category !== 'all') {
+    $whereClause .= " AND category = ?";
+    $params[] = $category;
+    $types .= "s";
+}
+
+// Get total services count
+ $countQuery = "SELECT COUNT(*) as total FROM services $whereClause";
+ $stmt = $conn->prepare($countQuery);
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
+}
+ $stmt->execute();
+ $result = $stmt->get_result();
+ $totalServices = $result->fetch_assoc()['total'];
+ $totalPages = ceil($totalServices / $limit);
+
+// Get services with pagination
+ $query = "SELECT * FROM services $whereClause ORDER BY category, name LIMIT $limit OFFSET $offset";
+ $stmt = $conn->prepare($query);
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
+}
+ $stmt->execute();
+ $services = $stmt->get_result();
+
+// Get all categories for filter
+ $categoriesQuery = "SELECT DISTINCT category FROM services WHERE status = 'active' ORDER BY category";
+ $categoriesResult = $conn->query($categoriesQuery);
+ $categories = [];
+while ($row = $categoriesResult->fetch_assoc()) {
+    $categories[] = $row['category'];
+}
+
+// Get service details if requested
+ $serviceDetails = null;
+if (isset($_GET['id'])) {
+    $serviceId = $_GET['id'];
+    
+    $stmt = $conn->prepare("SELECT * FROM services WHERE id = ? AND status = 'active'");
+    $stmt->bind_param("i", $serviceId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        $serviceDetails = $result->fetch_assoc();
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layanan - SITUNEO DIGITAL</title>
+    <meta name="description" content="Layanan digital profesional dari SITUNEO DIGITAL">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://situneo.my.id/logo">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    
+    <style>
+        :root {
+            --primary-blue: #1E5C99;
+            --dark-blue: #0F3057;
+            --gold: #FFB400;
+            --bright-gold: #FFD700;
+            --white: #ffffff;
+            --text-light: #e9ecef;
+            --gradient-primary: linear-gradient(135deg, #1E5C99 0%, #0F3057 100%);
+            --gradient-gold: linear-gradient(135deg, #FFD700 0%, #FFB400 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-blue);
+            color: var(--white);
+            min-height: 100vh;
+        }
+        
+        /* Network Background */
+        .network-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -2;
+            overflow: hidden;
+            opacity: 0.3;
+        }
+        
+        .network-bg canvas {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Circuit Pattern */
+        .circuit-pattern {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.05;
+            background-image: 
+                linear-gradient(90deg, var(--gold) 1px, transparent 1px),
+                linear-gradient(180deg, var(--gold) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: circuit-move 60s linear infinite;
+        }
+        
+        @keyframes circuit-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        /* Navbar */
+        .navbar-premium {
+            background: rgba(15, 48, 87, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 998;
+            border-bottom: 1px solid rgba(255, 180, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-premium.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(15, 48, 87, 0.98);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .nav-link {
+            color: var(--white) !important;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            color: var(--gold) !important;
+            transform: translateY(-2px);
+        }
+        
+        .nav-link.active {
+            color: var(--gold) !important;
+        }
+        
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            height: calc(100vh - 80px);
+            width: 250px;
+            background: rgba(15, 48, 87, 0.9);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 180, 0, 0.2);
+            padding: 20px 0;
+            z-index: 997;
+            overflow-y: auto;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-item {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+        
+        .sidebar-item:hover {
+            background: rgba(255, 180, 0, 0.1);
+            color: var(--gold);
+            border-left-color: var(--gold);
+        }
+        
+        .sidebar-item.active {
+            background: rgba(255, 180, 0, 0.2);
+            color: var(--gold);
+            border-left-color: var(--gold);
+        }
+        
+        .sidebar-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 100px 20px 40px;
+            min-height: 100vh;
+        }
+        
+        /* Service Card */
+        .service-card {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.1) 0%, rgba(15, 48, 87, 0.2) 100%);
+            border: 1px solid rgba(255, 180, 0, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            height: 100%;
+            transition: all 0.4s;
+            backdrop-filter: blur(10px);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 180, 0, 0.3);
+            border-color: var(--gold);
+        }
+        
+        .service-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .service-card:hover .service-image img {
+            transform: scale(1.1);
+        }
+        
+        .service-icon-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-gold);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .service-icon-badge i {
+            font-size: 1.5rem;
+            color: var(--dark-blue);
+        }
+        
+        .price-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,0,0,0.9);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+        }
+        
+        .service-content {
+            padding: 1.5rem;
+        }
+        
+        .category-badge {
+            display: inline-block;
+            background: rgba(255,180,0,0.2);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        
+        .service-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .service-description {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .service-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .btn-gold {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            border: none;
+            padding: 10px 20px;
+            font-weight: 700;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(255, 180, 0, 0.3);
+        }
+        
+        .btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 180, 0, 0.6);
+            color: var(--dark-blue);
+        }
+        
+        .btn-outline-gold {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 10px 20px;
+            font-weight: 700;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-outline-gold:hover {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 180, 0, 0.6);
+        }
+        
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-tab {
+            padding: 10px 20px;
+            border-radius: 50px;
+            background: rgba(255, 180, 0, 0.1);
+            border: 1px solid rgba(255, 180, 0, 0.3);
+            color: var(--text-light);
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .filter-tab:hover, .filter-tab.active {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            border-color: var(--gold);
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 30px;
+        }
+        
+        .page-link {
+            background: rgba(255, 180, 0, 0.1);
+            border: 1px solid rgba(255, 180, 0, 0.3);
+            color: var(--text-light);
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .page-link:hover, .page-link.active {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            border-color: var(--gold);
+        }
+        
+        /* Service Details Modal */
+        .modal-content {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.1) 0%, rgba(15, 48, 87, 0.2) 100%);
+            border: 1px solid rgba(255, 180, 0, 0.2);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .modal-header {
+            border-bottom: 1px solid rgba(255, 180, 0, 0.2);
+        }
+        
+        .modal-footer {
+            border-top: 1px solid rgba(255, 180, 0, 0.2);
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: start;
+        }
+        
+        .feature-list li i {
+            color: var(--gold);
+            margin-right: 10px;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Network Background -->
+    <div class="network-bg" id="networkBg"></div>
+    
+    <!-- Circuit Pattern -->
+    <div class="circuit-pattern"></div>
+    
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-premium">
+        <div class="container-fluid">
+            <button class="navbar-toggler d-lg-none" type="button" id="sidebarToggle">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+            </button>
+            <a class="navbar-brand d-flex align-items-center" href="../index.php" style="text-decoration: none;">
+                <img src="https://situneo.my.id/logo" 
+                     alt="Situneo" width="40" height="40" 
+                     style="margin-right: 15px; border-radius: 10px; box-shadow: 0 5px 15px rgba(255,180,0,0.4);">
+                <div>
+                    <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--gold);">SITUNEO</span>
+                    <small style="display: block; font-size: 0.7rem; color: var(--text-light); margin-top: -5px;">Digital Harmony</small>
+                </div>
+            </a>
+            <div class="ms-auto d-flex align-items-center">
+                <div class="dropdown">
+                    <button class="btn btn-link text-white dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle fs-4"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="profile.php"><i class="bi bi-person me-2"></i> Profil Saya</a></li>
+                        <li><a class="dropdown-item" href="settings.php"><i class="bi bi-gear me-2"></i> Pengaturan</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="logout.php"><i class="bi bi-box-arrow-right me-2"></i> Keluar</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="user-profile">
+            <div class="user-avatar">
+                <?php if ($user['avatar']): ?>
+                    <img src="../uploads/avatars/<?= htmlspecialchars($user['avatar']) ?>" alt="<?= htmlspecialchars($user['name']) ?>">
+                <?php else: ?>
+                    <?= strtoupper(substr($user['name'], 0, 1)) ?>
+                <?php endif; ?>
+            </div>
+            <div class="user-info">
+                <h5><?= htmlspecialchars($user['name']) ?></h5>
+                <p><?= htmlspecialchars($user['email']) ?></p>
+            </div>
+        </div>
+        
+        <a href="dashboard.php" class="sidebar-item">
+            <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+        <a href="orders.php" class="sidebar-item">
+            <i class="bi bi-cart-check"></i> Pesanan Saya
+        </a>
+        <a href="services.php" class="sidebar-item active">
+            <i class="bi bi-grid"></i> Layanan
+        </a>
+        <a href="invoices.php" class="sidebar-item">
+            <i class="bi bi-file-earmark-text"></i> Invoice
+        </a>
+        <a href="support.php" class="sidebar-item">
+            <i class="bi bi-headset"></i> Bantuan
+        </a>
+        
+        <?php if (hasRole(ROLE_ADMIN)): ?>
+            <hr class="my-3" style="border-color: rgba(255, 180, 0, 0.2);">
+            <h6 class="px-3 text-uppercase small text-muted">Admin</h6>
+            <a href="admin/users.php" class="sidebar-item">
+                <i class="bi bi-people"></i> Kelola Pengguna
+            </a>
+            <a href="admin/orders.php" class="sidebar-item">
+                <i class="bi bi-receipt"></i> Semua Pesanan
+            </a>
+            <a href="admin/services.php" class="sidebar-item">
+                <i class="bi bi-gear"></i> Kelola Layanan
+            </a>
+            <a href="admin/reports.php" class="sidebar-item">
+                <i class="bi bi-graph-up"></i> Laporan
+            </a>
+        <?php endif; ?>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="mb-0">Layanan Kami</h1>
+                <a href="../services.php" class="btn btn-outline-gold">
+                    <i class="bi bi-arrow-left me-2"></i>Kembali ke Halaman Utama
+                </a>
+            </div>
+            
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+                <a href="?category=all" class="filter-tab <?= $category === 'all' ? 'active' : '' ?>">
+                    Semua (<?= $totalServices ?>)
+                </a>
+                <?php foreach ($categories as $cat): ?>
+                    <a href="?category=<?= urlencode($cat) ?>" class="filter-tab <?= $category === $cat ? 'active' : '' ?>">
+                        <?= htmlspecialchars($cat) ?>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+            
+            <!-- Services Grid -->
+            <?php if ($services->num_rows > 0): ?>
+                <div class="row g-4">
+                    <?php while ($service = $services->fetch_assoc()): ?>
+                        <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                            <div class="service-card">
+                                <div class="service-image">
+                                    <img src="<?= htmlspecialchars($service['image']) ?>" alt="<?= htmlspecialchars($service['name']) ?>">
+                                    <div class="service-icon-badge">
+                                        <i class="bi bi-<?= htmlspecialchars($service['icon']) ?>"></i>
+                                    </div>
+                                    <div class="price-badge">
+                                        Mulai Rp <?= number_format($service['price_start'], 0, ',', '.') ?>
+                                    </div>
+                                </div>
+                                <div class="service-content">
+                                    <div class="category-badge"><?= htmlspecialchars($service['category']) ?></div>
+                                    <h3 class="service-title"><?= htmlspecialchars($service['name']) ?></h3>
+                                    <p class="service-description"><?= htmlspecialchars($service['description']) ?></p>
+                                    <div class="service-price">
+                                        Rp <?= number_format($service['price_start'], 0, ',', '.') ?> / <?= htmlspecialchars($service['price_unit']) ?>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <a href="?id=<?= $service['id'] ?>" class="btn btn-gold flex-fill">Detail</a>
+                                        <a href="orders.php?action=new&service=<?= $service['id'] ?>" class="btn btn-outline-gold">Pesan</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                </div>
+                
+                <!-- Pagination -->
+                <?php if ($totalPages > 1): ?>
+                    <div class="pagination">
+                        <?php if ($page > 1): ?>
+                            <a href="?category=<?= $category ?>&page=<?= $page - 1 ?>" class="page-link">
+                                <i class="bi bi-chevron-left"></i>
+                            </a>
+                        <?php endif; ?>
+                        
+                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                            <?php if ($i == $page): ?>
+                                <span class="page-link active"><?= $i ?></span>
+                            <?php else: ?>
+                                <a href="?category=<?= $category ?>&page=<?= $i ?>" class="page-link"><?= $i ?></a>
+                            <?php endif; ?>
+                        <?php endfor; ?>
+                        
+                        <?php if ($page < $totalPages): ?>
+                            <a href="?category=<?= $category ?>&page=<?= $page + 1 ?>" class="page-link">
+                                <i class="bi bi-chevron-right"></i>
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            <?php else: ?>
+                <div class="text-center py-5">
+                    <i class="bi bi-inbox fs-1 text-muted"></i>
+                    <h4 class="mt-3">Tidak ada layanan</h4>
+                    <p class="text-muted">Tidak ada layanan yang tersedia untuk kategori ini.</p>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+    
+    <!-- Service Details Modal -->
+    <?php if ($serviceDetails): ?>
+        <div class="modal fade" id="serviceDetailsModal" tabindex="-1" aria-labelledby="serviceDetailsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="serviceDetailsModalLabel"><?= htmlspecialchars($serviceDetails['name']) ?></h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img src="<?= htmlspecialchars($serviceDetails['image']) ?>" alt="<?= htmlspecialchars($serviceDetails['name']) ?>" class="img-fluid rounded">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="category-badge mb-3"><?= htmlspecialchars($serviceDetails['category']) ?></div>
+                                <h4 class="text-warning mb-3">
+                                    Rp <?= number_format($serviceDetails['price_start'], 0, ',', '.') ?> / <?= htmlspecialchars($serviceDetails['price_unit']) ?>
+                                </h4>
+                                <p><?= htmlspecialchars($serviceDetails['description']) ?></p>
+                                
+                                <?php if (!empty($serviceDetails['perfect_for'])): ?>
+                                    <h6 class="mt-4">Cocok Untuk:</h6>
+                                    <p><?= htmlspecialchars($serviceDetails['perfect_for']) ?></p>
+                                <?php endif; ?>
+                                
+                                <?php if (!empty($serviceDetails['delivery_time'])): ?>
+                                    <h6 class="mt-4">Waktu Pengerjaan:</h6>
+                                    <p><?= htmlspecialchars($serviceDetails['delivery_time']) ?></p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        
+                        <?php if (!empty($serviceDetails['features'])): ?>
+                            <h6 class="mt-4">Fitur:</h6>
+                            <ul class="feature-list">
+                                <?php 
+                                $features = json_decode($serviceDetails['features'], true);
+                                if (is_array($features)) {
+                                    foreach ($features as $feature) {
+                                        echo '<li><i class="bi bi-check-circle-fill"></i>' . htmlspecialchars($feature) . '</li>';
+                                    }
+                                }
+                                ?>
+                            </ul>
+                        <?php endif; ?>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <a href="orders.php?action=new&service=<?= $serviceDetails['id'] ?>" class="btn btn-gold">Pesan Sekarang</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+        
+        // Network Background Animation
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const networkBg = document.getElementById('networkBg');
+        networkBg.appendChild(canvas);
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        const nodes = [];
+        const nodeCount = 50;
+        const connectionDistance = 150;
+        
+        class Node {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2 + 1;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx;
+                if (this.y < 0 || this.y > canvas.height) this.vy = -this.vy;
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 180, 0, 0.7)';
+                ctx.fill();
+            }
+        }
+        
+        for (let i = 0; i < nodeCount; i++) {
+            nodes.push(new Node());
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Update and draw nodes
+            nodes.forEach(node => {
+                node.update();
+                node.draw();
+            });
+            
+            // Draw connections
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x;
+                    const dy = nodes[i].y - nodes[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.strokeStyle = `rgba(255, 180, 0, ${0.2 * (1 - distance / connectionDistance)})`;
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        // Sidebar toggle for mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('show');
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar-premium');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Show service details modal if service ID is in URL
+        <?php if ($serviceDetails): ?>
+            document.addEventListener('DOMContentLoaded', function() {
+                const serviceDetailsModal = new bootstrap.Modal(document.getElementById('serviceDetailsModal'));
+                serviceDetailsModal.show();
+            });
+        <?php endif; ?>
+    </script>
+</body>
+</html>
