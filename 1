@@ -1,0 +1,1565 @@
+<?php
+/**
+ * ========================================
+ * SITUNEO DIGITAL - About Us Page
+ * Complete Company Profile & Information
+ * NIB: 20250-9261-4570-4515-5453
+ * ========================================
+ */
+
+session_start();
+date_default_timezone_set('Asia/Jakarta');
+
+$lang = $_GET['lang'] ?? $_SESSION['lang'] ?? 'id';
+$_SESSION['lang'] = $lang;
+
+// Multi-language translations
+$text = [
+    'id' => [
+        'page_title' => 'Tentang Kami',
+        'hero_title' => 'Tentang Situneo Digital',
+        'hero_subtitle' => 'Partner Digital Terpercaya Sejak 2020',
+        'hero_desc' => 'Kami adalah tim profesional yang berdedikasi membantu bisnis Anda sukses di era digital dengan solusi terbaik dan harga terjangkau.',
+        'nav_home' => 'Beranda',
+        'nav_about' => 'Tentang',
+        'nav_services' => 'Layanan',
+        'nav_portfolio' => 'Portfolio',
+        'nav_pricing' => 'Harga',
+        'nav_contact' => 'Kontak',
+        'nav_login' => 'Masuk',
+        'nav_register' => 'Daftar',
+        'section_story' => 'Cerita Kami',
+        'section_mission' => 'Visi & Misi',
+        'section_values' => 'Nilai-Nilai Kami',
+        'section_timeline' => 'Perjalanan Kami',
+        'section_why' => 'Kenapa Pilih Kami',
+        'section_stats' => 'Pencapaian Kami',
+        'section_testimonials' => 'Apa Kata Mereka',
+        'mission_title' => 'Misi Kami',
+        'mission_desc' => 'Memberikan solusi digital berkualitas tinggi dengan harga terjangkau untuk semua bisnis',
+        'vision_title' => 'Visi Kami',
+        'vision_desc' => 'Menjadi partner digital terpercaya #1 di Indonesia yang membantu ribuan bisnis sukses online',
+        'cta_title' => 'Siap Bekerja Sama?',
+        'cta_desc' => 'Mari wujudkan kesuksesan digital bisnis Anda bersama kami',
+        'btn_contact' => 'Hubungi Kami',
+        'btn_services' => 'Lihat Layanan',
+    ],
+    'en' => [
+        'page_title' => 'About Us',
+        'hero_title' => 'About Situneo Digital',
+        'hero_subtitle' => 'Trusted Digital Partner Since 2020',
+        'hero_desc' => 'We are a professional team dedicated to helping your business succeed in the digital era with the best solutions at affordable prices.',
+        'nav_home' => 'Home',
+        'nav_about' => 'About',
+        'nav_services' => 'Services',
+        'nav_portfolio' => 'Portfolio',
+        'nav_pricing' => 'Pricing',
+        'nav_contact' => 'Contact',
+        'nav_login' => 'Login',
+        'nav_register' => 'Register',
+        'section_story' => 'Our Story',
+        'section_mission' => 'Vision & Mission',
+        'section_values' => 'Our Values',
+        'section_team' => 'Our Team',
+        'section_timeline' => 'Our Journey',
+        'section_why' => 'Why Choose Us',
+        'section_stats' => 'Our Achievements',
+        'section_testimonials' => 'What They Say',
+        'mission_title' => 'Our Mission',
+        'mission_desc' => 'Provide high-quality digital solutions at affordable prices for all businesses',
+        'vision_title' => 'Our Vision',
+        'vision_desc' => 'Become the #1 trusted digital partner in Indonesia helping thousands of businesses succeed online',
+        'cta_title' => 'Ready to Work Together?',
+        'cta_desc' => "Let's make your business digital success together",
+        'btn_contact' => 'Contact Us',
+        'btn_services' => 'View Services',
+    ]
+];
+
+$t = $text[$lang];
+
+// WhatsApp Number
+$wa_number = '628170404594';
+$wa_link = "https://wa.me/{$wa_number}";
+
+// Company Stats
+$stats = [
+    ['icon' => 'people', 'number' => '500+', 'label' => 'Happy Clients', 'color' => '#4CAF50'],
+    ['icon' => 'briefcase', 'number' => '1000+', 'label' => 'Projects Done', 'color' => '#FF9800'],
+    ['icon' => 'award', 'number' => '98%', 'label' => 'Satisfaction Rate', 'color' => '#2196F3'],
+    ['icon' => 'clock-history', 'number' => '24/7', 'label' => 'Support Ready', 'color' => '#9C27B0'],
+];
+
+// Core Values
+$values = [
+    [
+        'icon' => 'shield-check',
+        'title' => 'Integritas',
+        'desc' => 'Kami berkomitmen untuk selalu jujur, transparan, dan dapat dipercaya dalam setiap project yang kami kerjakan.',
+        'color' => '#4CAF50'
+    ],
+    [
+        'icon' => 'lightbulb',
+        'title' => 'Inovasi',
+        'desc' => 'Kami terus berinovasi menggunakan teknologi terkini untuk memberikan solusi terbaik bagi klien kami.',
+        'color' => '#FFB400'
+    ],
+    [
+        'icon' => 'heart',
+        'title' => 'Dedikasi',
+        'desc' => 'Kesuksesan klien adalah prioritas utama kami. Kami dedikasikan waktu dan keahlian untuk hasil maksimal.',
+        'color' => '#FF5722'
+    ],
+    [
+        'icon' => 'star',
+        'title' => 'Kualitas',
+        'desc' => 'Kami tidak pernah kompromi dengan kualitas. Setiap project dikerjakan dengan standar tertinggi.',
+        'color' => '#2196F3'
+    ],
+    [
+        'icon' => 'cash-stack',
+        'title' => 'Harga Terjangkau',
+        'desc' => 'Kami percaya solusi digital berkualitas harus accessible untuk semua bisnis, besar maupun kecil.',
+        'color' => '#9C27B0'
+    ],
+    [
+        'icon' => 'people',
+        'title' => 'Kolaborasi',
+        'desc' => 'Kami bekerja sebagai partner, bukan vendor. Tim kami siap mendengar dan berkolaborasi dengan Anda.',
+        'color' => '#FF9800'
+    ],
+];
+
+// Timeline/Milestones
+$timeline = [
+    [
+        'year' => '2020',
+        'title' => 'Berdiri',
+        'desc' => 'Situneo Digital resmi berdiri dengan 3 orang tim dan visi besar membantu UMKM go digital',
+        'icon' => 'flag'
+    ],
+    [
+        'year' => '2021',
+        'title' => '100 Klien',
+        'desc' => 'Mencapai milestone 100 klien happy dalam 1 tahun pertama dengan repeat order 70%',
+        'icon' => 'trophy'
+    ],
+    [
+        'year' => '2022',
+        'title' => 'Ekspansi Tim',
+        'desc' => 'Tim berkembang menjadi 15 orang profesional di berbagai bidang digital',
+        'icon' => 'people'
+    ],
+    [
+        'year' => '2023',
+        'title' => '500+ Projects',
+        'desc' => 'Berhasil menyelesaikan 500+ project dengan satisfaction rate 98%',
+        'icon' => 'graph-up-arrow'
+    ],
+    [
+        'year' => '2024',
+        'title' => 'NIB Resmi',
+        'desc' => 'Mendapat NIB resmi dan sertifikasi sebagai perusahaan digital agency terpercaya',
+        'icon' => 'patch-check'
+    ],
+    [
+        'year' => '2025',
+        'title' => 'Going National',
+        'desc' => 'Melayani klien dari seluruh Indonesia dengan target 1000+ projects di tahun ini',
+        'icon' => 'rocket-takeoff'
+    ],
+];
+
+// Testimonials
+$testimonials = [
+    [
+        'name' => 'Andi Wijaya',
+        'position' => 'Owner, Toko Elektronik Maju',
+        'photo' => 'https://ui-avatars.com/api/?name=Andi+Wijaya&size=100&background=random',
+        'text' => 'Website e-commerce yang dibuatkan Situneo sangat membantu penjualan kami meningkat 300%! Tim mereka profesional dan responsif.',
+        'rating' => 5
+    ],
+    [
+        'name' => 'Siti Rahayu',
+        'position' => 'Marketing Manager, PT Sejahtera',
+        'photo' => 'https://ui-avatars.com/api/?name=Siti+Rahayu&size=100&background=random',
+        'text' => 'SEO dan Google Ads dari Situneo membuat website kami selalu di halaman pertama. ROI sangat worth it!',
+        'rating' => 5
+    ],
+    [
+        'name' => 'Budi Santoso',
+        'position' => 'Founder, Startup TechHub',
+        'photo' => 'https://ui-avatars.com/api/?name=Budi+Santoso&size=100&background=random',
+        'text' => 'Dashboard dan sistem CRM yang mereka buat sangat membantu operasional startup kami. Highly recommended!',
+        'rating' => 5
+    ],
+    [
+        'name' => 'Lisa Permata',
+        'position' => 'Owner, Cafe Kopi Nikmat',
+        'photo' => 'https://ui-avatars.com/api/?name=Lisa+Permata&size=100&background=random',
+        'text' => 'Paket UMKM dari Situneo sangat terjangkau dan hasilnya melebihi ekspektasi. Orderan online naik signifikan!',
+        'rating' => 5
+    ],
+];
+
+// Why Choose Us
+$why_choose = [
+    [
+        'icon' => 'award',
+        'title' => '500+ Happy Clients',
+        'desc' => 'Dipercaya oleh ratusan bisnis dari berbagai industri di seluruh Indonesia'
+    ],
+    [
+        'icon' => 'cash-coin',
+        'title' => 'Harga Terjangkau',
+        'desc' => 'Kualitas premium dengan harga yang ramah di kantong UMKM hingga enterprise'
+    ],
+    [
+        'icon' => 'lightning-charge',
+        'title' => 'Fast Response',
+        'desc' => 'Tim support kami siap membantu 24/7 dengan response time 1-2 jam'
+    ],
+    [
+        'icon' => 'shield-check',
+        'title' => 'Garansi Kepuasan',
+        'desc' => 'Kami garansi 100% kepuasan atau revisi unlimited hingga Anda puas'
+    ],
+    [
+        'icon' => 'tools',
+        'title' => 'Teknologi Terkini',
+        'desc' => 'Menggunakan tech stack terbaru dan best practices dalam development'
+    ],
+    [
+        'icon' => 'graph-up-arrow',
+        'title' => 'Proven Results',
+        'desc' => 'Track record 98% satisfaction rate dan banyak klien dengan repeat order'
+    ],
+];
+
+?>
+<!DOCTYPE html>
+<html lang="<?= $lang ?>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= $t['page_title'] ?> - Situneo Digital</title>
+    <meta name="description" content="Tentang Situneo Digital - Partner digital terpercaya sejak 2020. Tim profesional, 500+ happy clients, harga terjangkau.">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-blue: #1E5C99;
+            --dark-blue: #0F3057;
+            --gold: #FFB400;
+            --light-bg: #F8F9FA;
+            --text-light: #E0E0E0;
+            --gradient-primary: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%);
+            --gradient-gold: linear-gradient(135deg, #FFB400 0%, #FF8C00 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+            background: var(--dark-blue);
+            color: #FFFFFF;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: rgba(15, 48, 87, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(15, 48, 87, 0.98) !important;
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--gold) !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-link {
+            color: var(--text-light) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--gold) !important;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 80%;
+        }
+        
+        .btn-login {
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-login:hover {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            transform: translateY(-2px);
+        }
+        
+        .btn-register {
+            background: var(--gradient-gold);
+            border: none;
+            color: var(--dark-blue);
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255,180,0,0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,180,0,0.5);
+            color: var(--dark-blue);
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            background: var(--gradient-primary);
+            padding: 120px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,180,0,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #FFFFFF 0%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+        
+        /* Section Title */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #FFFFFF 0%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+        
+        .section-subtitle {
+            color: var(--text-light);
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.2) 0%, rgba(15, 48, 87, 0.3) 100%);
+            padding: 60px 0;
+        }
+        
+        .stat-card {
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,180,0,0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            height: 100%;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+            box-shadow: 0 15px 40px rgba(255,180,0,0.3);
+        }
+        
+        .stat-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            filter: drop-shadow(0 5px 15px rgba(255,180,0,0.5));
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--gold);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 5px 20px rgba(255,180,0,0.5);
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        /* Story Section */
+        .story-section {
+            padding: 80px 0;
+        }
+        
+        .story-content {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.2) 0%, rgba(15, 48, 87, 0.3) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,180,0,0.3);
+            border-radius: 25px;
+            padding: 3rem;
+        }
+        
+        .story-text {
+            color: var(--text-light);
+            line-height: 1.9;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Mission/Vision Cards */
+        .mission-card {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.3) 0%, rgba(15, 48, 87, 0.4) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,180,0,0.3);
+            border-radius: 25px;
+            padding: 2.5rem;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+        
+        .mission-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,180,0,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .mission-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+            box-shadow: 0 20px 50px rgba(255,180,0,0.4);
+        }
+        
+        .mission-icon {
+            font-size: 4rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 5px 15px rgba(255,180,0,0.5));
+            position: relative;
+            z-index: 1;
+        }
+        
+        .mission-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .mission-desc {
+            color: var(--text-light);
+            font-size: 1.15rem;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Values Grid */
+        .value-card {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.2) 0%, rgba(15, 48, 87, 0.3) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,180,0,0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            height: 100%;
+        }
+        
+        .value-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+            box-shadow: 0 15px 40px rgba(255,180,0,0.3);
+        }
+        
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .value-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .value-desc {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+        
+        /* Team Cards */
+        .team-card {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.2) 0%, rgba(15, 48, 87, 0.3) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,180,0,0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s;
+            height: 100%;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--gold);
+            box-shadow: 0 20px 50px rgba(255,180,0,0.4);
+        }
+        
+        .team-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--gold);
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(255,180,0,0.3);
+            transition: all 0.3s;
+        }
+        
+        .team-card:hover .team-photo {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(255,180,0,0.5);
+        }
+        
+        .team-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-position {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .team-bio {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .team-social {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .team-social a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,180,0,0.2);
+            border: 1px solid var(--gold);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .team-social a:hover {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            transform: translateY(-3px);
+        }
+        
+        /* Timeline */
+        .timeline-section {
+            padding: 80px 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(30,92,153,0.1) 100%);
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-gold);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+            width: 50%;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            padding-right: 50px;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            padding-left: 50px;
+        }
+        
+        .timeline-content {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.3) 0%, rgba(15, 48, 87, 0.4) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,180,0,0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .timeline-content:hover {
+            border-color: var(--gold);
+            box-shadow: 0 15px 40px rgba(255,180,0,0.3);
+            transform: translateY(-5px);
+        }
+        
+        .timeline-icon {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--dark-blue);
+            border: 4px solid var(--dark-blue);
+            box-shadow: 0 5px 20px rgba(255,180,0,0.5);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-icon {
+            right: -30px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-icon {
+            left: -30px;
+        }
+        
+        .timeline-year {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .timeline-desc {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+        
+        /* Why Choose Section */
+        .why-card {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.2) 0%, rgba(15, 48, 87, 0.3) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,180,0,0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            height: 100%;
+            transition: all 0.3s;
+        }
+        
+        .why-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(255,180,0,0.3);
+        }
+        
+        .why-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .why-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .why-desc {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+        
+        /* Testimonials */
+        .testimonial-card {
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.2) 0%, rgba(15, 48, 87, 0.3) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,180,0,0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            height: 100%;
+            transition: all 0.3s;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(255,180,0,0.3);
+        }
+        
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .testimonial-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+        }
+        
+        .testimonial-info {
+            flex: 1;
+        }
+        
+        .testimonial-name {
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.25rem;
+        }
+        
+        .testimonial-position {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .testimonial-rating {
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+        
+        .testimonial-text {
+            color: var(--text-light);
+            line-height: 1.8;
+            font-style: italic;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: var(--gradient-gold);
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+        
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-title {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--dark-blue);
+            margin-bottom: 1rem;
+        }
+        
+        .cta-desc {
+            font-size: 1.3rem;
+            color: var(--dark-blue);
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+        
+        /* Buttons */
+        .btn-gold {
+            background: var(--dark-blue);
+            border: none;
+            color: var(--gold);
+            padding: 15px 35px;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(15,48,87,0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(15,48,87,0.5);
+            color: var(--gold);
+        }
+        
+        .btn-outline-dark {
+            border: 2px solid var(--dark-blue);
+            color: var(--dark-blue);
+            padding: 15px 35px;
+            font-weight: 700;
+            border-radius: 50px;
+            background: transparent;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-outline-dark:hover {
+            background: var(--dark-blue);
+            color: var(--gold);
+            transform: translateY(-3px);
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #0F3057 0%, #000000 100%);
+            border-top: 2px solid var(--gold);
+            padding: 3rem 0 1rem;
+        }
+        
+        footer h5 {
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        footer a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        footer a:hover {
+            color: var(--gold);
+            padding-left: 5px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            width: 45px;
+            height: 45px;
+            background: rgba(255,180,0,0.15);
+            border: 1px solid var(--gold);
+            border-radius: 12px;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            transform: translateY(-3px);
+        }
+        
+        /* Floating WhatsApp */
+        .float-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 5px 20px rgba(37,211,102,0.5);
+            z-index: 1000;
+            transition: all 0.3s;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .float-whatsapp:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(37,211,102,0.7);
+            color: white;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                padding-left: 80px !important;
+                padding-right: 0 !important;
+            }
+            
+            .timeline-item .timeline-icon {
+                left: 0 !important;
+            }
+            
+            .cta-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">
+                <img src="https://situneo.my.id/logo" alt="Situneo" width="50" height="50" style="border-radius: 12px;">
+                <span>SITUNEO</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.php"><?= $t['nav_home'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="about.php"><?= $t['nav_about'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.php"><?= $t['nav_services'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="portfolio.php"><?= $t['nav_portfolio'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="pricing.php"><?= $t['nav_pricing'] ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.php"><?= $t['nav_contact'] ?></a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="?lang=<?= $lang === 'id' ? 'en' : 'id' ?>">
+                            <i class="bi bi-translate"></i> <?= $lang === 'id' ? 'EN' : 'ID' ?>
+                        </a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a href="auth/login.php" class="btn-login"><?= $t['nav_login'] ?></a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a href="auth/register.php" class="btn-register"><?= $t['nav_register'] ?></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content text-center">
+                <div data-aos="fade-up">
+                    <h1 class="hero-title"><?= $t['hero_title'] ?></h1>
+                    <p class="hero-subtitle"><?= $t['hero_subtitle'] ?></p>
+                    <p class="lead" style="color: var(--text-light); max-width: 700px; margin: 0 auto;">
+                        <?= $t['hero_desc'] ?>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row g-4">
+                <?php foreach($stats as $index => $stat): ?>
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="<?= $index * 100 ?>">
+                    <div class="stat-card">
+                        <i class="bi bi-<?= $stat['icon'] ?> stat-icon" style="color: <?= $stat['color'] ?>;"></i>
+                        <div class="stat-number"><?= $stat['number'] ?></div>
+                        <div class="stat-label"><?= $stat['label'] ?></div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Story Section -->
+    <section class="story-section">
+        <div class="container">
+            <div data-aos="fade-up">
+                <h2 class="section-title"><?= $t['section_story'] ?></h2>
+                <p class="section-subtitle">
+                    Perjalanan kami dari startup kecil menjadi partner digital terpercaya
+                </p>
+            </div>
+            
+            <div class="story-content" data-aos="fade-up" data-aos-delay="100">
+                <p class="story-text">
+                    <strong style="color: var(--gold); font-size: 1.2rem;">Situneo Digital</strong> dimulai pada tahun 2020 dengan visi sederhana namun powerful: <strong>membuat solusi digital berkualitas accessible untuk semua bisnis</strong>, tidak peduli ukuran atau budget mereka.
+                </p>
+                <p class="story-text">
+                    Kami percaya bahwa setiap bisnis berhak untuk sukses di era digital. Namun, kami melihat banyak UMKM dan startup kesulitan karena <strong>harga jasa digital yang terlalu mahal</strong> atau kualitas yang tidak memadai.
+                </p>
+                <p class="story-text">
+                    Berangkat dari situ, kami memutuskan untuk <strong>mengubah industri ini</strong>. Kami kombinasikan expertise tim profesional dengan pricing model yang ramah di kantong. Hasilnya? Dalam 5 tahun, kami sudah membantu <strong>500+ bisnis dari berbagai industri</strong> untuk go digital dan grow online.
+                </p>
+                <p class="story-text">
+                    Hari ini, Situneo Digital bukan hanya tentang membuat website atau run ads. Kami adalah <strong>partner digital strategy</strong> yang committed untuk kesuksesan jangka panjang klien kami. Setiap project yang kami tangani, kami treat seperti project sendiri - dengan dedikasi penuh dan obsesi pada kualitas.
+                </p>
+                <p class="story-text" style="margin-bottom: 0;">
+                    <strong style="color: var(--gold);">Our mission continues:</strong> Membantu 1000+ bisnis lagi untuk achieve their digital potential. <strong>Join us in this journey!</strong>
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Mission/Vision Section -->
+    <section class="py-5" style="background: linear-gradient(180deg, transparent 0%, rgba(30,92,153,0.1) 100%);">
+        <div class="container">
+            <div data-aos="fade-up">
+                <h2 class="section-title"><?= $t['section_mission'] ?></h2>
+                <p class="section-subtitle">
+                    Fondasi yang membimbing setiap keputusan dan action kami
+                </p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="mission-card">
+                        <i class="bi bi-bullseye mission-icon"></i>
+                        <h3 class="mission-title"><?= $t['mission_title'] ?></h3>
+                        <p class="mission-desc">
+                            <?= $t['mission_desc'] ?>. Kami berkomitmen untuk terus innovate dan improve agar solusi kami selalu relevant, effective, dan tentunya affordable untuk semua segmen bisnis - dari UMKM hingga enterprise.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="mission-card">
+                        <i class="bi bi-eye mission-icon"></i>
+                        <h3 class="mission-title"><?= $t['vision_title'] ?></h3>
+                        <p class="mission-desc">
+                            <?= $t['vision_desc'] ?>. Kami envision masa depan di mana setiap bisnis, regardless of size, dapat compete dan thrive di digital landscape dengan bantuan solusi yang tepat dan partner yang reliable.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Values Section -->
+    <section class="py-5">
+        <div class="container">
+            <div data-aos="fade-up">
+                <h2 class="section-title"><?= $t['section_values'] ?></h2>
+                <p class="section-subtitle">
+                    6 nilai inti yang define cara kami bekerja dan berinteraksi dengan klien
+                </p>
+            </div>
+            
+            <div class="row g-4">
+                <?php foreach($values as $index => $value): ?>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="<?= $index * 100 ?>">
+                    <div class="value-card">
+                        <div class="value-icon" style="background: <?= $value['color'] ?>;">
+                            <i class="bi bi-<?= $value['icon'] ?>"></i>
+                        </div>
+                        <h3 class="value-title"><?= $value['title'] ?></h3>
+                        <p class="value-desc"><?= $value['desc'] ?></p>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Team Section -->
+    <section class="py-5" style="background: linear-gradient(180deg, rgba(30,92,153,0.1) 0%, transparent 100%);">
+        <div class="container">
+            <div data-aos="fade-up">
+            </div>
+            
+            <div class="row g-4">
+                <?php foreach($team as $index => $member): ?>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="<?= $index * 100 ?>">
+                    <div class="team-card">
+                        <img src="<?= $member['photo'] ?>" alt="<?= $member['name'] ?>" class="team-photo">
+                        <h3 class="team-name"><?= $member['name'] ?></h3>
+                        <div class="team-position"><?= $member['position'] ?></div>
+                        <p class="team-bio"><?= $member['bio'] ?></p>
+                        <div class="team-social">
+                            <?php foreach($member['social'] as $platform => $url): ?>
+                            <a href="<?= $url ?>" target="_blank" title="<?= ucfirst($platform) ?>">
+                                <i class="bi bi-<?= $platform ?>"></i>
+                            </a>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Timeline Section -->
+    <section class="timeline-section">
+        <div class="container">
+            <div data-aos="fade-up">
+                <h2 class="section-title"><?= $t['section_timeline'] ?></h2>
+                <p class="section-subtitle">
+                    Milestones penting dalam 5 tahun perjalanan kami
+                </p>
+            </div>
+            
+            <div class="timeline">
+                <?php foreach($timeline as $index => $item): ?>
+                <div class="timeline-item" data-aos="fade-up" data-aos-delay="<?= $index * 100 ?>">
+                    <div class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="bi bi-<?= $item['icon'] ?>"></i>
+                        </div>
+                        <div class="timeline-year"><?= $item['year'] ?></div>
+                        <h3 class="timeline-title"><?= $item['title'] ?></h3>
+                        <p class="timeline-desc"><?= $item['desc'] ?></p>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Why Choose Us Section -->
+    <section class="py-5">
+        <div class="container">
+            <div data-aos="fade-up">
+                <h2 class="section-title"><?= $t['section_why'] ?></h2>
+                <p class="section-subtitle">
+                    6 alasan kenapa 500+ bisnis mempercayakan digital mereka kepada kami
+                </p>
+            </div>
+            
+            <div class="row g-4">
+                <?php foreach($why_choose as $index => $why): ?>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="<?= $index * 100 ?>">
+                    <div class="why-card">
+                        <i class="bi bi-<?= $why['icon'] ?> why-icon"></i>
+                        <h3 class="why-title"><?= $why['title'] ?></h3>
+                        <p class="why-desc"><?= $why['desc'] ?></p>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section class="py-5" style="background: linear-gradient(180deg, transparent 0%, rgba(30,92,153,0.1) 100%);">
+        <div class="container">
+            <div data-aos="fade-up">
+                <h2 class="section-title"><?= $t['section_testimonials'] ?></h2>
+                <p class="section-subtitle">
+                    Real feedback dari klien-klien yang puas dengan hasil kerja kami
+                </p>
+            </div>
+            
+            <div class="row g-4">
+                <?php foreach($testimonials as $index => $testimonial): ?>
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="<?= $index * 100 ?>">
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <img src="<?= $testimonial['photo'] ?>" alt="<?= $testimonial['name'] ?>" class="testimonial-photo">
+                            <div class="testimonial-info">
+                                <div class="testimonial-name"><?= $testimonial['name'] ?></div>
+                                <div class="testimonial-position"><?= $testimonial['position'] ?></div>
+                            </div>
+                            <div class="testimonial-rating">
+                                <?php for($i = 0; $i < $testimonial['rating']; $i++): ?>
+                                <i class="bi bi-star-fill"></i>
+                                <?php endfor; ?>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"<?= $testimonial['text'] ?>"</p>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content text-center">
+                <h2 class="cta-title" data-aos="zoom-in"><?= $t['cta_title'] ?></h2>
+                <p class="cta-desc" data-aos="zoom-in" data-aos-delay="100">
+                    <?= $t['cta_desc'] ?>
+                </p>
+                
+                <div class="mt-4" data-aos="zoom-in" data-aos-delay="200">
+                    <a href="contact.php" class="btn-gold me-3">
+                        <i class="bi bi-envelope"></i> <?= $t['btn_contact'] ?>
+                    </a>
+                    <a href="services.php" class="btn-outline-dark">
+                        <i class="bi bi-grid"></i> <?= $t['btn_services'] ?>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row g-4">
+                <!-- Brand Info -->
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://situneo.my.id/logo" 
+                             alt="Situneo" width="60" height="60" 
+                             style="border-radius: 15px; margin-right: 15px;">
+                        <div>
+                            <h4 style="color: var(--gold); margin: 0; font-weight: 800;">SITUNEO DIGITAL</h4>
+                            <small style="color: var(--text-light);">Digital Harmony</small>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-light); line-height: 1.8; margin-bottom: 1rem;">
+                        Partner digital terpercaya sejak 2020. Udah bantu 500+ bisnis sukses online dengan harga paling terjangkau!
+                    </p>
+                    <div class="mb-3">
+                        <div style="display: inline-block; padding: 8px 15px; background: rgba(255,180,0,0.15); border: 1px solid var(--gold); border-radius: 8px;">
+                            <small style="color: var(--text-light);">NIB:</small>
+                            <strong style="color: var(--gold); margin-left: 5px;">20250-9261-4570-4515-5453</strong>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="<?= $wa_link ?>" target="_blank" title="WhatsApp">
+                            <i class="bi bi-whatsapp"></i>
+                        </a>
+                        <a href="#" target="_blank" title="Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" target="_blank" title="Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" target="_blank" title="LinkedIn">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                        <a href="#" target="_blank" title="TikTok">
+                            <i class="bi bi-tiktok"></i>
+                        </a>
+                        <a href="#" target="_blank" title="YouTube">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-4">
+                    <h5>Menu Cepat</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.php"><i class="bi bi-chevron-right"></i> Beranda</a></li>
+                        <li><a href="about.php"><i class="bi bi-chevron-right"></i> Tentang Kami</a></li>
+                        <li><a href="services.php"><i class="bi bi-chevron-right"></i> Layanan</a></li>
+                        <li><a href="portfolio.php"><i class="bi bi-chevron-right"></i> Demo Website</a></li>
+                        <li><a href="pricing.php"><i class="bi bi-chevron-right"></i> Harga Paket</a></li>
+                        <li><a href="calculator.php"><i class="bi bi-chevron-right"></i> Kalkulator Harga</a></li>
+                        <li><a href="contact.php"><i class="bi bi-chevron-right"></i> Kontak</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Popular Services -->
+                <div class="col-lg-3 col-md-4">
+                    <h5>Layanan Populer</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="services.php#service-1"><i class="bi bi-check-circle"></i> Pembuatan Website</a></li>
+                        <li><a href="services.php#service-3"><i class="bi bi-check-circle"></i> E-Commerce</a></li>
+                        <li><a href="services.php#service-7"><i class="bi bi-check-circle"></i> SEO Premium</a></li>
+                        <li><a href="services.php#service-10"><i class="bi bi-check-circle"></i> Google Ads</a></li>
+                        <li><a href="services.php#service-15"><i class="bi bi-check-circle"></i> Chatbot AI</a></li>
+                        <li><a href="services.php#service-17"><i class="bi bi-check-circle"></i> Dashboard Custom</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="col-lg-3 col-md-4">
+                    <h5>Hubungi Kami</h5>
+                    <ul class="list-unstyled">
+                        <li style="margin-bottom: 1rem;">
+                            <i class="bi bi-envelope" style="color: var(--gold); margin-right: 10px;"></i>
+                            <a href="mailto:info@situneo.my.id" style="color: var(--text-light);">info@situneo.my.id</a>
+                        </li>
+                        <li style="margin-bottom: 1rem;">
+                            <i class="bi bi-whatsapp" style="color: var(--gold); margin-right: 10px;"></i>
+                            <a href="<?= $wa_link ?>" style="color: var(--text-light);">+62 817-040-4594</a>
+                        </li>
+                        <li style="margin-bottom: 1rem;">
+                            <i class="bi bi-geo-alt" style="color: var(--gold); margin-right: 10px;"></i>
+                            <span style="color: var(--text-light);">Jakarta, Indonesia</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-clock" style="color: var(--gold); margin-right: 10px;"></i>
+                            <span style="color: var(--text-light);">24/7 Online</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr style="border-color: rgba(255,180,0,0.2); margin: 2rem 0;">
+            
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p style="color: var(--text-light); margin: 0; font-size: 0.95rem;">
+                        &copy; 2025 <strong style="color: var(--gold);">Situneo Digital</strong>. All Rights Reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p style="color: var(--text-light); margin: 0; font-size: 0.95rem;">
+                        Made with <i class="bi bi-heart-fill" style="color: #FF0000;"></i> in Jakarta, Indonesia
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Floating WhatsApp Button -->
+    <a href="<?= $wa_link ?>?text=Halo, saya mau tanya tentang Situneo Digital" 
+       class="float-whatsapp" 
+       target="_blank"
+       title="Chat WhatsApp">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Counter animation for stats
+        function animateCounter(element, target, duration = 2000) {
+            const suffix = element.dataset.suffix || '';
+            let current = 0;
+            const isPercentage = suffix === '%';
+            const numericTarget = parseInt(target.replace(/[^0-9]/g, ''));
+            
+            if (isNaN(numericTarget)) {
+                element.textContent = target;
+                return;
+            }
+            
+            const increment = numericTarget / (duration / 16);
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= numericTarget) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current) + (suffix || '+');
+                }
+            }, 16);
+        }
+        
+        // Trigger counter animation when stats section is visible
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const numbers = entry.target.querySelectorAll('.stat-number');
+                        numbers.forEach(number => {
+                            const target = number.textContent;
+                            number.dataset.suffix = target.includes('%') ? '%' : '+';
+                            animateCounter(number, target);
+                        });
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            statsObserver.observe(statsSection);
+        }
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Parallax effect for hero section
+        window.addEventListener('scroll', function() {
+            const hero = document.querySelector('.hero-section');
+            if (hero) {
+                const scrolled = window.pageYOffset;
+                hero.style.transform = 'translateY(' + (scrolled * 0.5) + 'px)';
+            }
+        });
+        
+        // Log page view
+        console.log('About page loaded successfully');
+        console.log('Team members: <?= count($team) ?>');
+        console.log('Timeline items: <?= count($timeline) ?>');
+    </script>
+</body>
+</html>
