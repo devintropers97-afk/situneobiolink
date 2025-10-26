@@ -1,0 +1,1192 @@
+<?php
+/**
+ * ========================================
+ * SITUNEO DIGITAL - Portfolio Page
+ * 50 Demo Website dari Berbagai Industri
+ * NIB: 20250-9261-4570-4515-5453
+ * ========================================
+ */
+
+session_start();
+date_default_timezone_set('Asia/Jakarta');
+
+$lang = $_GET['lang'] ?? $_SESSION['lang'] ?? 'id';
+$_SESSION['lang'] = $lang;
+
+// Multi-language content
+$text = [
+    'id' => [
+        'page_title' => '50+ Demo Website Profesional',
+        'page_subtitle' => 'Lihat contoh website yang udah jadi dari berbagai jenis bisnis',
+        'filter_all' => 'Semua Demo',
+        'btn_view_demo' => 'LIHAT DEMO',
+        'btn_order_similar' => 'PESAN YANG MIRIP',
+        'views' => 'views',
+        'category' => 'Kategori',
+    ],
+    'en' => [
+        'page_title' => '50+ Professional Website Demos',
+        'page_subtitle' => 'See examples of finished websites from various types of businesses',
+        'filter_all' => 'All Demos',
+        'btn_view_demo' => 'VIEW DEMO',
+        'btn_order_similar' => 'ORDER SIMILAR',
+        'views' => 'views',
+        'category' => 'Category',
+    ]
+];
+$t = $text[$lang];
+
+// 50 PORTFOLIO / DEMO WEBSITE
+$portfolios = [
+    // E-COMMERCE / TOKO ONLINE (10)
+    ['id' => 1, 'title' => 'Fashion Store Premium', 'category' => 'E-Commerce', 'description' => 'Toko fashion online dengan katalog produk lengkap, shopping cart, payment gateway, dan sistem tracking pengiriman', 'image' => 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 2543, 'tags' => ['E-Commerce', 'Fashion', 'Payment Gateway']],
+    ['id' => 2, 'title' => 'Elektronik Marketplace', 'category' => 'E-Commerce', 'description' => 'Marketplace elektronik dengan multi vendor, review produk, wishlist, dan compare features', 'image' => 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1892, 'tags' => ['Marketplace', 'Elektronik', 'Multi Vendor']],
+    ['id' => 3, 'title' => 'Toko Sepatu Online', 'category' => 'E-Commerce', 'description' => 'E-commerce sepatu dengan filter size, color picker, zoom produk 360°, dan size guide', 'image' => 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1654, 'tags' => ['Fashion', 'Sepatu', '360° View']],
+    ['id' => 4, 'title' => 'Kosmetik & Skincare Shop', 'category' => 'E-Commerce', 'description' => 'Toko kosmetik dengan skin analyzer, product recommendation, tutorial makeup, dan loyalty points', 'image' => 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 2156, 'tags' => ['Kosmetik', 'Beauty', 'Loyalty Program']],
+    ['id' => 5, 'title' => 'Toko Buku Online', 'category' => 'E-Commerce', 'description' => 'E-commerce buku dengan preview pages, review rating, pre-order system, dan bundling discount', 'image' => 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1432, 'tags' => ['Books', 'Pre-Order', 'Review System']],
+    ['id' => 6, 'title' => 'Furniture Store', 'category' => 'E-Commerce', 'description' => 'Toko furniture dengan AR visualization, custom order, installment payment, dan measurement guide', 'image' => 'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1876, 'tags' => ['Furniture', 'AR View', 'Cicilan']],
+    ['id' => 7, 'title' => 'Toko Perhiasan Online', 'category' => 'E-Commerce', 'description' => 'Jewelry store dengan 3D product view, custom design service, certificate authenticity, dan insurance', 'image' => 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1234, 'tags' => ['Jewelry', '3D View', 'Custom Design']],
+    ['id' => 8, 'title' => 'Grocery & Supermarket Online', 'category' => 'E-Commerce', 'description' => 'Supermarket online dengan scheduled delivery, fresh guarantee, same day delivery, dan recipe ideas', 'image' => 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 2987, 'tags' => ['Grocery', 'Fresh Food', 'Same Day']],
+    ['id' => 9, 'title' => 'Gadget & Aksesoris Store', 'category' => 'E-Commerce', 'description' => 'Toko gadget dengan compatibility checker, trade-in program, extended warranty, dan tech support', 'image' => 'https://images.unsplash.com/photo-1468495244123-6c6c332eeece?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 2345, 'tags' => ['Gadget', 'Trade-In', 'Warranty']],
+    ['id' => 10, 'title' => 'Pet Shop Online', 'category' => 'E-Commerce', 'description' => 'Toko hewan dengan pet breed info, grooming schedule, vet consultation, dan adoption service', 'image' => 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1567, 'tags' => ['Pet Shop', 'Adoption', 'Vet Consult']],
+    
+    // FOOD & BEVERAGE (8)
+    ['id' => 11, 'title' => 'Restaurant Fine Dining', 'category' => 'Food & Beverage', 'description' => 'Website restoran mewah dengan online reservation, menu digital, chef stories, dan private dining', 'image' => 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1876, 'tags' => ['Restaurant', 'Booking', 'Fine Dining']],
+    ['id' => 12, 'title' => 'Cafe & Coffee Shop', 'category' => 'Food & Beverage', 'description' => 'Website cafe dengan online order, loyalty card, delivery tracking, dan coffee education', 'image' => 'https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 2134, 'tags' => ['Cafe', 'Online Order', 'Loyalty']],
+    ['id' => 13, 'title' => 'Bakery & Cake Shop', 'category' => 'Food & Beverage', 'description' => 'Toko roti dengan custom cake order, flavor selector, delivery schedule, dan cake tutorials', 'image' => 'https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1654, 'tags' => ['Bakery', 'Custom Order', 'Delivery']],
+    ['id' => 14, 'title' => 'Fast Food Chain', 'category' => 'Food & Beverage', 'description' => 'Website fast food dengan mobile order, drive thru, promo tracker, dan nutrition calculator', 'image' => 'https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 3210, 'tags' => ['Fast Food', 'Mobile Order', 'Promo']],
+    ['id' => 15, 'title' => 'Catering Service', 'category' => 'Food & Beverage', 'description' => 'Layanan catering dengan package selector, event calculator, menu customization, dan testimony', 'image' => 'https://images.unsplash.com/photo-1555244162-803834f70033?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1432, 'tags' => ['Catering', 'Event', 'Package']],
+    ['id' => 16, 'title' => 'Cloud Kitchen', 'category' => 'Food & Beverage', 'description' => 'Multi-brand kitchen dengan order tracking, live kitchen cam, rating system, dan subscription meal', 'image' => 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1789, 'tags' => ['Cloud Kitchen', 'Multi Brand', 'Subscription']],
+    ['id' => 17, 'title' => 'Bar & Lounge', 'category' => 'Food & Beverage', 'description' => 'Website bar dengan cocktail menu, event calendar, VIP booking, dan mixology class', 'image' => 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1234, 'tags' => ['Bar', 'Event', 'VIP Booking']],
+    ['id' => 18, 'title' => 'Food Delivery Platform', 'category' => 'Food & Beverage', 'description' => 'Platform delivery makanan dengan multi restaurant, real-time tracking, promo code, dan review', 'image' => 'https://images.unsplash.com/photo-1526367790999-0150786686a2?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 4567, 'tags' => ['Delivery', 'Multi Resto', 'Tracking']],
+    
+    // CORPORATE / COMPANY PROFILE (8)
+    ['id' => 19, 'title' => 'IT Company Profile', 'category' => 'Corporate', 'description' => 'Company profile perusahaan IT dengan portfolio projects, team showcase, tech blog, dan career page', 'image' => 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 2345, 'tags' => ['IT Company', 'Portfolio', 'Career']],
+    ['id' => 20, 'title' => 'Konstruksi & Developer', 'category' => 'Corporate', 'description' => 'Website developer properti dengan project showcase, virtual tour, payment simulator, dan testimonial', 'image' => 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1876, 'tags' => ['Developer', 'Virtual Tour', 'Simulator']],
+    ['id' => 21, 'title' => 'Manufacturing Company', 'category' => 'Corporate', 'description' => 'Perusahaan manufaktur dengan product catalog, factory tour video, quality certificates, dan contact', 'image' => 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1234, 'tags' => ['Manufacturing', 'Catalog', 'Certificate']],
+    ['id' => 22, 'title' => 'Consulting Firm', 'category' => 'Corporate', 'description' => 'Perusahaan konsultan dengan service explanation, case studies, expert profiles, dan free audit', 'image' => 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1567, 'tags' => ['Consulting', 'Case Study', 'Expert']],
+    ['id' => 23, 'title' => 'Law Firm', 'category' => 'Corporate', 'description' => 'Website firma hukum dengan practice areas, lawyer profiles, legal articles, dan consultation booking', 'image' => 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1432, 'tags' => ['Law Firm', 'Lawyer', 'Consultation']],
+    ['id' => 24, 'title' => 'Accounting Firm', 'category' => 'Corporate', 'description' => 'Kantor akuntan dengan service packages, tax calculator, client portal, dan financial tips', 'image' => 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1234, 'tags' => ['Accounting', 'Tax', 'Portal']],
+    ['id' => 25, 'title' => 'Logistic Company', 'category' => 'Corporate', 'description' => 'Perusahaan logistik dengan tracking system, price calculator, service coverage map, dan quotation', 'image' => 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1876, 'tags' => ['Logistic', 'Tracking', 'Calculator']],
+    ['id' => 26, 'title' => 'Insurance Company', 'category' => 'Corporate', 'description' => 'Perusahaan asuransi dengan product comparison, claim process guide, agent finder, dan calculator', 'image' => 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1654, 'tags' => ['Insurance', 'Comparison', 'Agent']],
+    
+    // HEALTHCARE & WELLNESS (6)
+    ['id' => 27, 'title' => 'Rumah Sakit Modern', 'category' => 'Healthcare', 'description' => 'Website RS dengan doctor schedule, online appointment, medical records, dan emergency hotline', 'image' => 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 3456, 'tags' => ['Hospital', 'Appointment', 'Emergency']],
+    ['id' => 28, 'title' => 'Klinik & Praktek Dokter', 'category' => 'Healthcare', 'description' => 'Website klinik dengan booking system, doctor profiles, health articles, dan telemedicine', 'image' => 'https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 2345, 'tags' => ['Clinic', 'Telemedicine', 'Booking']],
+    ['id' => 29, 'title' => 'Apotek Online', 'category' => 'Healthcare', 'description' => 'Apotek online dengan prescription upload, drug info, delivery service, dan consultation', 'image' => 'https://images.unsplash.com/photo-1576602976047-174e57a47881?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 2876, 'tags' => ['Pharmacy', 'Prescription', 'Delivery']],
+    ['id' => 30, 'title' => 'Gym & Fitness Center', 'category' => 'Healthcare', 'description' => 'Website gym dengan class schedule, trainer profiles, membership plans, dan workout tracker', 'image' => 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1987, 'tags' => ['Gym', 'Membership', 'Trainer']],
+    ['id' => 31, 'title' => 'Spa & Wellness', 'category' => 'Healthcare', 'description' => 'Website spa dengan treatment menu, booking system, package deals, dan loyalty rewards', 'image' => 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1654, 'tags' => ['Spa', 'Treatment', 'Package']],
+    ['id' => 32, 'title' => 'Dental Clinic', 'category' => 'Healthcare', 'description' => 'Klinik gigi dengan treatment catalog, before-after gallery, appointment booking, dan price list', 'image' => 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1432, 'tags' => ['Dental', 'Gallery', 'Appointment']],
+    
+    // EDUCATION (5)
+    ['id' => 33, 'title' => 'Online Course Platform', 'category' => 'Education', 'description' => 'Platform kursus online dengan video lessons, quiz system, certificate, dan discussion forum', 'image' => 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 3456, 'tags' => ['E-Learning', 'Video', 'Certificate']],
+    ['id' => 34, 'title' => 'Sekolah & Universitas', 'category' => 'Education', 'description' => 'Website kampus dengan program info, online admission, student portal, dan virtual campus tour', 'image' => 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 2876, 'tags' => ['University', 'Admission', 'Portal']],
+    ['id' => 35, 'title' => 'Bimbingan Belajar', 'category' => 'Education', 'description' => 'Bimbel dengan class schedule, progress tracker, online test, dan parent dashboard', 'image' => 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1987, 'tags' => ['Tutoring', 'Progress', 'Dashboard']],
+    ['id' => 36, 'title' => 'Kursus Bahasa', 'category' => 'Education', 'description' => 'Language center dengan level placement test, native teacher profiles, dan conversation practice', 'image' => 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1654, 'tags' => ['Language', 'Teacher', 'Test']],
+    ['id' => 37, 'title' => 'Coding Bootcamp', 'category' => 'Education', 'description' => 'Bootcamp programming dengan curriculum, project portfolio, job guarantee, dan hiring partner', 'image' => 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 2234, 'tags' => ['Bootcamp', 'Programming', 'Job']],
+    
+    // PROPERTY & REAL ESTATE (4)
+    ['id' => 38, 'title' => 'Real Estate Portal', 'category' => 'Property', 'description' => 'Portal properti dengan advanced search, virtual tour 360°, KPR calculator, dan agent directory', 'image' => 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 3210, 'tags' => ['Property', 'Virtual Tour', 'KPR']],
+    ['id' => 39, 'title' => 'Property Agent Profile', 'category' => 'Property', 'description' => 'Website agen properti dengan listing portfolio, success stories, consultation booking, dan testimonial', 'image' => 'https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1876, 'tags' => ['Agent', 'Listing', 'Testimonial']],
+    ['id' => 40, 'title' => 'Apartemen & Kondominium', 'category' => 'Property', 'description' => 'Website apartemen dengan unit availability, facility gallery, payment plan, dan resident portal', 'image' => 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 2345, 'tags' => ['Apartment', 'Facility', 'Portal']],
+    ['id' => 41, 'title' => 'Coworking Space', 'category' => 'Property', 'description' => 'Coworking space dengan desk booking, meeting room, membership tiers, dan community events', 'image' => 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1654, 'tags' => ['Coworking', 'Booking', 'Community']],
+    
+    // SERVICES (5)
+    ['id' => 42, 'title' => 'Salon & Barber Shop', 'category' => 'Services', 'description' => 'Website salon dengan stylist portfolio, online booking, treatment menu, dan membership card', 'image' => 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1876, 'tags' => ['Salon', 'Booking', 'Stylist']],
+    ['id' => 43, 'title' => 'Laundry Service', 'category' => 'Services', 'description' => 'Laundry dengan online order, pick-up schedule, price calculator, dan loyalty points', 'image' => 'https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1432, 'tags' => ['Laundry', 'Pick-Up', 'Loyalty']],
+    ['id' => 44, 'title' => 'Service AC & Elektronik', 'category' => 'Services', 'description' => 'Service AC dengan booking online, emergency call, price list, dan technician tracking', 'image' => 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 2123, 'tags' => ['Service', 'Emergency', 'Tracking']],
+    ['id' => 45, 'title' => 'Car Wash & Detailing', 'category' => 'Services', 'description' => 'Cuci mobil dengan package options, membership, before-after gallery, dan mobile service', 'image' => 'https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1765, 'tags' => ['Car Wash', 'Package', 'Mobile']],
+    ['id' => 46, 'title' => 'Fotografer & Videografer', 'category' => 'Services', 'description' => 'Portfolio fotografer dengan gallery showcase, package pricing, booking calendar, dan testimonial', 'image' => 'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 2345, 'tags' => ['Photography', 'Portfolio', 'Booking']],
+    
+    // CREATIVE & AGENCY (4)
+    ['id' => 47, 'title' => 'Digital Agency', 'category' => 'Creative', 'description' => 'Agency digital dengan service showcase, case studies, client logos, dan free consultation', 'image' => 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 2876, 'tags' => ['Agency', 'Case Study', 'Consultation']],
+    ['id' => 48, 'title' => 'Architecture Studio', 'category' => 'Creative', 'description' => 'Studio arsitek dengan project gallery, design process, team profiles, dan quotation form', 'image' => 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1987, 'tags' => ['Architecture', 'Gallery', 'Quotation']],
+    ['id' => 49, 'title' => 'Event Organizer', 'category' => 'Creative', 'description' => 'EO dengan event portfolio, vendor network, package catalog, dan online inquiry', 'image' => 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 1654, 'tags' => ['Event', 'Vendor', 'Package']],
+    ['id' => 50, 'title' => 'Interior Design Studio', 'category' => 'Creative', 'description' => 'Studio interior dengan before-after gallery, 3D visualization, style guide, dan free survey', 'image' => 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&h=600&fit=crop&q=80', 'demo_url' => '#', 'views' => 2234, 'tags' => ['Interior', '3D Visual', 'Survey']],
+];
+
+// Get unique categories with count
+$categories = [];
+foreach($portfolios as $port) {
+    $cat = $port['category'];
+    if (!isset($categories[$cat])) {
+        $categories[$cat] = 0;
+    }
+    $categories[$cat]++;
+}
+?>
+<!DOCTYPE html>
+<html lang="<?= $lang ?>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= $t['page_title'] ?> - SITUNEO DIGITAL</title>
+    <meta name="description" content="50+ demo website profesional dari berbagai industri. Lihat contoh hasil kerja kami untuk E-Commerce, Corporate, F&B, Healthcare, dan lainnya.">
+    <meta name="keywords" content="demo website, portfolio web, contoh website, template website profesional">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://situneo.my.id/logo">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    
+    <style>
+        :root {
+            --primary-blue: #1E5C99;
+            --dark-blue: #0F3057;
+            --gold: #FFB400;
+            --bright-gold: #FFD700;
+            --white: #ffffff;
+            --text-light: #e9ecef;
+            --gradient-primary: linear-gradient(135deg, #1E5C99 0%, #0F3057 100%);
+            --gradient-gold: linear-gradient(135deg, #FFD700 0%, #FFB400 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-blue);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* Network Background */
+        .network-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -2;
+            overflow: hidden;
+            opacity: 0.3;
+        }
+        
+        .network-bg canvas {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Circuit Pattern */
+        .circuit-pattern {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.05;
+            background-image: 
+                linear-gradient(90deg, var(--gold) 1px, transparent 1px),
+                linear-gradient(180deg, var(--gold) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: circuit-move 60s linear infinite;
+        }
+        
+        @keyframes circuit-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        /* Navbar */
+        .navbar-premium {
+            background: rgba(15, 48, 87, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 998;
+            border-bottom: 1px solid rgba(255, 180, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-premium.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(15, 48, 87, 0.98);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .nav-link {
+            color: var(--white) !important;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            color: var(--gold) !important;
+            transform: translateY(-2px);
+        }
+
+        /* Language Switcher */
+        .lang-switcher {
+            display: flex;
+            gap: 5px;
+        }
+
+        .lang-btn {
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: rgba(255,180,0,0.1);
+            border: 1px solid rgba(255,180,0,0.3);
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            border-color: var(--gold);
+            font-weight: 700;
+        }
+
+        /* Hero Section */
+        .hero-portfolio {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 150px 20px 80px;
+            position: relative;
+            background: radial-gradient(ellipse at top, rgba(255, 180, 0, 0.1) 0%, transparent 50%);
+        }
+
+        .section-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Filter Buttons */
+        .filter-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .filter-btn {
+            padding: 10px 25px;
+            border-radius: 50px;
+            background: rgba(255,180,0,0.1);
+            border: 2px solid rgba(255,180,0,0.3);
+            color: var(--text-light);
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            border-color: var(--gold);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255,180,0,0.4);
+        }
+
+        /* Portfolio Card */
+        .portfolio-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.4s;
+            cursor: pointer;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(30, 92, 153, 0.1) 0%, rgba(15, 48, 87, 0.2) 100%);
+            border: 1px solid rgba(255, 180, 0, 0.2);
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255,180,0,0.3);
+            border-color: var(--gold);
+        }
+
+        .portfolio-image {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .portfolio-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .portfolio-card:hover .portfolio-image img {
+            transform: scale(1.1);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent 0%, rgba(15,48,87,0.95) 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.5rem;
+        }
+
+        .portfolio-card:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        .category-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .views-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,0,0,0.9);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+        }
+
+        .portfolio-content {
+            padding: 1.5rem;
+        }
+
+        .portfolio-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 1rem;
+        }
+
+        .tag-badge {
+            background: rgba(255,180,0,0.2);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .btn-gold {
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            border: none;
+            padding: 12px 30px;
+            font-weight: 700;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(255, 180, 0, 0.3);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 180, 0, 0.6);
+            color: var(--dark-blue);
+        }
+
+        /* Search Box */
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .search-box input {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,180,0,0.3);
+            color: white;
+            padding: 15px 50px 15px 20px;
+            border-radius: 50px;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            background: rgba(255,255,255,0.15);
+            border-color: var(--gold);
+            outline: none;
+            box-shadow: 0 0 20px rgba(255,180,0,0.3);
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+
+        /* Stats Counter */
+        .stats-counter {
+            background: rgba(255,180,0,0.1);
+            border: 1px solid rgba(255,180,0,0.2);
+            border-radius: 15px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        /* Floating WhatsApp */
+        .floating-wa {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 8px 20px rgba(37,211,102,0.4);
+            animation: pulse-wa 2s infinite;
+            text-decoration: none;
+        }
+
+        @keyframes pulse-wa {
+            0%, 100% { 
+                transform: scale(1); 
+                box-shadow: 0 8px 20px rgba(37,211,102,0.4);
+            }
+            50% { 
+                transform: scale(1.1); 
+                box-shadow: 0 12px 30px rgba(37,211,102,0.6);
+            }
+        }
+
+        /* Back to Top */
+        #backToTop {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            z-index: 998;
+            background: var(--gradient-gold);
+            color: var(--dark-blue);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            box-shadow: 0 5px 15px rgba(255,180,0,0.4);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        #backToTop:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255,180,0,0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .filter-btn {
+                padding: 8px 15px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Network Background -->
+    <div class="network-bg" id="networkBg"></div>
+    
+    <!-- Circuit Pattern -->
+    <div class="circuit-pattern"></div>
+    
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-premium">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.php" style="text-decoration: none;">
+                <img src="https://situneo.my.id/logo" 
+                     alt="Situneo" width="50" height="50" 
+                     style="margin-right: 15px; border-radius: 10px; box-shadow: 0 5px 15px rgba(255,180,0,0.4);">
+                <div>
+                    <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--gold);">SITUNEO</span>
+                    <small style="display: block; font-size: 0.7rem; color: var(--text-light); margin-top: -5px;">Digital Harmony</small>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    style="border-color: var(--gold);">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.php">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.php">Tentang Kami</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.php">Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="portfolio.php">Demo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="pricing.php">Harga Paket</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.php">Hubungi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="calculator.php">Hitung Harga</a></li>
+                    <li class="nav-item ms-3">
+                        <a href="auth/login.php" class="btn btn-outline-warning btn-sm" style="border-radius: 50px; padding: 8px 20px;">
+                            <i class="bi bi-box-arrow-in-right"></i> Masuk
+                        </a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <div class="lang-switcher">
+                            <a href="?lang=id" class="lang-btn <?= $lang == 'id' ? 'active' : '' ?>">🇮🇩 ID</a>
+                            <a href="?lang=en" class="lang-btn <?= $lang == 'en' ? 'active' : '' ?>">🇺🇸 EN</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero-portfolio">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h1 class="section-title"><?= $t['page_title'] ?></h1>
+                <p class="lead" style="color: var(--text-light); max-width: 800px; margin: 0 auto 2rem; font-size: 1.3rem;">
+                    <?= $t['page_subtitle'] ?>
+                </p>
+                <div style="display: inline-block; background: linear-gradient(135deg, #FF0000 0%, #FF6B00 100%); border: 2px solid #FFD700; padding: 12px 25px; border-radius: 50px; animation: pulse 2s infinite; box-shadow: 0 10px 30px rgba(255,0,0,0.5); margin-bottom: 2rem;">
+                    <i class="bi bi-play-circle-fill" style="color: #FFD700; font-size: 1.3rem;"></i>
+                    <span style="color: white; font-weight: 800; margin-left: 8px; font-size: 1.1rem;">50 Demo Siap Lihat!</span>
+                </div>
+            </div>
+            
+            <!-- Search Box -->
+            <div class="search-box" data-aos="fade-up" data-aos-delay="100">
+                <div style="position: relative;">
+                    <input type="text" id="searchInput" placeholder="Cari demo website... (contoh: toko baju, restoran, klinik)" onkeyup="searchPortfolio()">
+                    <i class="bi bi-search search-icon"></i>
+                </div>
+            </div>
+            
+            <!-- Stats -->
+            <div class="row g-3 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-md-3 col-6">
+                    <div class="stats-counter">
+                        <h3 style="color: var(--gold); font-weight: 900; margin: 0; font-size: 2rem;">50+</h3>
+                        <small style="color: var(--text-light);">Demo Website</small>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats-counter">
+                        <h3 style="color: var(--gold); font-weight: 900; margin: 0; font-size: 2rem;"><?= count($categories) ?></h3>
+                        <small style="color: var(--text-light);">Kategori Bisnis</small>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats-counter">
+                        <h3 style="color: var(--gold); font-weight: 900; margin: 0; font-size: 2rem;">100%</h3>
+                        <small style="color: var(--text-light);">Responsive</small>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats-counter">
+                        <h3 style="color: var(--gold); font-weight: 900; margin: 0; font-size: 2rem;">24/7</h3>
+                        <small style="color: var(--text-light);">Support</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="py-3" style="background: rgba(30,92,153,0.1);">
+        <div class="container">
+            <div class="filter-container" data-aos="fade-up">
+                <button class="filter-btn active" onclick="filterPortfolio('all')"><?= $t['filter_all'] ?> (50)</button>
+                <?php foreach($categories as $cat => $count): ?>
+                <button class="filter-btn" onclick="filterPortfolio('<?= $cat ?>')"><?= $cat ?> (<?= $count ?>)</button>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Grid -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4" id="portfolioGrid">
+                <?php foreach($portfolios as $index => $port): ?>
+                <div class="col-lg-4 col-md-6 portfolio-item" data-category="<?= $port['category'] ?>" data-title="<?= strtolower($port['title']) ?>" data-aos="zoom-in" data-aos-delay="<?= ($index % 3) * 100 ?>">
+                    <div class="portfolio-card" id="demo-<?= $port['id'] ?>">
+                        <!-- Image -->
+                        <div class="portfolio-image">
+                            <img src="<?= htmlspecialchars($port['image']) ?>" 
+                                 alt="<?= htmlspecialchars($port['title']) ?>"
+                                 loading="lazy">
+                            <span class="category-badge"><?= htmlspecialchars($port['category']) ?></span>
+                            <span class="views-badge">
+                                <i class="bi bi-eye"></i> <?= number_format($port['views']) ?> <?= $t['views'] ?>
+                            </span>
+                            
+                            <!-- Overlay -->
+                            <div class="portfolio-overlay">
+                                <h5 style="color: var(--gold); font-weight: 700; margin-bottom: 0.5rem;">
+                                    <?= htmlspecialchars($port['title']) ?>
+                                </h5>
+                                <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">
+                                    <?= htmlspecialchars($port['description']) ?>
+                                </p>
+                                <div class="d-grid gap-2">
+                                    <a href="<?= htmlspecialchars($port['demo_url']) ?>" class="btn btn-sm btn-gold" target="_blank">
+                                        <i class="bi bi-eye"></i> <?= $t['btn_view_demo'] ?>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="portfolio-content">
+                            <h5 style="color: var(--gold); font-weight: 700; margin-bottom: 0.5rem;">
+                                <?= htmlspecialchars($port['title']) ?>
+                            </h5>
+                            <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem; line-height: 1.6;">
+                                <?= htmlspecialchars(substr($port['description'], 0, 100)) ?>...
+                            </p>
+                            
+                            <!-- Tags -->
+                            <?php if (!empty($port['tags'])): ?>
+                            <div class="portfolio-tags">
+                                <?php foreach(array_slice($port['tags'], 0, 3) as $tag): ?>
+                                <span class="tag-badge"><?= htmlspecialchars($tag) ?></span>
+                                <?php endforeach; ?>
+                            </div>
+                            <?php endif; ?>
+                            
+                            <!-- CTA -->
+                            <div class="d-grid gap-2 mt-3">
+                                <a href="https://wa.me/6283173868915?text=Halo, saya tertarik dengan demo <?= urlencode($port['title']) ?>. Bisa dibuatkan yang mirip?" 
+                                   class="btn btn-outline-warning btn-sm" 
+                                   style="border-radius: 50px; font-weight: 700; border-width: 2px;" 
+                                   target="_blank">
+                                    <i class="bi bi-whatsapp"></i> <?= $t['btn_order_similar'] ?>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+            
+            <!-- No Results Message -->
+            <div id="noResults" style="display: none; text-align: center; padding: 3rem;">
+                <i class="bi bi-search" style="font-size: 4rem; color: var(--gold); opacity: 0.5;"></i>
+                <h3 style="color: var(--gold); margin-top: 1rem;">Gak ada demo di kategori/pencarian ini</h3>
+                <p style="color: var(--text-light);">Coba kata kunci lain atau lihat semua demo</p>
+                <button class="btn-gold mt-3" onclick="resetFilter()">
+                    <i class="bi bi-arrow-counterclockwise"></i> RESET FILTER
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5" style="background: var(--gradient-primary);">
+        <div class="container">
+            <div class="row align-items-center" data-aos="fade-up">
+                <div class="col-lg-8">
+                    <h2 style="color: var(--gold); font-weight: 800; margin-bottom: 1rem; font-size: 2rem;">
+                        Gak Nemu Demo yang Pas?
+                    </h2>
+                    <p style="color: var(--text-light); font-size: 1.1rem; margin: 0;">
+                        Chat aja langsung! Kami bisa bikin website 100% custom sesuai keinginan kamu. <strong style="color: var(--gold);">FREE Konsultasi & Demo!</strong>
+                    </p>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                    <a href="https://wa.me/6283173868915?text=Halo, saya mau bikin website custom. Bisa minta konsultasi?" 
+                       class="btn-gold btn-lg" target="_blank" style="font-size: 1.1rem;">
+                        <i class="bi bi-whatsapp"></i> CHAT SEKARANG
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Our Demos -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Kenapa Demo Kami Berbeda?</h2>
+                <p class="lead" style="color: var(--text-light); max-width: 800px; margin: 0 auto;">
+                    Bukan cuma template biasa, tapi solusi lengkap siap pakai!
+                </p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="text-center" style="background: linear-gradient(135deg, rgba(30, 92, 153, 0.1) 0%, rgba(15, 48, 87, 0.2) 100%); border: 1px solid rgba(255, 180, 0, 0.2); border-radius: 20px; padding: 2rem;">
+                        <div style="width: 80px; height: 80px; background: var(--gradient-gold); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                            <i class="bi bi-phone" style="font-size: 2.5rem; color: var(--dark-blue);"></i>
+                        </div>
+                        <h5 style="color: var(--gold); font-weight: 700;">100% Responsive</h5>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">Bisa dibuka di HP, tablet, komputer</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="text-center" style="background: linear-gradient(135deg, rgba(30, 92, 153, 0.1) 0%, rgba(15, 48, 87, 0.2) 100%); border: 1px solid rgba(255, 180, 0, 0.2); border-radius: 20px; padding: 2rem;">
+                        <div style="width: 80px; height: 80px; background: var(--gradient-gold); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                            <i class="bi bi-lightning-charge" style="font-size: 2.5rem; color: var(--dark-blue);"></i>
+                        </div>
+                        <h5 style="color: var(--gold); font-weight: 700;">Loading Cepat</h5>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">Optimasi loading super cepat</p>
+                    </div>
+                </div>
+                
+               <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="text-center" style="background: linear-gradient(135deg, rgba(30, 92, 153, 0.1) 0%, rgba(15, 48, 87, 0.2) 100%); border: 1px solid rgba(255, 180, 0, 0.2); border-radius: 20px; padding: 2rem;">
+                        <div style="width: 80px; height: 80px; background: var(--gradient-gold); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                            <i class="bi bi-search" style="font-size: 2.5rem; color: var(--dark-blue);"></i>
+                        </div>
+                        <h5 style="color: var(--gold); font-weight: 700;">SEO Friendly</h5>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">Gampang ditemukan di Google</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="text-center" style="background: linear-gradient(135deg, rgba(30, 92, 153, 0.1) 0%, rgba(15, 48, 87, 0.2) 100%); border: 1px solid rgba(255, 180, 0, 0.2); border-radius: 20px; padding: 2rem;">
+                        <div style="width: 80px; height: 80px; background: var(--gradient-gold); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                            <i class="bi bi-sliders" style="font-size: 2.5rem; color: var(--dark-blue);"></i>
+                        </div>
+                        <h5 style="color: var(--gold); font-weight: 700;">Bisa Diubah</h5>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">100% customizable sesuai keinginan</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-5" style="background: linear-gradient(135deg, #0F3057 0%, #000000 100%); border-top: 2px solid var(--gold);">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Brand Info -->
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://situneo.my.id/logo" 
+                             alt="Situneo" width="60" height="60" 
+                             style="border-radius: 15px; margin-right: 15px;">
+                        <div>
+                            <h4 style="color: var(--gold); margin: 0; font-weight: 800;">SITUNEO DIGITAL</h4>
+                            <small style="color: var(--text-light);">Digital Harmony</small>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-light); line-height: 1.8; margin-bottom: 1rem;">
+                        Partner digital terpercaya sejak 2020. Udah bantu 500+ bisnis sukses online dengan harga paling terjangkau!
+                    </p>
+                    <div class="trust-badges">
+                        <div style="background: rgba(255,180,0,0.1); border: 1px solid var(--gold); 
+                             padding: 10px 20px; border-radius: 10px; display: inline-block; margin-bottom: 1rem;">
+                            <strong style="color: var(--gold);">NIB:</strong>
+                            <span style="color: var(--text-light); font-size: 0.9rem;"> 20250-9261-4570-4515-5453</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-4">
+                    <h5 style="color: var(--gold); font-weight: 700; margin-bottom: 1.5rem;">Menu Cepat</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a href="index.php" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-chevron-right" style="font-size: 0.8rem;"></i> Beranda
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="about.php" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-chevron-right" style="font-size: 0.8rem;"></i> Tentang Kami
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="services.php" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-chevron-right" style="font-size: 0.8rem;"></i> Layanan
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="portfolio.php" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-chevron-right" style="font-size: 0.8rem;"></i> Demo Website
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="pricing.php" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-chevron-right" style="font-size: 0.8rem;"></i> Harga Paket
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="contact.php" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-chevron-right" style="font-size: 0.8rem;"></i> Hubungi
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Popular Categories -->
+                <div class="col-lg-3 col-md-4">
+                    <h5 style="color: var(--gold); font-weight: 700; margin-bottom: 1.5rem;">Kategori Populer</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a href="portfolio.php#E-Commerce" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-check-circle" style="font-size: 0.9rem;"></i> E-Commerce
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="portfolio.php#Corporate" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-check-circle" style="font-size: 0.9rem;"></i> Corporate
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="portfolio.php#Food%20%26%20Beverage" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-check-circle" style="font-size: 0.9rem;"></i> F&B
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="portfolio.php#Healthcare" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-check-circle" style="font-size: 0.9rem;"></i> Healthcare
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="portfolio.php#Education" style="color: var(--text-light); text-decoration: none; transition: color 0.3s;">
+                                <i class="bi bi-check-circle" style="font-size: 0.9rem;"></i> Education
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div class="col-lg-3 col-md-4">
+                    <h5 style="color: var(--gold); font-weight: 700; margin-bottom: 1.5rem;">Hubungi Kami</h5>
+                    <div class="mb-3">
+                        <i class="bi bi-whatsapp" style="color: var(--gold);"></i>
+                        <a href="https://wa.me/6283173868915" target="_blank" style="color: var(--text-light); text-decoration: none; margin-left: 8px;">
+                            +62 831-7386-8915
+                        </a>
+                    </div>
+                    <div class="mb-3">
+                        <i class="bi bi-envelope" style="color: var(--gold);"></i>
+                        <a href="mailto:support@situneo.my.id" style="color: var(--text-light); text-decoration: none; margin-left: 8px;">
+                            support@situneo.my.id
+                        </a>
+                    </div>
+                    <div class="mb-3">
+                        <i class="bi bi-geo-alt" style="color: var(--gold);"></i>
+                        <span style="color: var(--text-light); margin-left: 8px; font-size: 0.9rem;">
+                            Jakarta Timur, Indonesia
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <hr style="border-color: rgba(255,180,0,0.2); margin: 2rem 0;">
+            
+            <!-- Copyright -->
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <p style="color: var(--text-light); margin: 0; font-size: 0.95rem;">
+                        &copy; <?= date('Y') ?> <strong style="color: var(--gold);">SITUNEO DIGITAL</strong>. All Rights Reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p style="color: var(--text-light); margin: 0; font-size: 0.95rem;">
+                        Made with <i class="bi bi-heart-fill" style="color: #FF0000;"></i> in Jakarta, Indonesia
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <style>
+        footer a:hover {
+            color: var(--gold) !important;
+            padding-left: 5px;
+        }
+    </style>
+    
+    <!-- Back to Top Button -->
+    <button id="backToTop">
+        <i class="bi bi-arrow-up" style="font-size: 1.5rem;"></i>
+    </button>
+    
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/6283173868915?text=Halo%20Situneo,%20saya%20tertarik%20dengan%20demo%20website" 
+       class="floating-wa" 
+       target="_blank">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+    
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+        
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar-premium');
+            const backToTop = document.getElementById('backToTop');
+            
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+                backToTop.style.display = 'block';
+            } else {
+                navbar.classList.remove('scrolled');
+                backToTop.style.display = 'none';
+            }
+        });
+        
+        // Back to Top
+        document.getElementById('backToTop').addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Filter Portfolio Function
+        function filterPortfolio(category) {
+            const items = document.querySelectorAll('.portfolio-item');
+            const noResults = document.getElementById('noResults');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            let visibleCount = 0;
+            
+            // Update active button
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter items
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Show/hide no results message
+            if (visibleCount === 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+            
+            // Re-initialize AOS
+            AOS.refresh();
+        }
+        
+        // Search Portfolio Function
+        function searchPortfolio() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const items = document.querySelectorAll('.portfolio-item');
+            const noResults = document.getElementById('noResults');
+            let visibleCount = 0;
+            
+            items.forEach(item => {
+                const title = item.dataset.title;
+                if (title.includes(searchInput)) {
+                    item.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Show/hide no results message
+            if (visibleCount === 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        }
+        
+        // Reset Filter Function
+        function resetFilter() {
+            document.getElementById('searchInput').value = '';
+            const items = document.querySelectorAll('.portfolio-item');
+            const noResults = document.getElementById('noResults');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            
+            // Show all items
+            items.forEach(item => {
+                item.style.display = 'block';
+            });
+            
+            // Hide no results
+            noResults.style.display = 'none';
+            
+            // Reset active button
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            filterBtns[0].classList.add('active');
+        }
+        
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const offset = 100;
+                        const targetPosition = target.offsetTop - offset;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // Network Background Animation
+        const canvas = document.createElement('canvas');
+        const networkBg = document.getElementById('networkBg');
+        networkBg.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const particles = [];
+        const particleCount = 80;
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2 + 1;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 180, 0, 0.5)';
+                ctx.fill();
+            }
+        }
+        
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+        
+        function connectParticles() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255, 180, 0, ${0.2 * (1 - distance / 150)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            connectParticles();
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
